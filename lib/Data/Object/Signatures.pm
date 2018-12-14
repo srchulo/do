@@ -22,13 +22,13 @@ our @DEFAULTS = @Type::Tiny::Signatures::DEFAULTS = 'Data::Object::Library';
 
 =head1 SYNOPSIS
 
-    use Data::Object::Signatures;
+  use Data::Object::Signatures;
 
-    method hello (Str $name) {
+  method hello (Str $name) {
 
-        say "Hello $name, how are you?";
+    say "Hello $name, how are you?";
 
-    }
+  }
 
 =cut
 
@@ -127,4 +127,3 @@ L<Data::Object::Signatures>
 =back
 
 =cut
-

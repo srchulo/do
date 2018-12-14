@@ -13,10 +13,10 @@ use Data::Object::Signatures;
 use Scalar::Util;
 
 map with($_), our @ROLES = qw(
-    Data::Object::Role::Defined
-    Data::Object::Role::Detract
-    Data::Object::Role::Throwable
-    Data::Object::Role::Type
+  Data::Object::Role::Defined
+  Data::Object::Role::Detract
+  Data::Object::Role::Throwable
+  Data::Object::Role::Type
 );
 
 # VERSION
@@ -27,9 +27,9 @@ map with($_), our @ROLES = qw(
 
 =head1 SYNOPSIS
 
-    use Data::Object::Class;
+  use Data::Object::Class;
 
-    with 'Data::Object::Role::Item';
+  with 'Data::Object::Role::Item';
 
 =cut
 
@@ -68,9 +68,9 @@ L<Data::Object::Role::Type>
 
 =method data
 
-    # given $item
+  # given $item
 
-    $item->data; # original value
+  $item->data; # original value
 
 The data method returns the original and underlying value contained by the
 object. This method is an alias to the detract method.
@@ -79,9 +79,9 @@ object. This method is an alias to the detract method.
 
 =method detract
 
-    # given $item
+  # given $item
 
-    $item->detract; # original value
+  $item->detract; # original value
 
 The detract method returns the original and underlying value contained by the
 object.
@@ -90,9 +90,9 @@ object.
 
 =method methods
 
-    # given $item
+  # given $item
 
-    $item->methods;
+  $item->methods;
 
 The methods method returns the list of methods attached to object. This method
 returns an array value.
@@ -101,9 +101,9 @@ returns an array value.
 
 =method roles
 
-    # given $item
+  # given $item
 
-    $item->roles;
+  $item->roles;
 
 The roles method returns the list of roles attached to object. This method
 returns an array value.
@@ -112,9 +112,9 @@ returns an array value.
 
 =method throw
 
-    # given $item
+  # given $item
 
-    $item->throw;
+  $item->throw;
 
 The throw method terminates the program using the core die keyword, passing the
 object to the L<Data::Object::Exception> class as the named parameter C<object>.
@@ -124,9 +124,9 @@ If captured this method returns an exception value.
 
 =method type
 
-    # given $item
+  # given $item
 
-    $item->type; # ITEM
+  $item->type; # ITEM
 
 The type method returns a string representing the internal data type object name.
 This method returns a string value.
@@ -220,4 +220,3 @@ L<Data::Object::Signatures>
 =back
 
 =cut
-

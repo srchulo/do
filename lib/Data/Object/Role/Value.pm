@@ -13,8 +13,8 @@ use Data::Object::Signatures;
 use Scalar::Util;
 
 map with($_), our @ROLES = qw(
-    Data::Object::Role::Comparison
-    Data::Object::Role::Output
+  Data::Object::Role::Comparison
+  Data::Object::Role::Output
 );
 
 # VERSION
@@ -25,9 +25,9 @@ map with($_), our @ROLES = qw(
 
 =head1 SYNOPSIS
 
-    use Data::Object::Class;
+  use Data::Object::Class;
 
-    with 'Data::Object::Role::Value';
+  with 'Data::Object::Role::Value';
 
 =cut
 
@@ -143,4 +143,3 @@ L<Data::Object::Signatures>
 =back
 
 =cut
-

@@ -19,16 +19,16 @@ use parent 'Moo::Role';
 
 =head1 SYNOPSIS
 
-    package Persona;
+  package Persona;
 
-    use Data::Object::Role;
+  use Data::Object::Role;
 
-    extends 'Entity';
-    with    'Identity';
+  extends 'Entity';
+  with  'Identity';
 
-    has id => ( is => 'ro' );
+  has id => ( is => 'ro' );
 
-    1;
+  1;
 
 =cut
 
@@ -128,4 +128,3 @@ L<Data::Object::Signatures>
 =back
 
 =cut
-

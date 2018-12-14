@@ -13,8 +13,8 @@ use Data::Object::Signatures;
 use Scalar::Util;
 
 map with($_), our @ROLES = qw(
-    Data::Object::Role::Comparison
-    Data::Object::Role::Output
+  Data::Object::Role::Comparison
+  Data::Object::Role::Output
 );
 
 requires 'grep';
@@ -36,9 +36,9 @@ requires 'values';
 
 =head1 SYNOPSIS
 
-    use Data::Object::Class;
+  use Data::Object::Class;
 
-    with 'Data::Object::Role::List';
+  with 'Data::Object::Role::List';
 
 =cut
 

@@ -13,63 +13,63 @@ use Data::Object::Signatures;
 use Scalar::Util;
 
 map with($_), our @ROLES = qw(
-    Data::Object::Role::Item
-    Data::Object::Role::Value
+  Data::Object::Role::Item
+  Data::Object::Role::Value
 );
 
 # VERSION
 
 method defined () {
 
-    return 1;
+  return 1;
 
 }
 
 method eq () {
 
-    $self->throw("The eq() comparison operation is not supported");
+  $self->throw("The eq() comparison operation is not supported");
 
-    return;
+  return;
 
 }
 
 method gt () {
 
-    $self->throw("The gt() comparison operation is not supported");
+  $self->throw("The gt() comparison operation is not supported");
 
-    return;
+  return;
 
 }
 
 method ge () {
 
-    $self->throw("The ge() comparison operation is not supported");
+  $self->throw("The ge() comparison operation is not supported");
 
-    return;
+  return;
 
 }
 
 method lt () {
 
-    $self->throw("The lt() comparison operation is not supported");
+  $self->throw("The lt() comparison operation is not supported");
 
-    return;
+  return;
 
 }
 
 method le () {
 
-    $self->throw("The le() comparison operation is not supported");
+  $self->throw("The le() comparison operation is not supported");
 
-    return;
+  return;
 
 }
 
 method ne () {
 
-    $self->throw("The ne() comparison operation is not supported");
+  $self->throw("The ne() comparison operation is not supported");
 
-    return;
+  return;
 
 }
 
@@ -79,9 +79,9 @@ method ne () {
 
 =head1 SYNOPSIS
 
-    use Data::Object::Class;
+  use Data::Object::Class;
 
-    with 'Data::Object::Role::Universal';
+  with 'Data::Object::Role::Universal';
 
 =cut
 
@@ -140,9 +140,9 @@ L<Data::Object::Role::Value>
 
 =method data
 
-    # given $object
+  # given $object
 
-    $object->data; # original value
+  $object->data; # original value
 
 The data method returns the original and underlying value contained by the
 object. This method is an alias to the detract method.
@@ -151,9 +151,9 @@ object. This method is an alias to the detract method.
 
 =method defined
 
-    # given $object
+  # given $object
 
-    $object->defined; # 1
+  $object->defined; # 1
 
 The defined method returns true if the object represents a value that meets the
 criteria for being defined, otherwise it returns false. This method returns a
@@ -163,9 +163,9 @@ number object.
 
 =method detract
 
-    # given $object
+  # given $object
 
-    $object->detract; # original value
+  $object->detract; # original value
 
 The detract method returns the original and underlying value contained by the
 object.
@@ -174,9 +174,9 @@ object.
 
 =method dump
 
-    # given 0
+  # given 0
 
-    $object->dump; # 0
+  $object->dump; # 0
 
 The dump method returns returns a string representation of the object.
 This method returns a string value.
@@ -185,9 +185,9 @@ This method returns a string value.
 
 =method eq
 
-    # given $object
+  # given $object
 
-    $object->eq; # exception thrown
+  $object->eq; # exception thrown
 
 This method is a consumer requirement but has no function and is not implemented.
 This method will throw an exception if called.
@@ -196,9 +196,9 @@ This method will throw an exception if called.
 
 =method ge
 
-    # given $object
+  # given $object
 
-    $object->ge; # exception thrown
+  $object->ge; # exception thrown
 
 This method is a consumer requirement but has no function and is not implemented.
 This method will throw an exception if called.
@@ -207,9 +207,9 @@ This method will throw an exception if called.
 
 =method gt
 
-    # given $object
+  # given $object
 
-    $object->gt; # exception thrown
+  $object->gt; # exception thrown
 
 This method is a consumer requirement but has no function and is not implemented.
 This method will throw an exception if called.
@@ -218,9 +218,9 @@ This method will throw an exception if called.
 
 =method le
 
-    # given $object
+  # given $object
 
-    $object->le; # exception thrown
+  $object->le; # exception thrown
 
 This method is a consumer requirement but has no function and is not implemented.
 This method will throw an exception if called.
@@ -229,9 +229,9 @@ This method will throw an exception if called.
 
 =method lt
 
-    # given $object
+  # given $object
 
-    $object->lt; # exception thrown
+  $object->lt; # exception thrown
 
 This method is a consumer requirement but has no function and is not implemented.
 This method will throw an exception if called.
@@ -240,9 +240,9 @@ This method will throw an exception if called.
 
 =method methods
 
-    # given $object
+  # given $object
 
-    $object->methods;
+  $object->methods;
 
 The methods method returns the list of methods attached to object. This method
 returns an array value.
@@ -251,9 +251,9 @@ returns an array value.
 
 =method ne
 
-    # given $object
+  # given $object
 
-    $object->ne; # exception thrown
+  $object->ne; # exception thrown
 
 This method is a consumer requirement but has no function and is not implemented.
 This method will throw an exception if called.
@@ -262,9 +262,9 @@ This method will throw an exception if called.
 
 =method new
 
-    # given $scalar
+  # given $scalar
 
-    my $object = Data::Object::Universal->new($scalar);
+  my $object = Data::Object::Universal->new($scalar);
 
 The new method expects a scalar reference and returns a new class instance.
 
@@ -272,9 +272,9 @@ The new method expects a scalar reference and returns a new class instance.
 
 =method print
 
-    # given 0
+  # given 0
 
-    $object->print; # 0
+  $object->print; # 0
 
 The print method outputs the value represented by the object to STDOUT and
 returns true. This method returns a number value.
@@ -283,9 +283,9 @@ returns true. This method returns a number value.
 
 =method roles
 
-    # given $object
+  # given $object
 
-    $object->roles;
+  $object->roles;
 
 The roles method returns the list of roles attached to object. This method
 returns an array value.
@@ -294,9 +294,9 @@ returns an array value.
 
 =method say
 
-    # given 0
+  # given 0
 
-    $object->say; # '0\n'
+  $object->say; # '0\n'
 
 The say method outputs the value represented by the object appended with a
 newline to STDOUT and returns true. This method returns a L<Data::Object::Number>
@@ -306,9 +306,9 @@ object.
 
 =method throw
 
-    # given $object
+  # given $object
 
-    $object->throw;
+  $object->throw;
 
 The throw method terminates the program using the core die keyword, passing the
 object to the L<Data::Object::Exception> class as the named parameter C<object>.
@@ -318,9 +318,9 @@ If captured this method returns an exception value.
 
 =method type
 
-    # given $object
+  # given $object
 
-    $object->type; # UNIVERSAL
+  $object->type; # UNIVERSAL
 
 The type method returns a string representing the internal data type object name.
 This method returns a string value.
@@ -414,4 +414,3 @@ L<Data::Object::Signatures>
 =back
 
 =cut
-

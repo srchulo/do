@@ -18,29 +18,30 @@ with 'Data::Object::Role::Undef';
 
 method new ($class: @args) {
 
-    my $arg  = $args[0];
-    my $role = 'Data::Object::Role::Type';
+  my $arg  = $args[0];
+  my $role = 'Data::Object::Role::Type';
 
-    $arg = $arg->data if Scalar::Util::blessed($arg)
-        and $arg->can('does')
-        and $arg->does($role);
+  $arg = $arg->data
+    if Scalar::Util::blessed($arg)
+    and $arg->can('does')
+    and $arg->does($role);
 
-    Data::Object::throw('Type Instantiation Error: Not an Undefined value')
-        if defined $arg;
+  Data::Object::throw('Type Instantiation Error: Not an Undefined value')
+    if defined $arg;
 
-    return bless \$arg, $class;
+  return bless \$arg, $class;
 
 }
 
-our @METHODS = @{ __PACKAGE__->methods };
+our @METHODS = @{__PACKAGE__->methods};
 
-my  $exclude = qr/^data|detract|new$/;
+my $exclude = qr/^data|detract|new$/;
 
-around [ grep { !/$exclude/ } @METHODS ] => fun ($orig, $self, @args) {
+around [grep { !/$exclude/ } @METHODS] => fun($orig, $self, @args) {
 
-    my $results = $self->$orig(@args);
+  my $results = $self->$orig(@args);
 
-    return Data::Object::deduce_deep($results);
+  return Data::Object::deduce_deep($results);
 
 };
 
@@ -50,9 +51,9 @@ around [ grep { !/$exclude/ } @METHODS ] => fun ($orig, $self, @args) {
 
 =head1 SYNOPSIS
 
-    use Data::Object::Undef;
+  use Data::Object::Undef;
 
-    my $undef = Data::Object::Undef->new(undef);
+  my $undef = Data::Object::Undef->new(undef);
 
 =cut
 
@@ -118,9 +119,9 @@ L<Data::Object::Role::Value>
 
 =method data
 
-    # given $undef
+  # given $undef
 
-    $undef->data; # original value
+  $undef->data; # original value
 
 The data method returns the original and underlying value contained by the
 object. This method is an alias to the detract method.
@@ -129,9 +130,9 @@ object. This method is an alias to the detract method.
 
 =method defined
 
-    # given undef
+  # given undef
 
-    $undef->defined ? 'Yes' : 'No'; # No
+  $undef->defined ? 'Yes' : 'No'; # No
 
 The defined method always returns false. This method returns a
 L<Data::Object::Number> object.
@@ -140,9 +141,9 @@ L<Data::Object::Number> object.
 
 =method detract
 
-    # given $undef
+  # given $undef
 
-    $undef->detract; # original value
+  $undef->detract; # original value
 
 The detract method returns the original and underlying value contained by the
 object.
@@ -151,9 +152,9 @@ object.
 
 =method dump
 
-    # given $undef
+  # given $undef
 
-    $undef->dump; # 'undef'
+  $undef->dump; # 'undef'
 
 The dump method returns returns a string representation of the object.
 This method returns a L<Data::Object::String> object.
@@ -162,9 +163,9 @@ This method returns a L<Data::Object::String> object.
 
 =method eq
 
-    # given $undef
+  # given $undef
 
-    $undef->eq; # exception thrown
+  $undef->eq; # exception thrown
 
 This method is a consumer requirement but has no function and is not implemented.
 This method will throw an exception if called.
@@ -173,9 +174,9 @@ This method will throw an exception if called.
 
 =method ge
 
-    # given $undef
+  # given $undef
 
-    $undef->ge; # exception thrown
+  $undef->ge; # exception thrown
 
 This method is a consumer requirement but has no function and is not implemented.
 This method will throw an exception if called.
@@ -184,9 +185,9 @@ This method will throw an exception if called.
 
 =method gt
 
-    # given $undef
+  # given $undef
 
-    $undef->gt; # exception thrown
+  $undef->gt; # exception thrown
 
 This method is a consumer requirement but has no function and is not implemented.
 This method will throw an exception if called.
@@ -195,9 +196,9 @@ This method will throw an exception if called.
 
 =method le
 
-    # given $undef
+  # given $undef
 
-    $undef->le; # exception thrown
+  $undef->le; # exception thrown
 
 This method is a consumer requirement but has no function and is not implemented.
 This method will throw an exception if called.
@@ -206,9 +207,9 @@ This method will throw an exception if called.
 
 =method lt
 
-    # given $undef
+  # given $undef
 
-    $undef->lt; # exception thrown
+  $undef->lt; # exception thrown
 
 This method is a consumer requirement but has no function and is not implemented.
 This method will throw an exception if called.
@@ -217,9 +218,9 @@ This method will throw an exception if called.
 
 =method methods
 
-    # given $undef
+  # given $undef
 
-    $undef->methods;
+  $undef->methods;
 
 The methods method returns the list of methods attached to object. This method
 returns a L<Data::Object::Array> object.
@@ -228,9 +229,9 @@ returns a L<Data::Object::Array> object.
 
 =method ne
 
-    # given $undef
+  # given $undef
 
-    $undef->ne; # exception thrown
+  $undef->ne; # exception thrown
 
 This method is a consumer requirement but has no function and is not implemented.
 This method will throw an exception if called.
@@ -239,9 +240,9 @@ This method will throw an exception if called.
 
 =method new
 
-    # given undef
+  # given undef
 
-    my $undef = Data::Object::Undef->new(undef);
+  my $undef = Data::Object::Undef->new(undef);
 
 The new method expects an undefined value and returns a new class instance.
 
@@ -249,9 +250,9 @@ The new method expects an undefined value and returns a new class instance.
 
 =method print
 
-    # given $undef
+  # given $undef
 
-    $undef->print; # 'undef'
+  $undef->print; # 'undef'
 
 The print method outputs the value represented by the object to STDOUT and
 returns true. This method returns a L<Data::Object::Number> object.
@@ -260,9 +261,9 @@ returns true. This method returns a L<Data::Object::Number> object.
 
 =method roles
 
-    # given $undef
+  # given $undef
 
-    $undef->roles;
+  $undef->roles;
 
 The roles method returns the list of roles attached to object. This method
 returns a L<Data::Object::Array> object.
@@ -271,9 +272,9 @@ returns a L<Data::Object::Array> object.
 
 =method say
 
-    # given $undef
+  # given $undef
 
-    $undef->say; # 'undef\n'
+  $undef->say; # 'undef\n'
 
 The say method outputs the value represented by the object appended with a
 newline to STDOUT and returns true. This method returns a L<Data::Object::Number>
@@ -283,9 +284,9 @@ object.
 
 =method throw
 
-    # given $undef
+  # given $undef
 
-    $undef->throw;
+  $undef->throw;
 
 The throw method terminates the program using the core die keyword, passing the
 object to the L<Data::Object::Exception> class as the named parameter C<object>.
@@ -295,9 +296,9 @@ If captured this method returns a L<Data::Object::Exception> object.
 
 =method type
 
-    # given $undef
+  # given $undef
 
-    $undef->type; # UNDEF
+  $undef->type; # UNDEF
 
 The type method returns a string representing the internal data type object name.
 This method returns a L<Data::Object::String> object.
@@ -391,4 +392,3 @@ L<Data::Object::Signatures>
 =back
 
 =cut
-

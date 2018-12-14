@@ -20,9 +20,9 @@ use Scalar::Util;
 
 =head1 SYNOPSIS
 
-    use Data::Object::Class;
+  use Data::Object::Class;
 
-    with 'Data::Object::Role::Ref';
+  with 'Data::Object::Role::Ref';
 
 =cut
 
@@ -120,4 +120,3 @@ L<Data::Object::Signatures>
 =back
 
 =cut
-

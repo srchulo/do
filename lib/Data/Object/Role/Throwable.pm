@@ -16,12 +16,12 @@ use Scalar::Util;
 
 method throw (@args) {
 
-    my $message = (@args % 2 == 1) ? shift : undef;
-    my $class   = Data::Object::load('Data::Object::Exception');
+  my $message = (@args % 2 == 1) ? shift : undef;
+  my $class   = Data::Object::load('Data::Object::Exception');
 
-    @_ = ($class => (object => $self, message => $message));
+  @_ = ($class => (object => $self, message => $message));
 
-    goto $class->can('throw');
+  goto $class->can('throw');
 
 }
 
@@ -31,9 +31,9 @@ method throw (@args) {
 
 =head1 SYNOPSIS
 
-    use Data::Object::Class;
+  use Data::Object::Class;
 
-    with 'Data::Object::Role::Throwable';
+  with 'Data::Object::Role::Throwable';
 
 =cut
 
@@ -46,9 +46,9 @@ data objects which meet the criteria for being throwable.
 
 =method throw
 
-    # given $throwable
+  # given $throwable
 
-    $throwable->throw;
+  $throwable->throw;
 
 The throw method terminates the program using the core die keyword, passing the
 object to the L<Data::Object::Exception> class as the named parameter C<object>.
@@ -143,4 +143,3 @@ L<Data::Object::Signatures>
 =back
 
 =cut
-

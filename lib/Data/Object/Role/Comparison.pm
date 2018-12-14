@@ -27,9 +27,9 @@ requires 'ne';
 
 =head1 SYNOPSIS
 
-    use Data::Object::Class;
+  use Data::Object::Class;
 
-    with 'Data::Object::Role::Comparison';
+  with 'Data::Object::Role::Comparison';
 
 =cut
 

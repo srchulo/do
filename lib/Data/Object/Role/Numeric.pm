@@ -16,57 +16,57 @@ use Scalar::Util;
 
 method downto ($arg1) {
 
-    return [ CORE::reverse( CORE::int("$arg1")..CORE::int("$self") ) ];
+  return [CORE::reverse(CORE::int("$arg1") .. CORE::int("$self"))];
 
 }
 
 method eq ($arg1) {
 
-    return "$self" == "$arg1" ? 1 : 0;
+  return "$self" == "$arg1" ? 1 : 0;
 
 }
 
 method gt ($arg1) {
 
-    return "$self" > "$arg1" ? 1 : 0;
+  return "$self" > "$arg1" ? 1 : 0;
 
 }
 
 method ge ($arg1) {
 
-    return "$self" >= "$arg1" ? 1 : 0;
+  return "$self" >= "$arg1" ? 1 : 0;
 
 }
 
 method lt ($arg1) {
 
-    return "$self" < "$arg1" ? 1 : 0;
+  return "$self" < "$arg1" ? 1 : 0;
 
 }
 
 method le ($arg1) {
 
-    return "$self" <= "$arg1" ? 1 : 0;
+  return "$self" <= "$arg1" ? 1 : 0;
 
 }
 
 method ne ($arg1) {
 
-    return "$self" != "$arg1" ? 1 : 0;
+  return "$self" != "$arg1" ? 1 : 0;
 
 }
 
 method to ($arg1) {
 
-    return [ CORE::int("$self")..CORE::int("$arg1") ] if "$self" <= "$arg1";
+  return [CORE::int("$self") .. CORE::int("$arg1")] if "$self" <= "$arg1";
 
-    return [ CORE::reverse(CORE::int("$arg1")..CORE::int("$self")) ];
+  return [CORE::reverse(CORE::int("$arg1") .. CORE::int("$self"))];
 
 }
 
 method upto ($arg1) {
 
-    return [ CORE::int("$self")..CORE::int("$arg1") ];
+  return [CORE::int("$self") .. CORE::int("$arg1")];
 
 }
 
@@ -76,9 +76,9 @@ method upto ($arg1) {
 
 =head1 SYNOPSIS
 
-    use Data::Object::Class;
+  use Data::Object::Class;
 
-    with 'Data::Object::Role::Numeric';
+  with 'Data::Object::Role::Numeric';
 
 =cut
 
@@ -91,9 +91,9 @@ numeric data.
 
 =method downto
 
-    # given 5
+  # given 5
 
-    my $array = $numeric->downto(1); # [5,4,3,2,1]
+  my $array = $numeric->downto(1); # [5,4,3,2,1]
 
 The downto method returns a ...
 
@@ -101,9 +101,9 @@ The downto method returns a ...
 
 =method eq
 
-    # given 1
+  # given 1
 
-    $numeric->eq(0); # 0
+  $numeric->eq(0); # 0
 
 The eq method returns true if the argument provided is equal to the value
 represented by the object. This method returns a number value.
@@ -112,9 +112,9 @@ represented by the object. This method returns a number value.
 
 =method ge
 
-    # given 1
+  # given 1
 
-    $numeric->ge(0); # 1
+  $numeric->ge(0); # 1
 
 The ge method returns true if the argument provided is greater-than or equal-to
 the value represented by the object. This method returns a Data::Object::Number
@@ -124,9 +124,9 @@ object.
 
 =method gt
 
-    # given 1
+  # given 1
 
-    $numeric->gt(0); # 1
+  $numeric->gt(0); # 1
 
 The gt method returns true if the argument provided is greater-than the value
 represented by the object. This method returns a number value.
@@ -135,9 +135,9 @@ represented by the object. This method returns a number value.
 
 =method le
 
-    # given 1
+  # given 1
 
-    $numeric->le(0); # 0
+  $numeric->le(0); # 0
 
 The le method returns true if the argument provided is less-than or equal-to
 the value represented by the object. This method returns a Data::Object::Number
@@ -147,9 +147,9 @@ object.
 
 =method lt
 
-    # given 1
+  # given 1
 
-    $numeric->lt(0); # 0
+  $numeric->lt(0); # 0
 
 The lt method returns true if the argument provided is less-than the value
 represented by the object. This method returns a number value.
@@ -158,9 +158,9 @@ represented by the object. This method returns a number value.
 
 =method ne
 
-    # given 1
+  # given 1
 
-    $numeric->ne(0); # 1
+  $numeric->ne(0); # 1
 
 The ne method returns true if the argument provided is not equal to the value
 represented by the object. This method returns a number value.
@@ -169,9 +169,9 @@ represented by the object. This method returns a number value.
 
 =method to
 
-    # given 5
+  # given 5
 
-    my $object = $numeric->to(-5); # [5,4,3,2,1,0,-1,2,3,4,5]
+  my $object = $numeric->to(-5); # [5,4,3,2,1,0,-1,2,3,4,5]
 
 The to method returns an array reference containing integer increasing or
 decreasing values to and including the limit in ascending or descending order
@@ -182,9 +182,9 @@ value.
 
 =method upto
 
-    # given 23
+  # given 23
 
-    my $object = $numeric->upto(25); # [23,24,25]
+  my $object = $numeric->upto(25); # [23,24,25]
 
 The upto method returns an array reference containing integer increasing values
 up to and including the limit. This method returns an array value.
@@ -278,4 +278,3 @@ L<Data::Object::Signatures>
 =back
 
 =cut
-

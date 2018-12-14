@@ -15,23 +15,23 @@ use Scalar::Util;
 # VERSION
 
 use overload (
-    '0+'     => 'data',
-    '""'     => 'data',
-    '~~'     => 'data',
-    'bool'   => 'data',
-    'qr'     => 'data',
-    fallback => 1,
+  '0+'     => 'data',
+  '""'     => 'data',
+  '~~'     => 'data',
+  'bool'   => 'data',
+  'qr'     => 'data',
+  fallback => 1,
 );
 
 method data () {
 
-    return $self->detract;
+  return $self->detract;
 
 }
 
 method detract () {
 
-    return Data::Object::detract_deep($self);
+  return Data::Object::detract_deep($self);
 
 }
 
@@ -41,9 +41,9 @@ method detract () {
 
 =head1 SYNOPSIS
 
-    use Data::Object::Class;
+  use Data::Object::Class;
 
-    with 'Data::Object::Role::Detract';
+  with 'Data::Object::Role::Detract';
 
 =cut
 
@@ -56,9 +56,9 @@ data objects which meet the criteria for being detractable.
 
 =method data
 
-    # given $detract
+  # given $detract
 
-    $detract->data; # original value
+  $detract->data; # original value
 
 The data method returns the original and underlying value contained by the
 object. This method is an alias to the detract method.
@@ -67,9 +67,9 @@ object. This method is an alias to the detract method.
 
 =method detract
 
-    # given $detract
+  # given $detract
 
-    $detract->detract; # original value
+  $detract->detract; # original value
 
 The detract method returns the original and underlying value contained by the
 object.
@@ -163,4 +163,3 @@ L<Data::Object::Signatures>
 =back
 
 =cut
-

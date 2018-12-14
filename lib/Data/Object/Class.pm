@@ -19,17 +19,17 @@ use parent 'Moo';
 
 =head1 SYNOPSIS
 
-    package Person;
+  package Person;
 
-    use Data::Object::Class;
+  use Data::Object::Class;
 
-    extends 'Entity';
-    with    'Identity';
+  extends 'Entity';
+  with    'Identity';
 
-    has firstname => ( is => 'ro' );
-    has lastname  => ( is => 'ro' );
+  has firstname => ( is => 'ro' );
+  has lastname  => ( is => 'ro' );
 
-    1;
+  1;
 
 =cut
 
@@ -129,4 +129,3 @@ L<Data::Object::Signatures>
 =back
 
 =cut
-

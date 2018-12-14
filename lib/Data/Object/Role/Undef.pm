@@ -13,51 +13,51 @@ use Data::Object::Signatures;
 use Scalar::Util;
 
 map with($_), our @ROLES = qw(
-    Data::Object::Role::Item
-    Data::Object::Role::Value
+  Data::Object::Role::Item
+  Data::Object::Role::Value
 );
 
 # VERSION
 
 method defined () {
 
-    return 0;
+  return 0;
 
 }
 
 method eq ($arg1) {
 
-    return CORE::defined($arg1) ? 0 : 1;
+  return CORE::defined($arg1) ? 0 : 1;
 
 }
 
 method gt ($arg1) {
 
-    return 0;
+  return 0;
 
 }
 
 method ge ($arg1) {
 
-    return eq($arg1) ? 1 : 0;
+  return eq ($arg1) ? 1 : 0;
 
 }
 
 method lt ($arg1) {
 
-    return 0;
+  return 0;
 
 }
 
 method le ($arg1) {
 
-    return eq($arg1) ? 1 : 0;
+  return eq ($arg1) ? 1 : 0;
 
 }
 
 method ne ($arg1) {
 
-    return CORE::defined($arg1) ? 1 : 0;
+  return CORE::defined($arg1) ? 1 : 0;
 
 }
 
@@ -67,9 +67,9 @@ method ne ($arg1) {
 
 =head1 SYNOPSIS
 
-    use Data::Object::Class;
+  use Data::Object::Class;
 
-    with 'Data::Object::Role::Undef';
+  with 'Data::Object::Role::Undef';
 
 =cut
 
@@ -128,9 +128,9 @@ L<Data::Object::Role::Value>
 
 =method data
 
-    # given $undef
+  # given $undef
 
-    $undef->data; # original value
+  $undef->data; # original value
 
 The data method returns the original and underlying value contained by the
 object. This method is an alias to the detract method.
@@ -139,9 +139,9 @@ object. This method is an alias to the detract method.
 
 =method defined
 
-    # given undef
+  # given undef
 
-    $undef->defined ? 'Yes' : 'No'; # No
+  $undef->defined ? 'Yes' : 'No'; # No
 
 The defined method always returns false. This method returns a
 number object.
@@ -150,9 +150,9 @@ number object.
 
 =method detract
 
-    # given $undef
+  # given $undef
 
-    $undef->detract; # original value
+  $undef->detract; # original value
 
 The detract method returns the original and underlying value contained by the
 object.
@@ -161,9 +161,9 @@ object.
 
 =method dump
 
-    # given $undef
+  # given $undef
 
-    $undef->dump; # 'undef'
+  $undef->dump; # 'undef'
 
 The dump method returns returns a string representation of the object.
 This method returns a string value.
@@ -172,9 +172,9 @@ This method returns a string value.
 
 =method eq
 
-    # given $undef
+  # given $undef
 
-    $undef->eq; # exception thrown
+  $undef->eq; # exception thrown
 
 This method is a consumer requirement but has no function and is not implemented.
 This method will throw an exception if called.
@@ -183,9 +183,9 @@ This method will throw an exception if called.
 
 =method ge
 
-    # given $undef
+  # given $undef
 
-    $undef->ge; # exception thrown
+  $undef->ge; # exception thrown
 
 This method is a consumer requirement but has no function and is not implemented.
 This method will throw an exception if called.
@@ -194,9 +194,9 @@ This method will throw an exception if called.
 
 =method gt
 
-    # given $undef
+  # given $undef
 
-    $undef->gt; # exception thrown
+  $undef->gt; # exception thrown
 
 This method is a consumer requirement but has no function and is not implemented.
 This method will throw an exception if called.
@@ -205,9 +205,9 @@ This method will throw an exception if called.
 
 =method le
 
-    # given $undef
+  # given $undef
 
-    $undef->le; # exception thrown
+  $undef->le; # exception thrown
 
 This method is a consumer requirement but has no function and is not implemented.
 This method will throw an exception if called.
@@ -216,9 +216,9 @@ This method will throw an exception if called.
 
 =method lt
 
-    # given $undef
+  # given $undef
 
-    $undef->lt; # exception thrown
+  $undef->lt; # exception thrown
 
 This method is a consumer requirement but has no function and is not implemented.
 This method will throw an exception if called.
@@ -227,9 +227,9 @@ This method will throw an exception if called.
 
 =method methods
 
-    # given $undef
+  # given $undef
 
-    $undef->methods;
+  $undef->methods;
 
 The methods method returns the list of methods attached to object. This method
 returns an array value.
@@ -238,9 +238,9 @@ returns an array value.
 
 =method ne
 
-    # given $undef
+  # given $undef
 
-    $undef->ne; # exception thrown
+  $undef->ne; # exception thrown
 
 This method is a consumer requirement but has no function and is not implemented.
 This method will throw an exception if called.
@@ -249,9 +249,9 @@ This method will throw an exception if called.
 
 =method new
 
-    # given undef
+  # given undef
 
-    my $undef = Data::Object::Undef->new(undef);
+  my $undef = Data::Object::Undef->new(undef);
 
 The new method expects an undefined value and returns a new class instance.
 
@@ -259,9 +259,9 @@ The new method expects an undefined value and returns a new class instance.
 
 =method print
 
-    # given $undef
+  # given $undef
 
-    $undef->print; # 'undef'
+  $undef->print; # 'undef'
 
 The print method outputs the value represented by the object to STDOUT and
 returns true. This method returns a number value.
@@ -270,9 +270,9 @@ returns true. This method returns a number value.
 
 =method roles
 
-    # given $undef
+  # given $undef
 
-    $undef->roles;
+  $undef->roles;
 
 The roles method returns the list of roles attached to object. This method
 returns an array value.
@@ -281,9 +281,9 @@ returns an array value.
 
 =method say
 
-    # given $undef
+  # given $undef
 
-    $undef->say; # 'undef\n'
+  $undef->say; # 'undef\n'
 
 The say method outputs the value represented by the object appended with a
 newline to STDOUT and returns true. This method returns a L<Data::Object::Number>
@@ -293,9 +293,9 @@ object.
 
 =method throw
 
-    # given $undef
+  # given $undef
 
-    $undef->throw;
+  $undef->throw;
 
 The throw method terminates the program using the core die keyword, passing the
 object to the L<Data::Object::Exception> class as the named parameter C<object>.
@@ -305,9 +305,9 @@ If captured this method returns an exception value.
 
 =method type
 
-    # given $undef
+  # given $undef
 
-    $undef->type; # UNDEF
+  $undef->type; # UNDEF
 
 The type method returns a string representing the internal data type object name.
 This method returns a string value.
@@ -401,4 +401,3 @@ L<Data::Object::Signatures>
 =back
 
 =cut
-

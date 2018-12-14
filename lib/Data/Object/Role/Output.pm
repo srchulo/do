@@ -13,24 +13,24 @@ use Data::Object::Signatures;
 use Scalar::Util;
 
 map with($_), our @ROLES = qw(
-    Data::Object::Role::Dumper
+  Data::Object::Role::Dumper
 );
 
 # VERSION
 
 method print () {
 
-    my @result = Data::Object::Role::Dumper::dump($self);
+  my @result = Data::Object::Role::Dumper::dump($self);
 
-    return CORE::print(@result);
+  return CORE::print(@result);
 
 }
 
 method say () {
 
-    my @result = Data::Object::Role::Dumper::dump($self);
+  my @result = Data::Object::Role::Dumper::dump($self);
 
-    return CORE::print(@result, "\n");
+  return CORE::print(@result, "\n");
 
 }
 
@@ -40,9 +40,9 @@ method say () {
 
 =head1 SYNOPSIS
 
-    use Data::Object::Class;
+  use Data::Object::Class;
 
-    with 'Data::Object::Role::Output';
+  with 'Data::Object::Role::Output';
 
 =cut
 
@@ -69,9 +69,9 @@ L<Data::Object::Role::Dumper>
 
 =method print
 
-    # given $output
+  # given $output
 
-    $output->print;
+  $output->print;
 
 The print method outputs the value represented by the object to STDOUT and
 returns true. This method returns a number value.
@@ -80,9 +80,9 @@ returns true. This method returns a number value.
 
 =method say
 
-    # given $output
+  # given $output
 
-    $output->say;
+  $output->say;
 
 The say method outputs the value represented by the object appended with a
 newline to STDOUT and returns true. This method returns a L<Data::Object::Number>
@@ -177,4 +177,3 @@ L<Data::Object::Signatures>
 =back
 
 =cut
-

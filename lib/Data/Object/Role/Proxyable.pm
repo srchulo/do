@@ -17,28 +17,28 @@ use Carp ();
 
 method AUTOLOAD () {
 
-    my (@namespace) = our $AUTOLOAD =~ /^(.+)::(.+)$/;
+  my (@namespace) = our $AUTOLOAD =~ /^(.+)::(.+)$/;
 
-    my ($package, $method) = @namespace;
+  my ($package, $method) = @namespace;
 
-    unshift @_, $self;
+  unshift @_, $self;
 
-    my $build = $package->can('BUILDPROXY');
-    my $error = qq(Can't locate object method "$method" via package "$package");
+  my $build = $package->can('BUILDPROXY');
+  my $error = qq(Can't locate object method "$method" via package "$package");
 
-    Carp::confess($error) unless $build && ref($build) eq 'CODE';
+  Carp::confess($error) unless $build && ref($build) eq 'CODE';
 
-    my $proxy = $build->($package, $method, @_);
+  my $proxy = $build->($package, $method, @_);
 
-    Carp::confess($error) unless $proxy && ref($proxy) eq 'CODE';
+  Carp::confess($error) unless $proxy && ref($proxy) eq 'CODE';
 
-    goto &$proxy;
+  goto &$proxy;
 
 }
 
 method DESTROY () {
 
-    ; # noop
+  ;    # noop
 
 }
 
@@ -48,17 +48,17 @@ method DESTROY () {
 
 =head1 SYNOPSIS
 
-    use Data::Object::Class;
+  use Data::Object::Class;
 
-    with 'Data::Object::Role::Proxyable';
+  with 'Data::Object::Role::Proxyable';
 
-    sub BUILDPROXY {
+  sub BUILDPROXY {
 
-        my ($class, $method, @args) = @_;
+    my ($class, $method, @args) = @_;
 
-        return sub { ... }; # process method call ...
+    return sub { ... }; # process method call ...
 
-    }
+  }
 
 =cut
 
@@ -158,4 +158,3 @@ L<Data::Object::Signatures>
 =back
 
 =cut
-

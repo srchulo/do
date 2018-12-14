@@ -16,37 +16,37 @@ use Scalar::Util;
 
 method eq ($arg1) {
 
-    return "$self" eq "$arg1" ? 1 : 0;
+  return "$self" eq "$arg1" ? 1 : 0;
 
 }
 
 method gt ($arg1) {
 
-    return "$self" gt "$arg1" ? 1 : 0;
+  return "$self" gt "$arg1" ? 1 : 0;
 
 }
 
 method ge ($arg1) {
 
-    return "$self" ge "$arg1" ? 1 : 0;
+  return "$self" ge "$arg1" ? 1 : 0;
 
 }
 
 method lt ($arg1) {
 
-    return "$self" lt "$arg1" ? 1 : 0;
+  return "$self" lt "$arg1" ? 1 : 0;
 
 }
 
 method le ($arg1) {
 
-    return "$self" le "$arg1" ? 1 : 0;
+  return "$self" le "$arg1" ? 1 : 0;
 
 }
 
 method ne ($arg1) {
 
-    return "$self" ne "$arg1" ? 1 : 0;
+  return "$self" ne "$arg1" ? 1 : 0;
 
 }
 
@@ -56,9 +56,9 @@ method ne ($arg1) {
 
 =head1 SYNOPSIS
 
-    use Data::Object::Class;
+  use Data::Object::Class;
 
-    with 'Data::Object::Role::Alphabetic';
+  with 'Data::Object::Role::Alphabetic';
 
 =cut
 
@@ -71,9 +71,9 @@ alpha-numeric data.
 
 =method eq
 
-    # given 'exciting'
+  # given 'exciting'
 
-    $alphabetic->eq('Exciting'); # 0
+  $alphabetic->eq('Exciting'); # 0
 
 The eq method returns true if the argument provided is equal to the value
 represented by the object. This method returns a number value.
@@ -82,9 +82,9 @@ represented by the object. This method returns a number value.
 
 =method ge
 
-    # given 'exciting'
+  # given 'exciting'
 
-    $alphabetic->ge('Exciting'); # 1
+  $alphabetic->ge('Exciting'); # 1
 
 The ge method returns true if the argument provided is greater-than or equal-to
 the value represented by the object. This method returns a Data::Object::Number
@@ -94,9 +94,9 @@ object.
 
 =method gt
 
-    # given 'exciting'
+  # given 'exciting'
 
-    $alphabetic->gt('Exciting'); # 1
+  $alphabetic->gt('Exciting'); # 1
 
 The gt method returns true if the argument provided is greater-than the value
 represented by the object. This method returns a number value.
@@ -105,9 +105,9 @@ represented by the object. This method returns a number value.
 
 =method le
 
-    # given 'exciting'
+  # given 'exciting'
 
-    $alphabetic->le('Exciting'); # 0
+  $alphabetic->le('Exciting'); # 0
 
 The le method returns true if the argument provided is less-than or equal-to
 the value represented by the object. This method returns a Data::Object::Number
@@ -117,9 +117,9 @@ object.
 
 =method lt
 
-    # given 'exciting'
+  # given 'exciting'
 
-    $alphabetic->lt('Exciting'); # 0
+  $alphabetic->lt('Exciting'); # 0
 
 The lt method returns true if the argument provided is less-than the value
 represented by the object. This method returns a number value.
@@ -128,9 +128,9 @@ represented by the object. This method returns a number value.
 
 =method ne
 
-    # given 'exciting'
+  # given 'exciting'
 
-    $alphabetic->ne('Exciting'); # 1
+  $alphabetic->ne('Exciting'); # 1
 
 The ne method returns true if the argument provided is not equal to the value
 represented by the object. This method returns a number value.
@@ -224,4 +224,3 @@ L<Data::Object::Signatures>
 =back
 
 =cut
-

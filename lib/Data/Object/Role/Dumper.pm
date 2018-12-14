@@ -16,23 +16,23 @@ use Scalar::Util;
 
 method dump () {
 
-    require Data::Dumper;
+  require Data::Dumper;
 
-    local $Data::Dumper::Indent    = 0;
-    local $Data::Dumper::Purity    = 0;
-    local $Data::Dumper::Quotekeys = 0;
+  local $Data::Dumper::Indent    = 0;
+  local $Data::Dumper::Purity    = 0;
+  local $Data::Dumper::Quotekeys = 0;
 
-    local $Data::Dumper::Deepcopy  = 1;
-    local $Data::Dumper::Deparse   = 1;
-    local $Data::Dumper::Sortkeys  = 1;
-    local $Data::Dumper::Terse     = 1;
-    local $Data::Dumper::Useqq     = 1;
+  local $Data::Dumper::Deepcopy = 1;
+  local $Data::Dumper::Deparse  = 1;
+  local $Data::Dumper::Sortkeys = 1;
+  local $Data::Dumper::Terse    = 1;
+  local $Data::Dumper::Useqq    = 1;
 
-    my $result = Data::Object::detract_deep($self);
-       $result = Data::Dumper::Dumper($result);
-       $result =~ s/^"|"$//g;
+  my $result = Data::Object::detract_deep($self);
+  $result = Data::Dumper::Dumper($result);
+  $result =~ s/^"|"$//g;
 
-    return $result;
+  return $result;
 
 }
 
@@ -42,9 +42,9 @@ method dump () {
 
 =head1 SYNOPSIS
 
-    use Data::Object::Class;
+  use Data::Object::Class;
 
-    with 'Data::Object::Role::Dumper';
+  with 'Data::Object::Role::Dumper';
 
 =cut
 
@@ -57,9 +57,9 @@ objects which meet the criteria for being dumpable.
 
 =method dump
 
-    # given $dumper
+  # given $dumper
 
-    $dumper->dump;
+  $dumper->dump;
 
 The dump method returns returns a string representation of the object.
 This method returns a string value.
@@ -153,4 +153,3 @@ L<Data::Object::Signatures>
 =back
 
 =cut
-

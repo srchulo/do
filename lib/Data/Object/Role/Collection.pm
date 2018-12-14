@@ -13,7 +13,7 @@ use Data::Object::Signatures;
 use Scalar::Util;
 
 map with($_), our @ROLES = qw(
-    Data::Object::Role::List
+  Data::Object::Role::List
 );
 
 requires 'each';
@@ -38,9 +38,9 @@ requires 'values';
 
 =head1 SYNOPSIS
 
-    use Data::Object::Class;
+  use Data::Object::Class;
 
-    with 'Data::Object::Role::Collection';
+  with 'Data::Object::Role::Collection';
 
 =cut
 
