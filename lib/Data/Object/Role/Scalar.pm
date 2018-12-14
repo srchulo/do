@@ -25,7 +25,7 @@ method defined () {
 
 }
 
-method eq {
+method eq () {
 
     $self->throw("The eq() comparison operation is not supported");
 
@@ -33,7 +33,7 @@ method eq {
 
 }
 
-method gt {
+method gt () {
 
     $self->throw("The gt() comparison operation is not supported");
 
@@ -41,7 +41,7 @@ method gt {
 
 }
 
-method ge {
+method ge () {
 
     $self->throw("The ge() comparison operation is not supported");
 
@@ -49,7 +49,7 @@ method ge {
 
 }
 
-method lt {
+method lt () {
 
     $self->throw("The lt() comparison operation is not supported");
 
@@ -57,7 +57,7 @@ method lt {
 
 }
 
-method le {
+method le () {
 
     $self->throw("The le() comparison operation is not supported");
 
@@ -65,7 +65,7 @@ method le {
 
 }
 
-method ne {
+method ne () {
 
     $self->throw("The ne() comparison operation is not supported");
 

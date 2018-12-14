@@ -15,7 +15,7 @@ use Carp ();
 
 # VERSION
 
-method AUTOLOAD {
+method AUTOLOAD () {
 
     my (@namespace) = our $AUTOLOAD =~ /^(.+)::(.+)$/;
 
@@ -36,7 +36,7 @@ method AUTOLOAD {
 
 }
 
-method DESTROY {
+method DESTROY () {
 
     ; # noop
 

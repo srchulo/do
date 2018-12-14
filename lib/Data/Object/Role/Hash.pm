@@ -138,7 +138,7 @@ method empty () {
 
 }
 
-method eq {
+method eq () {
 
     $self->throw("the eq() comparison operation is not supported");
 
@@ -244,7 +244,7 @@ method fold ($path, $store, $cache) {
 
 }
 
-method ge {
+method ge () {
 
     $self->throw("the ge() comparison operation is not supported");
 
@@ -281,7 +281,7 @@ method grep ($code, @args) {
 
 }
 
-method gt {
+method gt () {
 
     $self->throw("the gt() comparison operation is not supported");
 
@@ -289,7 +289,7 @@ method gt {
 
 }
 
-method head {
+method head () {
 
     $self->throw("the gt() comparison operation is not supported");
 
@@ -319,7 +319,7 @@ method iterator () {
 
 }
 
-method join {
+method join () {
 
     $self->throw("the join() comparison operation is not supported");
 
@@ -333,7 +333,7 @@ method keys () {
 
 }
 
-method le {
+method le () {
 
     $self->throw("the le() comparison operation is not supported");
 
@@ -375,7 +375,7 @@ method lookup ($path) {
 
 }
 
-method lt {
+method lt () {
 
     $self->throw("the lt() comparison operation is not supported");
 
@@ -428,7 +428,7 @@ method merge (@args) {
 
 }
 
-method ne {
+method ne () {
 
     $self->throw("the ne() comparison operation is not supported");
 
@@ -450,7 +450,7 @@ method reset () {
 
 }
 
-method reverse {
+method reverse () {
 
     my $data = {};
 
@@ -476,7 +476,7 @@ method slice (@args) {
 
 }
 
-method sort {
+method sort () {
 
     $self->throw("the sort() comparison operation is not supported");
 
@@ -484,7 +484,7 @@ method sort {
 
 }
 
-method tail {
+method tail () {
 
     $self->throw("the tail() comparison operation is not supported");
 

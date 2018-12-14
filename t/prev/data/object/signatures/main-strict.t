@@ -16,7 +16,7 @@ ok ! eval { greeting('martian') };
 ok $@;
 
 is meeting(epoch => deduce $$), 'our meeting is at ' . $$;
-ok ! eval { meeting(epocj => deduce $$) };
+is meeting(epocj => deduce $$), 'our meeting is at ' . $$;
 ok $@;
 
 ok 1 and done_testing;
