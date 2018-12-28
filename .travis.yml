@@ -14,7 +14,16 @@ env:
   - "HARNESS_OPTIONS=j9"
 
 install:
-  - "cpanm -M https://cpan.metacpan.org -n --installdeps ."
+  - "cpanm -qn Perl::Critic && cpanm -qn --installdeps ."
+
+jobs:
+  include:
+    - stage: linting
+      script: perlcritic lib t
+    - stage: testing
+      script: prove -Ilib -r t
+    - stage: checking
+      script: find lib t -type f -exec perl -Ilib -c {} \;
 
 notifications:
   email: false

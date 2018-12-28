@@ -16,7 +16,11 @@ use parent 'Exporter';
 
 our @EXPORT = @Data::Object::Syntax::EXPORT;
 
-*import = *Data::Object::Syntax::import;
+{
+  no warnings 'once';
+
+  *import = *Data::Object::Syntax::import;
+}
 
 1;
 

@@ -1,4 +1,4 @@
-*
+/*
 
 !/lib
 !/t
@@ -18,4 +18,5 @@
 !.gitignore
 !.mailmap
 !.perltidyrc
+!.perlcriticrc
 !.travis.yml
