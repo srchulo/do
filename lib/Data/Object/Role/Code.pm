@@ -1,82 +1,55 @@
 # ABSTRACT: Code Object Role for Perl 5
 package Data::Object::Role::Code;
 
+use 5.014;
+
 use strict;
 use warnings;
 
-use 5.014;
-
-use Data::Object;
 use Data::Object::Role;
-use Data::Object::Library;
-use Data::Object::Signatures;
-use Scalar::Util;
 
-map with($_), our @ROLES = qw(
+use Data::Object '$dispatch';
+
+our @ROLES = map with($_), qw(
   Data::Object::Role::Dumper
   Data::Object::Role::Item
 );
 
+my $data = &$dispatch('Data::Object');
+my $func = &$dispatch('Data::Object::Export::Code');
+
 # VERSION
 
-method call (@args) {
-
-  return $self->(@args);
-
+sub call {
+  return &$data('cast', &$func('call', @_));
 }
 
-method compose ($code, @args) {
-
-  my $refs = {'$code' => \$code};
-
-  $code = Data::Object::codify($code, $refs);
-
-  return curry(sub { $code->($self->(@_)) }, @args);
-
+sub compose {
+  return &$data('cast', &$func('compose', @_));
 }
 
-method conjoin ($code) {
-
-  my $refs = {'$code' => \$code};
-
-  $code = Data::Object::codify($code, $refs);
-
-  return sub { $self->(@_) && $code->(@_) };
-
+sub conjoin {
+  return &$data('cast', &$func('conjoin', @_));
 }
 
-method curry (@args) {
-
-  return sub { $self->(@args, @_) };
-
+sub curry {
+  return &$data('cast', &$func('curry', @_));
 }
 
-method defined () {
-
-  return 1;
-
+sub defined {
+  return &$data('cast', &$func('defined', @_));
 }
 
-method disjoin ($code) {
-
-  my $refs = {'$code' => \$code};
-
-  $code = Data::Object::codify($code);
-
-  return sub { $self->(@_) || $code->(@_) };
-
+sub disjoin {
+  return &$data('cast', &$func('disjoin', @_));
 }
 
-method next (@args) {
-
-  return $self->call(@args);
-
+sub next {
+  return &$data('cast', &$func('next', @_));
 }
 
-method rcurry (@args) {
-
-  return sub { $self->(@_, @args) };
-
+sub rcurry {
+  return &$data('cast', &$func('rcurry', @_));
 }
 
 1;

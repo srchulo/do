@@ -1,526 +1,183 @@
 # ABSTRACT: Hash Object Role for Perl 5
 package Data::Object::Role::Hash;
 
+use 5.014;
+
 use strict;
 use warnings;
 
-use 5.014;
-
-use Data::Object;
 use Data::Object::Role;
-use Data::Object::Library;
-use Data::Object::Signatures;
-use Scalar::Util;
 
-map with($_), our @ROLES = qw(
-  Data::Object::Role::Collection
+use Data::Object '$dispatch';
+
+our @ROLES = map with($_), qw(
   Data::Object::Role::Item
+  Data::Object::Role::Collection
 );
+
+my $data = &$dispatch('Data::Object');
+my $func = &$dispatch('Data::Object::Export::Hash');
 
 # VERSION
 
-method clear () {
-
-  return $self->empty;
-
+sub clear {
+  return &$data('cast', &$func('clear', @_));
 }
 
-method count () {
-
-  return $self->length;
-
+sub count {
+  return &$data('cast', &$func('count', @_));
 }
 
-method defined ($key) {
-
-  return CORE::defined($self->{$key});
-
+sub defined {
+  return &$data('cast', &$func('defined', @_));
 }
 
-method delete ($key) {
-
-  return CORE::delete($self->{$key});
-
+sub delete {
+  return &$data('cast', &$func('delete', @_));
 }
 
-method each ($code, @args) {
-
-  for my $key (CORE::keys %$self) {
-
-    my $value = $self->{$key};
-
-    my $refs = {'$key' => \$key, '$value' => \$value,};
-
-    Data::Object::codify($code, $refs)->($key, $value, @args);
-
-  }
-
-  return $self;
-
+sub each {
+  return &$data('cast', &$func('each', @_));
 }
 
-method each_key ($code, @args) {
-
-  for my $key (CORE::keys %$self) {
-
-    my $value = $self->{$key};
-
-    my $refs = {'$key' => \$key, '$value' => \$value,};
-
-    Data::Object::codify($code, $refs)->($key, @args);
-
-  }
-
-  return $self;
-
+sub each_key {
+  return &$data('cast', &$func('each_key', @_));
 }
 
-method each_n_values ($number, $code, @args) {
-
-  my $refs = {};
-  my @list = CORE::keys %$self;
-
-  while (my @keys = CORE::splice(@list, 0, $number)) {
-
-    my @values;
-
-    for (my $i = 0; $i < @keys; $i++) {
-
-      my $pos   = $i;
-      my $key   = $keys[$pos];
-      my $value = CORE::defined($key) ? $self->{$key} : undef;
-
-      $refs->{"\$key${i}"}   = $key   if CORE::defined $key;
-      $refs->{"\$value${i}"} = $value if CORE::defined $value;
-
-      push @values, $value;
-
-    }
-
-    Data::Object::codify($code, $refs)->(@values, @args);
-
-  }
-
-  return $self;
-
+sub each_n_values {
+  return &$data('cast', &$func('each_n_values', @_));
 }
 
-method each_value ($code, @args) {
-
-  for my $key (CORE::keys %$self) {
-
-    my $value = $self->{$key};
-
-    my $refs = {'$key' => \$key, '$value' => \$value,};
-
-    Data::Object::codify($code, $refs)->($value, @args);
-
-  }
-
-  return $self;
-
+sub each_value {
+  return &$data('cast', &$func('each_value', @_));
 }
 
-method empty () {
-
-  CORE::delete @$self{CORE::keys %$self};
-
-  return $self;
-
+sub empty {
+  return &$data('cast', &$func('empty', @_));
 }
 
-method eq () {
-
-  $self->throw("the eq() comparison operation is not supported");
-
-  return;
-
+sub eq {
+  return &$data('cast', &$func('eq', @_));
 }
 
-method exists ($key) {
-
-  return CORE::exists $self->{$key};
-
+sub exists {
+  return &$data('cast', &$func('exists', @_));
 }
 
-method filter_exclude (@args) {
-
-  my %i = map { $_ => $_ } @args;
-
-  return {
-
-    CORE::map { CORE::exists($self->{$_}) ? ($_ => $self->{$_}) : () }
-
-      CORE::grep { not CORE::exists($i{$_}) } CORE::keys %$self
-
-  };
-
+sub filter_exclude {
+  return &$data('cast', &$func('filter_exclude', @_));
 }
 
-method filter_include (@args) {
-
-  return {
-
-    CORE::map { CORE::exists($self->{$_}) ? ($_ => $self->{$_}) : () }
-
-      @args
-
-  };
-
+sub filter_include {
+  return &$data('cast', &$func('filter_include', @_));
 }
 
-method fold ($path, $store, $cache) {
-
-  $store ||= {};
-  $cache ||= {};
-
-  my $ref = CORE::ref($self);
-  my $obj = Scalar::Util::blessed($self);
-  my $adr = Scalar::Util::refaddr($self);
-  my $tmp = {%$cache};
-
-  if ($adr && $tmp->{$adr}) {
-
-    $store->{$path} = $self;
-
-  }
-  elsif ($ref eq 'HASH' || ($obj and $obj->isa('Data::Object::Hash'))) {
-
-    $tmp->{$adr} = 1;
-
-    if (%$self) {
-
-      for my $key (CORE::sort(CORE::keys %$self)) {
-
-        my $place = $path ? CORE::join('.', $path, $key) : $key;
-        my $value = $self->{$key};
-
-        fold($value, $place, $store, $tmp);
-
-      }
-
-    }
-    else {
-
-      $store->{$path} = {};
-
-    }
-
-  }
-  elsif ($ref eq 'ARRAY' || ($obj and $obj->isa('Data::Object::Array'))) {
-
-    $tmp->{$adr} = 1;
-
-    if (@$self) {
-
-      for my $idx (0 .. $#$self) {
-
-        my $place = $path ? CORE::join(':', $path, $idx) : $idx;
-        my $value = $self->[$idx];
-
-        fold($value, $place, $store, $tmp);
-
-      }
-
-    }
-    else {
-
-      $store->{$path} = [];
-
-    }
-
-  }
-  else {
-
-    $store->{$path} = $self if $path;
-
-  }
-
-  return $store;
-
+sub fold {
+  return &$data('cast', &$func('fold', @_));
 }
 
-method ge () {
-
-  $self->throw("the ge() comparison operation is not supported");
-
-  return;
-
+sub ge {
+  return &$data('cast', &$func('ge', @_));
 }
 
-method get ($key) {
-
-  return $self->{$key};
-
+sub get {
+  return &$data('cast', &$func('get', @_));
 }
 
-method grep ($code, @args) {
-
-  my @caught;
-
-  for my $key (CORE::keys %$self) {
-
-    my $value = $self->{$key};
-
-    my $refs = {'$key' => \$key, '$value' => \$value,};
-
-    my $result = Data::Object::codify($code, $refs)->($value, @args);
-
-    push @caught, $key, $value if $result;
-
-  }
-
-  return {@caught};
-
+sub grep {
+  return &$data('cast', &$func('grep', @_));
 }
 
-method gt () {
-
-  $self->throw("the gt() comparison operation is not supported");
-
-  return;
-
+sub gt {
+  return &$data('cast', &$func('gt', @_));
 }
 
-method head () {
-
-  $self->throw("the gt() comparison operation is not supported");
-
-  return;
-
+sub head {
+  return &$data('cast', &$func('head', @_));
 }
 
-method invert () {
-
-  return $self->reverse;
-
+sub invert {
+  return &$data('cast', &$func('invert', @_));
 }
 
-method iterator () {
-
-  my @keys = CORE::keys %{$self};
-
-  my $i = 0;
-
-  return sub {
-
-    return undef if $i > $#keys;
-
-    return $self->{$keys[$i++]};
-
-  }
-
+sub iterator {
+  return &$data('cast', &$func('iterator', @_));
 }
 
-method join () {
-
-  $self->throw("the join() comparison operation is not supported");
-
-  return;
-
+sub join {
+  return &$data('cast', &$func('join', @_));
 }
 
-method keys () {
-
-  return [CORE::keys %$self];
-
+sub keys {
+  return &$data('cast', &$func('keys', @_));
 }
 
-method le () {
-
-  $self->throw("the le() comparison operation is not supported");
-
-  return;
-
+sub le {
+  return &$data('cast', &$func('le', @_));
 }
 
-method length () {
-
-  return scalar CORE::keys %$self;
-
+sub length {
+  return &$data('cast', &$func('length', @_));
 }
 
-method list () {
-
-  return [%$self];
-
+sub list {
+  return &$data('cast', &$func('list', @_));
 }
 
-method lookup ($path) {
-
-  return undef
-    unless ($self and $path)
-    and (('HASH' eq ref($self))
-    or Scalar::Util::blessed($self) and $self->isa('HASH'));
-
-  return $self->{$path} if $self->{$path};
-
-  my $next;
-  my $rest;
-
-  ($next, $rest) = $path =~ /(.*)\.([^\.]+)$/;
-  return lookup($self->{$next}, $rest) if $next and $self->{$next};
-
-  ($next, $rest) = $path =~ /([^\.]+)\.(.*)$/;
-  return lookup($self->{$next}, $rest) if $next and $self->{$next};
-
-  return undef;
-
+sub lookup {
+  return &$data('cast', &$func('lookup', @_));
 }
 
-method lt () {
-
-  $self->throw("the lt() comparison operation is not supported");
-
-  return;
-
+sub lt {
+  return &$data('cast', &$func('lt', @_));
 }
 
-method map ($code, @args) {
-
-  my @caught;
-
-  for my $key (CORE::keys %$self) {
-
-    my $value = $self->{$key};
-
-    my $refs = {'$key' => \$key, '$value' => \$value,};
-
-    push @caught, (Data::Object::codify($code, $refs)->($key, @args));
-
-  }
-
-  return [@caught];
-
+sub map {
+  return &$data('cast', &$func('map', @_));
 }
 
-method merge (@args) {
-
-  require Storable;
-
-  return Storable::dclone($self) if !@args;
-  return Storable::dclone(merge($self, merge(@args))) if @args > 1;
-
-  my ($right) = @args;
-  my (%merge) = %$self;
-
-  for my $key (CORE::keys %$right) {
-
-    my $lprop = $$self{$key};
-    my $rprop = $$right{$key};
-
-    $merge{$key}
-      = ((ref($rprop) eq 'HASH') and (ref($lprop) eq 'HASH'))
-      ? merge($$self{$key}, $$right{$key})
-      : $$right{$key};
-
-  }
-
-  return Storable::dclone(\%merge);
-
+sub merge {
+  return &$data('cast', &$func('merge', @_));
 }
 
-method ne () {
-
-  $self->throw("the ne() comparison operation is not supported");
-
-  return;
-
+sub ne {
+  return &$data('cast', &$func('ne', @_));
 }
 
-method pairs () {
-
-  return [CORE::map { [$_, $self->{$_}] } CORE::keys(%$self)];
-
+sub pairs {
+  return &$data('cast', &$func('pairs', @_));
 }
 
-method reset () {
-
-  @$self{CORE::keys(%$self)} = ();
-
-  return $self;
-
+sub reset {
+  return &$data('cast', &$func('reset', @_));
 }
 
-method reverse () {
-
-  my $data = {};
-
-  for (CORE::keys %$self) {
-
-    $data->{$_} = $self->{$_} if CORE::defined($self->{$_});
-
-  }
-
-  return {CORE::reverse %$data};
-
+sub reverse {
+  return &$data('cast', &$func('reverse', @_));
 }
 
-method set ($key, $value) {
-
-  return $self->{$key} = $value;
-
+sub set {
+  return &$data('cast', &$func('set', @_));
 }
 
-method slice (@args) {
-
-  return {CORE::map { $_ => $self->{$_} } @args};
-
+sub slice {
+  return &$data('cast', &$func('slice', @_));
 }
 
-method sort () {
-
-  $self->throw("the sort() comparison operation is not supported");
-
-  return;
-
+sub sort {
+  return &$data('cast', &$func('sort', @_));
 }
 
-method tail () {
-
-  $self->throw("the tail() comparison operation is not supported");
-
-  return;
-
+sub tail {
+  return &$data('cast', &$func('tail', @_));
 }
 
-method unfold () {
-
-  my $store = {};
-
-  for my $key (CORE::sort(CORE::keys(%$self))) {
-
-    my $node  = $store;
-    my @steps = CORE::split(/\./, $key);
-
-    for (my $i = 0; $i < @steps; $i++) {
-
-      my $last = $i == $#steps;
-      my $step = $steps[$i];
-
-      if (my @parts = $step =~ /^(\w*):(0|[1-9]\d*)$/) {
-        $node = $node->{$parts[0]}[$parts[1]]
-          = $last                                ? $self->{$key}
-          : exists $node->{$parts[0]}[$parts[1]] ? $node->{$parts[0]}[$parts[1]]
-          :                                        {};
-      }
-      else {
-        $node = $node->{$step}
-          = $last ? $self->{$key} : exists $node->{$step} ? $node->{$step} : {};
-      }
-
-    }
-
-  }
-
-  return $store;
-
+sub unfold {
+  return &$data('cast', &$func('unfold', @_));
 }
 
-method values (@args) {
-
-  return [@args ? @{$self}{@args} : CORE::values(%$self)];
-
+sub values {
+  return &$data('cast', &$func('values', @_));
 }
 
 1;

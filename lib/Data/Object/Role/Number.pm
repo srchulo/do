@@ -1,113 +1,84 @@
 # ABSTRACT: Number Object Role for Perl 5
 package Data::Object::Role::Number;
 
+use 5.014;
+
 use strict;
 use warnings;
 
-use 5.014;
-
-use Data::Object;
 use Data::Object::Role;
-use Data::Object::Library;
-use Data::Object::Signatures;
-use Scalar::Util;
 
-map with($_), our @ROLES = qw(
+use Data::Object '$dispatch';
+
+our @ROLES = map with($_), qw(
   Data::Object::Role::Item
   Data::Object::Role::Numeric
   Data::Object::Role::Value
 );
 
+my $data = &$dispatch('Data::Object');
+my $func = &$dispatch('Data::Object::Export::Number');
+
 # VERSION
 
-method abs () {
-
-  return CORE::abs($self);
-
+sub abs {
+  return &$data('cast', &$func('abs', @_));
 }
 
-method atan2 ($arg) {
-
-  return CORE::atan2($self, $arg);
-
+sub atan2 {
+  return &$data('cast', &$func('atan2', @_));
 }
 
-method cos () {
-
-  return CORE::cos($self);
-
+sub cos {
+  return &$data('cast', &$func('cos', @_));
 }
 
-method decr ($arg) {
-
-  return $self - ($arg || 1);
-
+sub decr {
+  return &$data('cast', &$func('decr', @_));
 }
 
-method defined () {
-
-  return 1;
-
+sub defined {
+  return &$data('cast', &$func('defined', @_));
 }
 
-method exp () {
-
-  return CORE::exp($self);
-
+sub exp {
+  return &$data('cast', &$func('exp', @_));
 }
 
-method hex () {
-
-  return sprintf '%#x', $self;
-
+sub hex {
+  return &$data('cast', &$func('hex', @_));
 }
 
-method incr ($arg) {
-
-  return $self + ($arg || 1);
-
+sub incr {
+  return &$data('cast', &$func('incr', @_));
 }
 
-method int () {
-
-  return CORE::int($self);
-
+sub int {
+  return &$data('cast', &$func('int', @_));
 }
 
-method log () {
-
-  return CORE::log($self);
-
+sub log {
+  return &$data('cast', &$func('log', @_));
 }
 
-method mod ($arg) {
-
-  return $self % $arg;
-
+sub mod {
+  return &$data('cast', &$func('mod', @_));
 }
 
-method neg () {
-
-  return -$self;
-
+sub neg {
+  return &$data('cast', &$func('neg', @_));
 }
 
-method pow ($arg) {
-
-  return $self**$arg;
-
+sub pow {
+  return &$data('cast', &$func('pow', @_));
 }
 
-method sin () {
-
-  return CORE::sin($self);
-
+sub sin {
+  return &$data('cast', &$func('sin', @_));
 }
 
-method sqrt () {
-
-  return CORE::sqrt($self);
-
+sub sqrt {
+  return &$data('cast', &$func('sqrt', @_));
 }
 
 1;

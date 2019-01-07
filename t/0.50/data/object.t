@@ -4,7 +4,9 @@ use Test::More;
 
 use_ok 'Data::Object';
 
+can_ok 'Data::Object', 'cast';
 can_ok 'Data::Object', 'codify';
+can_ok 'Data::Object', 'const';
 can_ok 'Data::Object', 'const';
 can_ok 'Data::Object', 'data_array';
 can_ok 'Data::Object', 'data_code';
@@ -22,10 +24,12 @@ can_ok 'Data::Object', 'deduce_deep';
 can_ok 'Data::Object', 'deduce_type';
 can_ok 'Data::Object', 'detract';
 can_ok 'Data::Object', 'detract_deep';
+can_ok 'Data::Object', 'dispatch';
 can_ok 'Data::Object', 'immutable';
 can_ok 'Data::Object', 'load';
 can_ok 'Data::Object', 'new';
 can_ok 'Data::Object', 'prototype';
+can_ok 'Data::Object', 'reify';
 can_ok 'Data::Object', 'throw';
 
 ok 1 and done_testing;

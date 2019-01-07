@@ -17,25 +17,31 @@ my %WriteMakefileArgs = (
   "MIN_PERL_VERSION" => "5.014000",
   "NAME" => "Data::Object",
   "PREREQ_PM" => {
+    "Exporter::Tiny" => "1.002001",
+    "Import::Into" => "1.002005",
     "Moo" => "2.000001",
     "Sub::Quote" => "2.005001",
     "Type::Tiny" => "1.000005",
     "Type::Tiny::Signatures" => "0.08"
   },
   "TEST_REQUIRES" => {
+    "Exporter::Tiny" => "1.002001",
+    "Import::Into" => "1.002005",
     "Moo" => "2.000001",
     "Sub::Quote" => "2.005001",
     "Type::Tiny" => "1.000005",
     "Type::Tiny::Signatures" => "0.08"
   },
-  "VERSION" => "0.61",
+  "VERSION" => "0.70",
   "test" => {
-    "TESTS" => "t/0.01/data/*.t t/0.01/data/object/*.t t/0.01/data/object/array/*.t t/0.01/data/object/class/*.t t/0.01/data/object/code/*.t t/0.01/data/object/float/*.t t/0.01/data/object/hash/*.t t/0.01/data/object/integer/*.t t/0.01/data/object/library/*.t t/0.01/data/object/number/*.t t/0.01/data/object/regexp/*.t t/0.01/data/object/role/*.t t/0.01/data/object/scalar/*.t t/0.01/data/object/signatures/*.t t/0.01/data/object/string/*.t t/0.01/data/object/undef/*.t t/0.01/data/object/universal/*.t t/0.50/data/*.t t/0.50/data/object/*.t t/0.50/data/object/class/*.t t/0.50/data/object/regexp/*.t t/0.50/data/object/role/*.t"
+    "TESTS" => "t/0.01/data/*.t t/0.01/data/object/*.t t/0.01/data/object/array/*.t t/0.01/data/object/class/*.t t/0.01/data/object/code/*.t t/0.01/data/object/float/*.t t/0.01/data/object/hash/*.t t/0.01/data/object/integer/*.t t/0.01/data/object/library/*.t t/0.01/data/object/number/*.t t/0.01/data/object/regexp/*.t t/0.01/data/object/role/*.t t/0.01/data/object/scalar/*.t t/0.01/data/object/signatures/*.t t/0.01/data/object/string/*.t t/0.01/data/object/undef/*.t t/0.01/data/object/universal/*.t t/0.50/data/*.t t/0.50/data/object/*.t t/0.50/data/object/class/*.t t/0.50/data/object/export/*.t t/0.50/data/object/regexp/*.t t/0.50/data/object/role/*.t"
   }
 );
 
 
 my %FallbackPrereqs = (
+  "Exporter::Tiny" => "1.002001",
+  "Import::Into" => "1.002005",
   "Moo" => "2.000001",
   "Sub::Quote" => "2.005001",
   "Type::Tiny" => "1.000005",

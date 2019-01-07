@@ -1,76 +1,51 @@
 # ABSTRACT: Universal Object Role for Perl 5
 package Data::Object::Role::Universal;
 
+use 5.014;
+
 use strict;
 use warnings;
 
-use 5.014;
-
-use Data::Object;
 use Data::Object::Role;
-use Data::Object::Library;
-use Data::Object::Signatures;
-use Scalar::Util;
 
-map with($_), our @ROLES = qw(
+use Data::Object '$dispatch';
+
+our @ROLES = map with($_), qw(
   Data::Object::Role::Item
   Data::Object::Role::Value
 );
 
+my $data = &$dispatch('Data::Object');
+my $func = &$dispatch('Data::Object::Export::Universal');
+
 # VERSION
 
-method defined () {
-
-  return 1;
-
+sub defined {
+  return &$data('cast', &$func('defined', @_));
 }
 
-method eq () {
-
-  $self->throw("The eq() comparison operation is not supported");
-
-  return;
-
+sub eq {
+  return &$data('cast', &$func('eq', @_));
 }
 
-method gt () {
-
-  $self->throw("The gt() comparison operation is not supported");
-
-  return;
-
+sub gt {
+  return &$data('cast', &$func('gt', @_));
 }
 
-method ge () {
-
-  $self->throw("The ge() comparison operation is not supported");
-
-  return;
-
+sub ge {
+  return &$data('cast', &$func('ge', @_));
 }
 
-method lt () {
-
-  $self->throw("The lt() comparison operation is not supported");
-
-  return;
-
+sub lt {
+  return &$data('cast', &$func('lt', @_));
 }
 
-method le () {
-
-  $self->throw("The le() comparison operation is not supported");
-
-  return;
-
+sub le {
+  return &$data('cast', &$func('le', @_));
 }
 
-method ne () {
-
-  $self->throw("The ne() comparison operation is not supported");
-
-  return;
-
+sub ne {
+  return &$data('cast', &$func('ne', @_));
 }
 
 1;

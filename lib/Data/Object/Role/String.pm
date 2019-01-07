@@ -1,234 +1,128 @@
 # ABSTRACT: String Object Role for Perl 5
 package Data::Object::Role::String;
 
+use 5.014;
+
 use strict;
 use warnings;
 
-use 5.014;
-
-use Data::Object;
 use Data::Object::Role;
-use Data::Object::Library;
-use Data::Object::Signatures;
-use Scalar::Util;
 
-map with($_), our @ROLES = qw(
+use Data::Object '$dispatch';
+
+our @ROLES = map with($_), qw(
   Data::Object::Role::Item
   Data::Object::Role::Alphabetic
   Data::Object::Role::Value
 );
 
+my $data = &$dispatch('Data::Object');
+my $func = &$dispatch('Data::Object::Export::String');
+
 # VERSION
 
-method append (@args) {
-
-  return CORE::join(' ', "$self", @args);
-
+sub append {
+  return &$data('cast', &$func('append', @_));
 }
 
-method camelcase () {
-
-  my $result = CORE::ucfirst(CORE::lc("$self"));
-
-  $result =~ s/[^a-zA-Z0-9]+([a-z])/\U$1/g;
-  $result =~ s/[^a-zA-Z0-9]+//g;
-
-  return $result;
-
+sub camelcase {
+  return &$data('cast', &$func('camelcase', @_));
 }
 
-method chomp () {
-
-  my $result = "$self";
-
-  CORE::chomp($result);
-
-  return $result;
-
+sub chomp {
+  return &$data('cast', &$func('chomp', @_));
 }
 
-method chop () {
-
-  my $result = "$self";
-
-  CORE::chop($result);
-
-  return $result;
-
+sub chop {
+  return &$data('cast', &$func('chop', @_));
 }
 
-method concat (@args) {
-
-  return CORE::join('', "$self", @args);
-
+sub concat {
+  return &$data('cast', &$func('concat', @_));
 }
 
-method contains ($pattern) {
-
-  return 0 unless CORE::defined($pattern);
-
-  my $regexp = UNIVERSAL::isa($pattern, 'Regexp');
-
-  return CORE::index("$self", $pattern) < 0 ? 0 : 1 if !$regexp;
-
-  return ("$self" =~ $pattern) ? 1 : 0;
-
+sub contains {
+  return &$data('cast', &$func('contains', @_));
 }
 
-method defined () {
-
-  return 1;
-
+sub defined {
+  return &$data('cast', &$func('defined', @_));
 }
 
-method hex () {
-
-  return CORE::hex("$self");
-
+sub hex {
+  return &$data('cast', &$func('hex', @_));
 }
 
-method index ($substr, $start) {
-
-  return CORE::index("$self", $substr) if not CORE::defined $start;
-
-  return CORE::index("$self", $substr, $start);
-
+sub index {
+  return &$data('cast', &$func('index', @_));
 }
 
-method lc () {
-
-  return CORE::lc("$self");
-
+sub lc {
+  return &$data('cast', &$func('lc', @_));
 }
 
-method lcfirst () {
-
-  return CORE::lcfirst("$self");
-
+sub lcfirst {
+  return &$data('cast', &$func('lcfirst', @_));
 }
 
-method length () {
-
-  return CORE::length("$self");
-
+sub length {
+  return &$data('cast', &$func('length', @_));
 }
 
-method lines () {
-
-  return [CORE::split(/[\n\r]+/, "$self")];
-
+sub lines {
+  return &$data('cast', &$func('lines', @_));
 }
 
-method lowercase () {
-
-  return $self->lc;
-
+sub lowercase {
+  return &$data('cast', &$func('lowercase', @_));
 }
 
-method replace ($search, $replace, $flags) {
-
-  my $result = "$self";
-  my $regexp = UNIVERSAL::isa($search, 'Regexp');
-
-  $flags = CORE::defined($flags) ? $flags : '';
-  $search = CORE::quotemeta($search) if $search and !$regexp;
-
-  local $@;
-  eval("sub { \$_[0] =~ s/$search/$replace/$flags }")->($result);
-
-  return $result;
-
+sub replace {
+  return &$data('cast', &$func('replace', @_));
 }
 
-method reverse () {
-
-  return CORE::reverse("$self");
-
+sub reverse {
+  return &$data('cast', &$func('reverse', @_));
 }
 
-method rindex ($substr, $start) {
-
-  return CORE::rindex("$self", $substr) if not CORE::defined $start;
-
-  return CORE::rindex("$self", $substr, $start);
-
+sub rindex {
+  return &$data('cast', &$func('rindex', @_));
 }
 
-method snakecase () {
-
-  my $result = CORE::lc("$self");
-
-  $result =~ s/[^a-zA-Z0-9]+([a-z])/\U$1/g;
-  $result =~ s/[^a-zA-Z0-9]+//g;
-
-  return $result;
-
+sub snakecase {
+  return &$data('cast', &$func('snakecase', @_));
 }
 
-method split ($pattern, $limit) {
-
-  my $regexp = UNIVERSAL::isa($pattern, 'Regexp');
-
-  $pattern = CORE::quotemeta($pattern) if $pattern and !$regexp;
-
-  return [CORE::split(/$pattern/, "$self")] if !CORE::defined($limit);
-
-  return [CORE::split(/$pattern/, "$self", $limit)];
-
+sub split {
+  return &$data('cast', &$func('split', @_));
 }
 
-method strip () {
-
-  my $result = "$self";
-
-  $result =~ s/\s{2,}/ /g;
-
-  return $result;
-
+sub strip {
+  return &$data('cast', &$func('strip', @_));
 }
 
-method titlecase () {
-
-  my $result = "$self";
-
-  $result =~ s/\b(\w)/\U$1/g;
-
-  return $result;
-
+sub titlecase {
+  return &$data('cast', &$func('titlecase', @_));
 }
 
-method trim () {
-
-  my $result = "$self";
-
-  $result =~ s/^\s+|\s+$//g;
-
-  return $result;
-
+sub trim {
+  return &$data('cast', &$func('trim', @_));
 }
 
-method uc () {
-
-  return CORE::uc("$self");
-
+sub uc {
+  return &$data('cast', &$func('uc', @_));
 }
 
-method ucfirst () {
-
-  return CORE::ucfirst("$self");
-
+sub ucfirst {
+  return &$data('cast', &$func('ucfirst', @_));
 }
 
-method uppercase () {
-
-  return $self->uc;
-
+sub uppercase {
+  return &$data('cast', &$func('uppercase', @_));
 }
 
-method words () {
-
-  return [CORE::split(/\s+/, "$self")];
-
+sub words {
+  return &$data('cast', &$func('words', @_));
 }
 
 1;

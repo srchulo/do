@@ -1,64 +1,51 @@
 # ABSTRACT: Undef Object Role for Perl 5
 package Data::Object::Role::Undef;
 
+use 5.014;
+
 use strict;
 use warnings;
 
-use 5.014;
-
-use Data::Object;
 use Data::Object::Role;
-use Data::Object::Library;
-use Data::Object::Signatures;
-use Scalar::Util;
 
-map with($_), our @ROLES = qw(
+use Data::Object '$dispatch';
+
+our @ROLES = map with($_), qw(
   Data::Object::Role::Item
   Data::Object::Role::Value
 );
 
+my $data = &$dispatch('Data::Object');
+my $func = &$dispatch('Data::Object::Export::Undef');
+
 # VERSION
 
-method defined () {
-
-  return 0;
-
+sub defined {
+  return &$data('cast', &$func('defined', @_));
 }
 
-method eq ($arg1) {
-
-  return CORE::defined($arg1) ? 0 : 1;
-
+sub eq {
+  return &$data('cast', &$func('eq', @_));
 }
 
-method gt ($arg1) {
-
-  return 0;
-
+sub gt {
+  return &$data('cast', &$func('gt', @_));
 }
 
-method ge ($arg1) {
-
-  return eq ($arg1) ? 1 : 0;
-
+sub ge {
+  return &$data('cast', &$func('ge', @_));
 }
 
-method lt ($arg1) {
-
-  return 0;
-
+sub lt {
+  return &$data('cast', &$func('lt', @_));
 }
 
-method le ($arg1) {
-
-  return eq ($arg1) ? 1 : 0;
-
+sub le {
+  return &$data('cast', &$func('le', @_));
 }
 
-method ne ($arg1) {
-
-  return CORE::defined($arg1) ? 1 : 0;
-
+sub ne {
+  return &$data('cast', &$func('ne', @_));
 }
 
 1;

@@ -20,15 +20,14 @@ method dump () {
 
   no warnings 'once';
 
-  local $Data::Dumper::Indent    = 0;
-  local $Data::Dumper::Purity    = 0;
+  local $Data::Dumper::Indent = 0;
+  local $Data::Dumper::Purity = 0;
   local $Data::Dumper::Quotekeys = 0;
-
   local $Data::Dumper::Deepcopy = 1;
-  local $Data::Dumper::Deparse  = 1;
+  local $Data::Dumper::Deparse = 1;
   local $Data::Dumper::Sortkeys = 1;
-  local $Data::Dumper::Terse    = 1;
-  local $Data::Dumper::Useqq    = 1;
+  local $Data::Dumper::Terse = 1;
+  local $Data::Dumper::Useqq = 1;
 
   my $result = Data::Object::detract_deep($self);
   $result = Data::Dumper::Dumper($result);

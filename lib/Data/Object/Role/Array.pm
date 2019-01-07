@@ -1,631 +1,259 @@
 # ABSTRACT: Array Object Role for Perl 5
 package Data::Object::Role::Array;
 
+use 5.014;
+
 use strict;
 use warnings;
 
-use 5.014;
-
-use Data::Object;
 use Data::Object::Role;
-use Data::Object::Library;
-use Data::Object::Signatures;
-use Scalar::Util;
 
-map with($_), our @ROLES = qw(
-  Data::Object::Role::Collection
+use Data::Object '$dispatch';
+
+our @ROLES = map with($_), qw(
   Data::Object::Role::Item
+  Data::Object::Role::Collection
 );
+
+my $data = &$dispatch('Data::Object');
+my $func = &$dispatch('Data::Object::Export::Array');
 
 # VERSION
 
-method all ($code, @args) {
-
-  my $found = 0;
-
-  for (my $i = 0; $i < @$self; $i++) {
-
-    my $index = $i;
-    my $value = $self->[$i];
-
-    my $refs = {'$index' => \$index, '$value' => \$value,};
-
-    $found++ if Data::Object::codify($code, $refs)->($value, @args);
-
-  }
-
-  return $found == @$self ? 1 : 0;
-
+sub all {
+  return &$data('cast', &$func('all', @_));
 }
 
-method any ($code, @args) {
-
-  my $found = 0;
-
-  for (my $i = 0; $i < @$self; $i++) {
-
-    my $index = $i;
-    my $value = $self->[$i];
-
-    my $refs = {'$index' => \$index, '$value' => \$value,};
-
-    $found++ if Data::Object::codify($code, $refs)->($value, @args);
-
-  }
-
-  return $found ? 1 : 0;
-
+sub any {
+  return &$data('cast', &$func('any', @_));
 }
 
-method clear () {
-
-  return $self->empty;
-
+sub clear {
+  return &$data('cast', &$func('clear', @_));
 }
 
-method count () {
-
-  return $self->length;
-
+sub count {
+  return &$data('cast', &$func('count', @_));
 }
 
-method defined ($index) {
-
-  return CORE::defined($self->[$index]);
-
+sub defined {
+  return &$data('cast', &$func('defined', @_));
 }
 
-method delete ($index) {
-
-  return CORE::delete($self->[$index]);
-
+sub delete {
+  return &$data('cast', &$func('delete', @_));
 }
 
-method each ($code, @args) {
-
-  for (my $i = 0; $i < @$self; $i++) {
-
-    my $index = $i;
-    my $value = $self->[$i];
-
-    my $refs = {'$index' => \$index, '$value' => \$value,};
-
-    Data::Object::codify($code, $refs)->($index, $value, @args);
-
-  }
-
-  return $self;
-
+sub each {
+  return &$data('cast', &$func('each', @_));
 }
 
-method each_key ($code, @args) {
-
-  for (my $i = 0; $i < @$self; $i++) {
-
-    my $index = $i;
-    my $value = $self->[$i];
-
-    my $refs = {'$index' => \$index, '$value' => \$value,};
-
-    Data::Object::codify($code, $refs)->($index, @args);
-
-  }
-
-  return $self;
-
+sub each_key {
+  return &$data('cast', &$func('each_key', @_));
 }
 
-method each_n_values ($number, $code, @args) {
-
-  my $refs = {};
-  my @list = (0 .. $#{$self});
-
-  while (my @indexes = CORE::splice(@list, 0, $number)) {
-
-    my @values;
-
-    for (my $i = 0; $i < $number; $i++) {
-
-      my $pos   = $i;
-      my $index = $indexes[$pos];
-      my $value = CORE::defined($index) ? $self->[$index] : undef;
-
-      $refs->{"\$index${i}"} = $index if CORE::defined $index;
-      $refs->{"\$value${i}"} = $value if CORE::defined $value;
-
-      push @values, $value;
-
-    }
-
-    Data::Object::codify($code, $refs)->(@values, @args);
-
-  }
-
-  return $self;
-
+sub each_n_values {
+  return &$data('cast', &$func('each_n_values', @_));
 }
 
-method each_value ($code, @args) {
-
-  for (my $i = 0; $i < @$self; $i++) {
-
-    my $index = $i;
-    my $value = $self->[$i];
-
-    my $refs = {'$index' => \$index, '$value' => \$value,};
-
-    Data::Object::codify($code, $refs)->($value, @args);
-
-  }
-
-  return $self;
-
+sub each_value {
+  return &$data('cast', &$func('each_value', @_));
 }
 
-method empty () {
-
-  $#$self = -1;
-
-  return $self;
-
+sub empty {
+  return &$data('cast', &$func('empty', @_));
 }
 
-method eq () {
-
-  $self->throw("The eq() comparison operation is not supported");
-
-  return;
-
+sub eq {
+  return &$data('cast', &$func('eq', @_));
 }
 
-method exists ($index) {
-
-  return $index <= $#{$self};
-
+sub exists {
+  return &$data('cast', &$func('exists', @_));
 }
 
-method first () {
-
-  return $self->[0];
-
+sub first {
+  return &$data('cast', &$func('first', @_));
 }
 
-method ge () {
-
-  $self->throw("the ge() comparison operation is not supported");
-
-  return;
-
+sub ge {
+  return &$data('cast', &$func('ge', @_));
 }
 
-method get ($index) {
-
-  return $self->[$index];
-
+sub get {
+  return &$data('cast', &$func('get', @_));
 }
 
-method grep ($code, @args) {
-
-  my @caught;
-
-  for (my $i = 0; $i < @$self; $i++) {
-
-    my $index = $i;
-    my $value = $self->[$i];
-
-    my $refs = {'$index' => \$index, '$value' => \$value,};
-
-    if (Data::Object::codify($code, $refs)->($value, @args)) {
-
-      push @caught, $value;
-
-    }
-
-  }
-
-
-  return [@caught];
-
+sub grep {
+  return &$data('cast', &$func('grep', @_));
 }
 
-method gt () {
-
-  $self->throw("the gt() comparison operation is not supported");
-
-  return;
-
+sub gt {
+  return &$data('cast', &$func('gt', @_));
 }
 
-method hash () {
-
-  return $self->pairs_hash;
-
+sub hash {
+  return &$data('cast', &$func('hash', @_));
 }
 
-method hashify ($code, @args) {
-
-  my $data = {};
-
-  for (my $i = 0; $i < @$self; $i++) {
-
-    my $index = $i;
-    my $value = $self->[$i];
-
-    my $refs = {'$index' => \$index, '$value' => \$value,};
-
-    if (CORE::defined($value)) {
-
-      my $result = Data::Object::codify($code, $refs)->($value, @args);
-
-      $data->{$value} = $result if CORE::defined($result);
-
-    }
-
-  }
-
-  return $data;
-
+sub hashify {
+  return &$data('cast', &$func('hashify', @_));
 }
 
-method head () {
-
-  return $self->[0];
-
+sub head {
+  return &$data('cast', &$func('head', @_));
 }
 
-method invert () {
-
-  return $self->reverse;
-
+sub invert {
+  return &$data('cast', &$func('invert', @_));
 }
 
-method iterator () {
-
-  my $i = 0;
-
-  return sub {
-
-    return undef if $i > $#{$self};
-
-    return $self->[$i++];
-
-  }
-
+sub iterator {
+  return &$data('cast', &$func('iterator', @_));
 }
 
-method join ($delimiter) {
-
-  return CORE::join $delimiter // '', @$self;
-
+sub join {
+  return &$data('cast', &$func('join', @_));
 }
 
-method keyed (@keys) {
-
-  my $i = 0;
-
-  return {CORE::map { $_ => $self->[$i++] } @keys};
-
+sub keyed {
+  return &$data('cast', &$func('keyed', @_));
 }
 
-method keys () {
-
-  return [0 .. $#{$self}];
-
+sub keys {
+  return &$data('cast', &$func('keys', @_));
 }
 
-method last () {
-
-  return $self->[-1];
-
+sub last {
+  return &$data('cast', &$func('last', @_));
 }
 
-method le () {
-
-  $self->throw("the le() comparison operation is not supported");
-
-  return;
-
+sub le {
+  return &$data('cast', &$func('le', @_));
 }
 
-method length () {
-
-  return scalar @$self;
-
+sub length {
+  return &$data('cast', &$func('length', @_));
 }
 
-method list () {
-
-  return [@$self];
-
+sub list {
+  return &$data('cast', &$func('list', @_));
 }
 
-method lt () {
-
-  $self->throw("the lt() comparison operation is not supported");
-
-  return;
-
+sub lt {
+  return &$data('cast', &$func('lt', @_));
 }
 
-method map ($code, @args) {
-
-  my @caught;
-
-  for (my $i = 0; $i < @$self; $i++) {
-
-    my $index = $i;
-    my $value = $self->[$i];
-
-    my $refs = {'$index' => \$index, '$value' => \$value,};
-
-    push @caught, Data::Object::codify($code, $refs)->($value, @args);
-
-  }
-
-  return [@caught];
-
+sub map {
+  return &$data('cast', &$func('map', @_));
 }
 
-method max () {
-
-  my $max;
-
-  for my $val (@$self) {
-
-    next if ref($val);
-    next if !CORE::defined($val);
-    next if !Scalar::Util::looks_like_number($val);
-
-    $max //= $val;
-    $max = $val if $val > $max;
-
-  }
-
-  return $max;
-
+sub max {
+  return &$data('cast', &$func('max', @_));
 }
 
-method min () {
-
-  my $min;
-
-  for my $val (@$self) {
-
-    next if ref($val);
-    next if !CORE::defined($val);
-    next if !Scalar::Util::looks_like_number($val);
-
-    $min //= $val;
-    $min = $val if $val < $min;
-
-  }
-
-  return $min;
-
+sub min {
+  return &$data('cast', &$func('min', @_));
 }
 
-method ne () {
-
-  $self->throw("the ne() comparison operation is not supported");
-
-  return;
-
+sub ne {
+  return &$data('cast', &$func('ne', @_));
 }
 
-method none ($code, @args) {
-
-  my $found = 0;
-
-  for (my $i = 0; $i < @$self; $i++) {
-
-    my $index = $i;
-    my $value = $self->[$i];
-
-    my $refs = {'$index' => \$index, '$value' => \$value,};
-
-    $found++ if Data::Object::codify($code, $refs)->($value, @args);
-
-  }
-
-  return $found ? 0 : 1;
-
+sub none {
+  return &$data('cast', &$func('none', @_));
 }
 
-method nsort () {
-
-  return [CORE::sort { $a <=> $b } @$self];
-
+sub nsort {
+  return &$data('cast', &$func('nsort', @_));
 }
 
-method one ($code, @args) {
-
-  my $found = 0;
-
-  for (my $i = 0; $i < @$self; $i++) {
-
-    my $index = $i;
-    my $value = $self->[$i];
-
-    my $refs = {'$index' => \$index, '$value' => \$value,};
-
-    $found++ if Data::Object::codify($code, $refs)->($value, @args);
-
-  }
-
-  return $found == 1 ? 1 : 0;
-
+sub one {
+  return &$data('cast', &$func('one', @_));
 }
 
-method pairs () {
-
-  return $self->pairs_array;
-
+sub pairs {
+  return &$data('cast', &$func('pairs', @_));
 }
 
-method pairs_array () {
-
-  my $i = 0;
-
-  return [CORE::map +[$i++, $_], @$self];
-
+sub pairs_array {
+  return &$data('cast', &$func('pairs_array', @_));
 }
 
-method pairs_hash () {
-
-  my $i = 0;
-
-  return {CORE::map { $i++ => $_ } @$self};
-
+sub pairs_hash {
+  return &$data('cast', &$func('pairs_hash', @_));
 }
 
-method part ($code, @args) {
-
-  my $data = [[], []];
-
-  for (my $i = 0; $i < @$self; $i++) {
-
-    my $index = $i;
-    my $value = $self->[$i];
-
-    my $refs = {'$index' => \$index, '$value' => \$value,};
-
-    my $result = Data::Object::codify($code, $refs)->($value, @args);
-
-    my $slot = $result ? $$data[0] : $$data[1];
-
-    CORE::push @$slot, $value;
-
-  }
-
-  return $data;
-
+sub part {
+  return &$data('cast', &$func('part', @_));
 }
 
-method pop () {
-
-  return CORE::pop @$self;
-
+sub pop {
+  return &$data('cast', &$func('pop', @_));
 }
 
-method push (@args) {
-
-  CORE::push @$self, @args;
-
-  return $self;
-
+sub push {
+  return &$data('cast', &$func('push', @_));
 }
 
-method random () {
-
-  return @$self[CORE::rand($#{$self} + 1)];
-
+sub random {
+  return &$data('cast', &$func('random', @_));
 }
 
-method reverse () {
-
-  return [CORE::reverse(@$self)];
-
+sub reverse {
+  return &$data('cast', &$func('reverse', @_));
 }
 
-method rotate () {
-
-  CORE::push(@$self, CORE::shift(@$self));
-
-  return $self;
-
+sub rnsort {
+  return &$data('cast', &$func('rnsort', @_));
 }
 
-method rnsort () {
-
-  return [CORE::sort { $b <=> $a } @$self];
-
+sub rotate {
+  return &$data('cast', &$func('rotate', @_));
 }
 
-method rsort () {
-
-  return [CORE::sort { $b cmp $a } @$self];
-
+sub rsort {
+  return &$data('cast', &$func('rsort', @_));
 }
 
-method set ($index, $value) {
-
-  return $self->[$index] = $value;
-
+sub set {
+  return &$data('cast', &$func('set', @_));
 }
 
-method shift () {
-
-  return CORE::shift(@$self);
-
+sub shift {
+  return &$data('cast', &$func('shift', @_));
 }
 
-method size () {
-
-  return $self->length;
-
+sub size {
+  return &$data('cast', &$func('size', @_));
 }
 
-method slice (@args) {
-
-  return [@$self[@args]];
-
+sub slice {
+  return &$data('cast', &$func('slice', @_));
 }
 
-method sort () {
-
-  return [CORE::sort { $a cmp $b } @$self];
-
+sub sort {
+  return &$data('cast', &$func('sort', @_));
 }
 
-method sum () {
-
-  my $sum = 0;
-
-  for my $val (@$self) {
-
-    next if !CORE::defined($val);
-    next
-      if Scalar::Util::blessed($val)
-      and not $val->does('Data::Object::Role::Numeric');
-
-    $val += 0;
-
-    next if !Scalar::Util::looks_like_number($val);
-
-    $sum += $val;
-
-  }
-
-  return $sum;
-
+sub sum {
+  return &$data('cast', &$func('sum', @_));
 }
 
-method tail () {
-
-  return [@$self[1 .. $#$self]];
-
+sub tail {
+  return &$data('cast', &$func('tail', @_));
 }
 
-method unique () {
-
-  my %seen;
-
-  return [CORE::grep { not $seen{$_}++ } @$self];
-
+sub unique {
+  return &$data('cast', &$func('unique', @_));
 }
 
-method unshift (@args) {
-
-  CORE::unshift(@$self, @args);
-
-  return $self;
-
+sub unshift {
+  return &$data('cast', &$func('unshift', @_));
 }
 
-method values (@args) {
-
-  return [@args ? @$self[@args] : @$self];
-
+sub values {
+  return &$data('cast', &$func('values', @_));
 }
 
 1;

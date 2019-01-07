@@ -6,7 +6,7 @@ Data::Object - Object Orientation for Perl 5
 
 # VERSION
 
-version 0.61
+version 0.70
 
 # SYNOPSIS
 
@@ -68,6 +68,33 @@ The type export tag will export all exportable functions whose names are
 prefixed with the word "type".
 
 # FUNCTIONS
+
+## confess
+
+    # die with error and stacktrace
+
+    confess "ooops, something went wrong!";
+
+The confess function causes the program to die with a stacktrace. This function
+is passed in from the [Carp](https://metacpan.org/pod/Carp) module.
+
+## croak
+
+    # die with error
+
+    croak "ooops, something went wrong!";
+
+The croak function causes the program to die from perspective of caller. This
+function is passed in from the [Carp](https://metacpan.org/pod/Carp) module.
+
+## carp
+
+    # emit warning
+
+    carp "ooops, something went wrong!";
+
+The carp function causes the program to emit a warning from perspective of
+caller. This function is passed in from the [Carp](https://metacpan.org/pod/Carp) module.
 
 ## const
 
@@ -350,7 +377,7 @@ Anthony Brummett <abrummet@genome.wustl.edu>
 
 # COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2018 by Al Newkirk.
+This software is copyright (c) 2011 by Al Newkirk.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

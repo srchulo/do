@@ -1,29 +1,28 @@
 # ABSTRACT: Integer Object Role for Perl 5
 package Data::Object::Role::Integer;
 
+use 5.014;
+
 use strict;
 use warnings;
 
-use 5.014;
-
-use Data::Object;
 use Data::Object::Role;
-use Data::Object::Library;
-use Data::Object::Signatures;
-use Scalar::Util;
 
-map with($_), our @ROLES = qw(
+use Data::Object '$dispatch';
+
+our @ROLES = map with($_), qw(
   Data::Object::Role::Item
   Data::Object::Role::Numeric
   Data::Object::Role::Value
 );
 
+my $data = &$dispatch('Data::Object');
+my $func = &$dispatch('Data::Object::Export::Integer');
+
 # VERSION
 
-method defined () {
-
-  return 1;
-
+sub defined {
+  return &$data('cast', &$func('defined', @_));
 }
 
 1;

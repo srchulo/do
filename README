@@ -47,6 +47,27 @@ DESCRIPTION
     The type export tag will export all exportable functions whose names
     are prefixed with the word "type".
 
+      # die with error and stacktrace
+    
+      confess "ooops, something went wrong!";
+
+    The confess function causes the program to die with a stacktrace. This
+    function is passed in from the Carp module.
+
+      # die with error
+    
+      croak "ooops, something went wrong!";
+
+    The croak function causes the program to die from perspective of
+    caller. This function is passed in from the Carp module.
+
+      # emit warning
+    
+      carp "ooops, something went wrong!";
+
+    The carp function causes the program to emit a warning from perspective
+    of caller. This function is passed in from the Carp module.
+
       # given 1.098765;
     
       const VERSION => 1.098765;
@@ -321,59 +342,63 @@ POD ERRORS
 
       Unknown directive: =function
 
-    Around line 70:
+    Around line 69:
 
       Unknown directive: =function
 
-    Around line 81:
+    Around line 78:
 
       Unknown directive: =function
 
-    Around line 92:
+    Around line 87:
 
       Unknown directive: =function
 
-    Around line 103:
+    Around line 97:
 
       Unknown directive: =function
 
-    Around line 114:
+    Around line 108:
 
       Unknown directive: =function
 
-    Around line 125:
+    Around line 119:
 
       Unknown directive: =function
 
-    Around line 136:
+    Around line 130:
 
       Unknown directive: =function
 
-    Around line 147:
+    Around line 141:
 
       Unknown directive: =function
 
-    Around line 158:
+    Around line 152:
 
       Unknown directive: =function
 
-    Around line 169:
+    Around line 163:
 
       Unknown directive: =function
 
-    Around line 180:
+    Around line 174:
 
       Unknown directive: =function
 
-    Around line 191:
+    Around line 185:
 
       Unknown directive: =function
 
-    Around line 201:
+    Around line 196:
 
       Unknown directive: =function
 
-    Around line 219:
+    Around line 207:
+
+      Unknown directive: =function
+
+    Around line 218:
 
       Unknown directive: =function
 
@@ -381,27 +406,35 @@ POD ERRORS
 
       Unknown directive: =function
 
-    Around line 237:
+    Around line 246:
 
       Unknown directive: =function
 
-    Around line 257:
+    Around line 255:
 
       Unknown directive: =function
 
-    Around line 268:
+    Around line 264:
 
       Unknown directive: =function
 
-    Around line 277:
+    Around line 284:
 
       Unknown directive: =function
 
-    Around line 290:
+    Around line 295:
 
       Unknown directive: =function
 
-    Around line 299:
+    Around line 304:
+
+      Unknown directive: =function
+
+    Around line 317:
+
+      Unknown directive: =function
+
+    Around line 326:
 
       Unknown directive: =function
 

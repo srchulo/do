@@ -1,456 +1,22 @@
 # ABSTRACT: Object Orientation for Perl 5
 package Data::Object;
 
+use 5.014;
+
 use strict;
 use warnings;
 
-use 5.014;
+use Data::Object::Export ':all';
 
-use Carp;
-use Scalar::Util;
-use Sub::Quote;
-
-use Exporter qw(import);
-
-our $NAMESPACE = 'Data::Object';
+use parent 'Exporter';
 
 # VERSION
 
-my @CORE = grep !/^(data|type)_/, our @EXPORT_OK = qw(
-  codify
-  const
-  data_array
-  data_code
-  data_float
-  data_hash
-  data_integer
-  data_number
-  data_regexp
-  data_scalar
-  data_string
-  data_undef
-  data_universal
-  deduce
-  deduce_deep
-  deduce_type
-  detract
-  detract_deep
-  immutable
-  load
-  prototype
-  reify
-  throw
-  type_array
-  type_code
-  type_float
-  type_hash
-  type_integer
-  type_number
-  type_regexp
-  type_scalar
-  type_string
-  type_undef
-  type_universal
-);
-
-our %EXPORT_TAGS = (
-  all  => [@EXPORT_OK],
-  core => [@CORE],
-  data => [grep m/^data_/, @EXPORT_OK],
-  type => [grep m/^type_/, @EXPORT_OK],
-);
+our @EXPORT_OK = @Data::Object::Export::EXPORT_OK;
+our %EXPORT_TAGS = %Data::Object::Export::EXPORT_TAGS;
 
 sub new {
-
-  shift and goto &deduce_deep;
-
-}
-
-sub const ($$) {
-
-  my $name = shift;
-  my $data = shift;
-
-  my $class = caller(0);
-  $class = caller(1) if $NAMESPACE eq $class;
-
-  my $fqsn = $name =~ /(::|')/ ? $name : "${class}::${name}";
-
-  no strict 'refs';
-  no warnings 'redefine';
-
-  *{$fqsn} = sub () { (ref $data eq "CODE") ? goto &$data : $data };
-
-  return $data;
-
-}
-
-sub codify ($;$) {
-
-  my $code = shift;
-  my $refs = shift;
-
-  $code = reify($code);
-
-  if ($code->type eq 'UNDEF') {
-
-    # as you were !!!
-    $code = q{ @_ };
-
-  }
-
-  elsif ($code->type eq 'CODE') {
-
-    my $func = $code;
-
-    # perform inception !!!
-    $refs->{'$exec'} = \$func;
-    $code = q{ goto &{$exec} };
-
-  }
-
-  # (facepalm) purely for backwards compatibility
-  my $vars = sprintf 'my ($%s) = @_;', join ',$', 'a' .. 'z';
-  my $body = sprintf '%s do { %s; }', $vars, "$code" // '@_';
-
-  my $func = Sub::Quote::quote_sub($body, ref($refs) ? $refs : {});
-
-  return $func;
-
-}
-
-sub immutable ($) {
-
-  my $class = load("${NAMESPACE}::Immutable");
-
-  unshift @_, $class and goto $class->can('new');
-
-}
-
-sub load ($) {
-
-  my $class = shift;
-
-  my $failed = !$class || $class !~ /^\w(?:[\w:']*\w)?$/;
-  my $loaded;
-
-  my $error = do {
-    local $@;
-    $loaded = $class->can('new') || eval "require $class; 1";
-    $@;
-  };
-
-  croak "Error attempting to load $class: $error"
-    if $error
-    or $failed
-    or not $loaded;
-
-  return $class;
-
-}
-
-sub prototype (@) {
-
-  my $class = load("${NAMESPACE}::Prototype");
-
-  unshift @_, $class and goto $class->can('new');
-
-}
-
-sub reify ($) {
-
-  goto &deduce_deep;
-
-}
-
-sub throw (@) {
-
-  my $class = load("${NAMESPACE}::Exception");
-
-  unshift @_, $class and goto $class->can('throw');
-
-}
-
-sub data_array ($) {
-
-  my $class = load("${NAMESPACE}::Array");
-
-  unshift @_, $class and goto $class->can('new');
-
-}
-
-sub data_code ($) {
-
-  my $class = load("${NAMESPACE}::Code");
-
-  unshift @_, $class and goto $class->can('new');
-
-}
-
-sub data_float ($) {
-
-  my $class = load("${NAMESPACE}::Float");
-
-  unshift @_, $class and goto $class->can('new');
-
-}
-
-sub data_hash ($) {
-
-  my $class = load("${NAMESPACE}::Hash");
-
-  unshift @_, $class and goto $class->can('new');
-
-}
-
-sub data_integer ($) {
-
-  my $class = load("${NAMESPACE}::Integer");
-
-  unshift @_, $class and goto $class->can('new');
-
-}
-
-sub data_number ($) {
-
-  my $class = load("${NAMESPACE}::Number");
-
-  unshift @_, $class and goto $class->can('new');
-
-}
-
-sub data_regexp ($) {
-
-  my $class = load("${NAMESPACE}::Regexp");
-
-  unshift @_, $class and goto $class->can('new');
-
-}
-
-sub data_scalar ($) {
-
-  my $class = load("${NAMESPACE}::Scalar");
-
-  unshift @_, $class and goto $class->can('new');
-
-}
-
-sub data_string ($) {
-
-  my $class = load("${NAMESPACE}::String");
-
-  unshift @_, $class and goto $class->can('new');
-
-}
-
-sub data_undef (;$) {
-
-  my $class = load("${NAMESPACE}::Undef");
-
-  unshift @_, $class and goto $class->can('new');
-
-}
-
-sub data_universal ($) {
-
-  my $class = load("${NAMESPACE}::Universal");
-
-  unshift @_, $class and goto $class->can('new');
-
-}
-
-sub deduce ($) {
-
-  my $data = shift;
-
-  # return undefined
-  if (not defined $data) {
-    return data_undef $data;
-  }
-
-  # handle blessed
-  elsif (Scalar::Util::blessed($data)) {
-    return data_regexp $data if $data->isa('Regexp');
-    return $data;
-  }
-
-  # handle defined
-  else {
-
-    # handle references
-    if (ref $data) {
-      return data_array $data if 'ARRAY' eq ref $data;
-      return data_hash $data  if 'HASH' eq ref $data;
-      return data_code $data  if 'CODE' eq ref $data;
-    }
-
-    # handle non-references
-    else {
-      if (Scalar::Util::looks_like_number($data)) {
-        return data_float $data  if $data =~ /\./;
-        return data_number $data if $data =~ /^\d+$/;
-        return data_integer $data;
-      }
-      else {
-        return data_string $data;
-      }
-    }
-
-    # handle unhandled
-    return data_scalar $data;
-
-  }
-
-  # fallback
-  return data_undef $data;
-
-}
-
-sub deduce_deep {
-
-  my @data = @_;
-
-  for my $data (@data) {
-    my $type;
-
-    $data = deduce($data);
-    $type = deduce_type($data);
-
-    if ($type and $type eq 'HASH') {
-      for my $i (keys %$data) {
-        my $val = $data->{$i};
-        $data->{$i} = ref($val) ? deduce_deep($val) : deduce($val);
-      }
-    }
-
-    if ($type and $type eq 'ARRAY') {
-      for (my $i = 0; $i < @$data; $i++) {
-        my $val = $data->[$i];
-        $data->[$i] = ref($val) ? deduce_deep($val) : deduce($val);
-      }
-    }
-  }
-
-  return wantarray ? (@data) : $data[0];
-
-}
-
-sub deduce_type ($) {
-
-  my $data = shift;
-
-  $data = deduce $data;
-
-  return "ARRAY" if $data->isa("${NAMESPACE}::Array");
-  return "HASH"  if $data->isa("${NAMESPACE}::Hash");
-  return "CODE"  if $data->isa("${NAMESPACE}::Code");
-
-  return "FLOAT"   if $data->isa("${NAMESPACE}::Float");
-  return "NUMBER"  if $data->isa("${NAMESPACE}::Number");
-  return "INTEGER" if $data->isa("${NAMESPACE}::Integer");
-
-  return "STRING" if $data->isa("${NAMESPACE}::String");
-  return "SCALAR" if $data->isa("${NAMESPACE}::Scalar");
-  return "REGEXP" if $data->isa("${NAMESPACE}::Regexp");
-
-  return "UNDEF"     if $data->isa("${NAMESPACE}::Undef");
-  return "UNIVERSAL" if $data->isa("${NAMESPACE}::Universal");
-
-  return undef;
-
-}
-
-sub detract ($) {
-
-  my $data = shift;
-
-  $data = deduce $data;
-
-  my $type = deduce_type $data;
-
-INSPECT:
-  return $data unless $type;
-
-  return [@$data] if $type eq 'ARRAY';
-  return {%$data} if $type eq 'HASH';
-  return $$data if $type eq 'REGEXP';
-  return $$data if $type eq 'FLOAT';
-  return $$data if $type eq 'NUMBER';
-  return $$data if $type eq 'INTEGER';
-  return $$data if $type eq 'STRING';
-  return undef  if $type eq 'UNDEF';
-
-  if ($type eq 'SCALAR' or $type eq 'UNIVERSAL') {
-
-    $type = Scalar::Util::reftype($data) // '';
-
-    return [@$data] if $type eq 'ARRAY';
-    return {%$data} if $type eq 'HASH';
-    return $$data if $type eq 'FLOAT';
-    return $$data if $type eq 'INTEGER';
-    return $$data if $type eq 'NUMBER';
-    return $$data if $type eq 'REGEXP';
-    return $$data if $type eq 'SCALAR';
-    return $$data if $type eq 'STRING';
-    return undef  if $type eq 'UNDEF';
-
-    if ($type eq 'REF') {
-      $type = deduce_type($data = $$data) and goto INSPECT;
-    }
-
-  }
-
-  if ($type eq 'CODE') {
-    return sub { goto &{$data} };
-  }
-
-  return undef;
-
-}
-
-sub detract_deep {
-
-  my @data = @_;
-
-  for my $data (@data) {
-    $data = detract($data);
-
-    if ($data and 'HASH' eq ref $data) {
-      for my $i (keys %$data) {
-        my $val = $data->{$i};
-        $data->{$i} = ref($val) ? detract_deep($val) : detract($val);
-      }
-    }
-
-    if ($data and 'ARRAY' eq ref $data) {
-      for (my $i = 0; $i < @$data; $i++) {
-        my $val = $data->[$i];
-        $data->[$i] = ref($val) ? detract_deep($val) : detract($val);
-      }
-    }
-  }
-
-  return wantarray ? (@data) : $data[0];
-
-}
-
-{
-
-  # aliases
-  no warnings 'once';
-
-  *type_array     = *data_array;
-  *type_code      = *data_code;
-  *type_float     = *data_float;
-  *type_hash      = *data_hash;
-  *type_integer   = *data_integer;
-  *type_number    = *data_number;
-  *type_regexp    = *data_regexp;
-  *type_scalar    = *data_scalar;
-  *type_string    = *data_string;
-  *type_undef     = *data_undef;
-  *type_universal = *data_universal;
-
+  shift and goto &cast;
 }
 
 1;
@@ -521,6 +87,39 @@ prefixed with the word "data".
 
 The type export tag will export all exportable functions whose names are
 prefixed with the word "type".
+
+=cut
+
+=function confess
+
+  # die with error and stacktrace
+
+  confess "ooops, something went wrong!";
+
+The confess function causes the program to die with a stacktrace. This function
+is passed in from the L<Carp> module.
+
+=cut
+
+=function croak
+
+  # die with error
+
+  croak "ooops, something went wrong!";
+
+The croak function causes the program to die from perspective of caller. This
+function is passed in from the L<Carp> module.
+
+=cut
+
+=function carp
+
+  # emit warning
+
+  carp "ooops, something went wrong!";
+
+The carp function causes the program to emit a warning from perspective of
+caller. This function is passed in from the L<Carp> module.
 
 =cut
 

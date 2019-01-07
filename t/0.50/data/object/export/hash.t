@@ -1,0 +1,48 @@
+use strict;
+use warnings;
+use Test::More;
+
+use_ok 'Data::Object::Export::Hash';
+
+can_ok 'Data::Object::Export::Hash', 'clear';
+can_ok 'Data::Object::Export::Hash', 'count';
+can_ok 'Data::Object::Export::Hash', 'defined';
+can_ok 'Data::Object::Export::Hash', 'delete';
+can_ok 'Data::Object::Export::Hash', 'each';
+can_ok 'Data::Object::Export::Hash', 'each_key';
+can_ok 'Data::Object::Export::Hash', 'each_n_values';
+can_ok 'Data::Object::Export::Hash', 'each_value';
+can_ok 'Data::Object::Export::Hash', 'empty';
+can_ok 'Data::Object::Export::Hash', 'eq';
+can_ok 'Data::Object::Export::Hash', 'exists';
+can_ok 'Data::Object::Export::Hash', 'filter_exclude';
+can_ok 'Data::Object::Export::Hash', 'filter_include';
+can_ok 'Data::Object::Export::Hash', 'fold';
+can_ok 'Data::Object::Export::Hash', 'ge';
+can_ok 'Data::Object::Export::Hash', 'get';
+can_ok 'Data::Object::Export::Hash', 'grep';
+can_ok 'Data::Object::Export::Hash', 'gt';
+can_ok 'Data::Object::Export::Hash', 'head';
+can_ok 'Data::Object::Export::Hash', 'invert';
+can_ok 'Data::Object::Export::Hash', 'iterator';
+can_ok 'Data::Object::Export::Hash', 'join';
+can_ok 'Data::Object::Export::Hash', 'keys';
+can_ok 'Data::Object::Export::Hash', 'le';
+can_ok 'Data::Object::Export::Hash', 'length';
+can_ok 'Data::Object::Export::Hash', 'list';
+can_ok 'Data::Object::Export::Hash', 'lookup';
+can_ok 'Data::Object::Export::Hash', 'lt';
+can_ok 'Data::Object::Export::Hash', 'map';
+can_ok 'Data::Object::Export::Hash', 'merge';
+can_ok 'Data::Object::Export::Hash', 'ne';
+can_ok 'Data::Object::Export::Hash', 'pairs';
+can_ok 'Data::Object::Export::Hash', 'reset';
+can_ok 'Data::Object::Export::Hash', 'reverse';
+can_ok 'Data::Object::Export::Hash', 'set';
+can_ok 'Data::Object::Export::Hash', 'slice';
+can_ok 'Data::Object::Export::Hash', 'sort';
+can_ok 'Data::Object::Export::Hash', 'tail';
+can_ok 'Data::Object::Export::Hash', 'unfold';
+can_ok 'Data::Object::Export::Hash', 'values';
+
+ok 1 and done_testing;
