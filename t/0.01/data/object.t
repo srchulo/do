@@ -7,6 +7,7 @@ use_ok 'Data::Object';
 subtest 'test module' => sub {
   can_ok 'Data::Object' => qw(
     load
+    data_any
     data_array
     data_code
     data_float
@@ -16,7 +17,6 @@ subtest 'test module' => sub {
     data_scalar
     data_string
     data_undef
-    data_universal
     deduce
     deduce_deep
     detract
@@ -30,7 +30,7 @@ subtest 'test module' => sub {
     type_scalar
     type_string
     type_undef
-    type_universal
+    type_any
   );
 };
 

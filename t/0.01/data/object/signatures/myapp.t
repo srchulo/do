@@ -2,7 +2,7 @@ use lib 't/0.01/lib';
 
 use Test::More;
 
-use Data::Object::Signatures qw(MyApp::Types);
+use Data::Object::Config::Routine qw(MyApp::Types);
 use Data::Object qw(deduce);
 
 fun greeting (AllCaps $name) {

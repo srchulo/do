@@ -104,7 +104,7 @@ L<Data::Object::Undef>
 
 =item *
 
-L<Data::Object::Universal>
+L<Data::Object::Any>
 
 =item *
 
@@ -116,7 +116,7 @@ L<Data::Object::Immutable>
 
 =item *
 
-L<Data::Object::Library>
+L<Data::Object::Config::Type>
 
 =item *
 
@@ -124,7 +124,7 @@ L<Data::Object::Prototype>
 
 =item *
 
-L<Data::Object::Signatures>
+L<Data::Object::Config::Routine>
 
 =back
 

@@ -1,38 +1,54 @@
 # ABSTRACT: Singleton Object for Perl 5
 package Data::Object::Singleton;
 
+use 5.014;
+
 use strict;
 use warnings;
 
-use 5.014;
-
-use Data::Object;
-use Data::Object::Library;
-use Data::Object::Signatures;
-use Scalar::Util;
-
-use parent 'Moo';
+use parent 'Data::Object::Class';
 
 # VERSION
 
-fun import ($class, @args) {
+sub import {
+  my ($class, @args) = @_;
 
   my $target = caller;
-  my $state  = undef;
 
-  eval "package $target; use Moo; 1;";
-
-  my $new   = $target->can('new');
-  my $renew = $target->can('renew');
+  eval "package $target; use Data::Object::Class; 1;";
 
   no strict 'refs';
 
-  *{"${target}::new"}   = sub { $state = $new->(@_) if !$state; $state };
-  *{"${target}::renew"} = sub { $state = $new->(@_) }
-    if !$renew;
+  *{"${target}::BUILD"} = $class->can('BUILD');
+  *{"${target}::RENEW"} = $class->can('RENEW');
 
   return;
+}
 
+sub BUILD {
+  my ($self, $args) = @_;
+
+  my $class = ref($self) || $self;
+
+  no strict 'refs';
+
+  ${"${class}::data"} = {%$self, %$args} if !${"${class}::data"};
+
+  $_[0] = bless ${"${class}::data"}, $class;
+
+  return $class;
+}
+
+sub RENEW {
+  my ($self, @args) = @_;
+
+  my $class = ref($self) || $self;
+
+  no strict 'refs';
+
+  undef ${"${class}::data"};
+
+  return $class->new(@args);
 }
 
 1;
@@ -57,18 +73,6 @@ Data::Object::Singleton inherits all methods and behaviour from L<Moo>.
 Please see that documentation for more usage information. Additionally, see
 L<Data::Object::Class::Syntax> which provides a DSL that makes declaring
 classes easier and more fun.
-
-=cut
-
-=method renew
-
-  Registry->new;   # returns instance
-  Registry->new;   # returns instance
-  Registry->renew; # returns NEW instance
-  Registry->new;   # returns instance
-
-The renew method performs the same function as the C<new> method, returning a
-new instance of the class, and makes the new instance a singleton.
 
 =cut
 
@@ -134,7 +138,7 @@ L<Data::Object::Undef>
 
 =item *
 
-L<Data::Object::Universal>
+L<Data::Object::Any>
 
 =item *
 
@@ -146,7 +150,7 @@ L<Data::Object::Immutable>
 
 =item *
 
-L<Data::Object::Library>
+L<Data::Object::Config::Type>
 
 =item *
 
@@ -154,7 +158,7 @@ L<Data::Object::Prototype>
 
 =item *
 
-L<Data::Object::Signatures>
+L<Data::Object::Config::Routine>
 
 =back
 

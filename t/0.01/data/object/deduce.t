@@ -3,6 +3,7 @@ use warnings;
 use Test::More;
 
 plan skip_all => 'Missing implicit dependencies. Tests skipped.' unless eval q(
+    require Data::Object::Any;
     require Data::Object::Array;
     require Data::Object::Code;
     require Data::Object::Float;
@@ -12,7 +13,6 @@ plan skip_all => 'Missing implicit dependencies. Tests skipped.' unless eval q(
     require Data::Object::Scalar;
     require Data::Object::String;
     require Data::Object::Undef;
-    require Data::Object::Universal;
     1;
 );
 

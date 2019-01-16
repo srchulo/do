@@ -6,14 +6,14 @@ use 5.014;
 use strict;
 use warnings;
 
-use Data::Object::Export ':all';
+use Data::Object::Config ':all';
 
 use parent 'Exporter';
 
 # VERSION
 
-our @EXPORT_OK = @Data::Object::Export::EXPORT_OK;
-our %EXPORT_TAGS = %Data::Object::Export::EXPORT_TAGS;
+our @EXPORT_OK = @Data::Object::Config::EXPORT_OK;
+our %EXPORT_TAGS = %Data::Object::Config::EXPORT_TAGS;
 
 sub new {
   shift and goto &cast;
@@ -66,9 +66,9 @@ The all export tag will export all exportable functions.
 
   use Data::Object qw(:core);
 
-The core export tag will export the exportable functions C<const>, C<deduce>,
-C<deduce_deep>, C<detract>, C<detract_deep>, C<immutable>, C<load>, C<prototype>,
-C<reify>, and C<throw> exclusively.
+The core export tag will export the exportable functions C<cast>, C<const>,
+C<deduce>, C<deduce_deep>, C<detract>, C<detract_deep>, C<immutable>, C<load>,
+C<prototype>, and C<throw> exclusively.
 
 =cut
 
@@ -87,6 +87,17 @@ prefixed with the word "data".
 
 The type export tag will export all exportable functions whose names are
 prefixed with the word "type".
+
+=cut
+
+=function cast
+
+  # given [1..9];
+
+  $array = cast [1..9]; # Data::Object::Array
+
+The cast function will determine the type of the value provided and return it
+as a data type object. This method is an alias to the C<deduce_deep> function.
 
 =cut
 
@@ -132,6 +143,19 @@ caller. This function is passed in from the L<Carp> module.
 The const function creates a constant function using the name and expression
 supplied to it. A constant function is a function that does not accept any
 arguments and whose result(s) are deterministic.
+
+=cut
+
+=function data_any
+
+  # given \*main;
+
+  $object = data_any \*main;
+  $object->isa('Data::Object::Any');
+
+The data_any function returns a L<Data::Object::Any> instance which
+wraps the provided data type and can be used to perform operations on the data.
+The C<type_any> function is an alias to this function.
 
 =cut
 
@@ -265,19 +289,6 @@ C<type_undef> function is an alias to this function.
 
 =cut
 
-=function data_universal
-
-  # given 0;
-
-  $object = data_universal 0;
-  $object->isa('Data::Object::Universal');
-
-The data_universal function returns a L<Data::Object::Universal> instance which
-wraps the provided data type and can be used to perform operations on the data.
-The C<type_universal> function is an alias to this function.
-
-=cut
-
 =function deduce
 
   # given qr/\w+/;
@@ -393,17 +404,6 @@ provided.
 
 =cut
 
-=function reify
-
-  # given [1..9];
-
-  $array = reify [1..9]; # Data::Object::Array
-
-The reify function will determine the type of the value provided and return it
-as a data type object. This method is an alias to the C<deduce_deep> function.
-
-=cut
-
 =function throw
 
   # given $message;
@@ -477,7 +477,7 @@ L<Data::Object::Undef>
 
 =item *
 
-L<Data::Object::Universal>
+L<Data::Object::Any>
 
 =item *
 
@@ -489,7 +489,7 @@ L<Data::Object::Immutable>
 
 =item *
 
-L<Data::Object::Library>
+L<Data::Object::Config::Type>
 
 =item *
 
@@ -497,7 +497,7 @@ L<Data::Object::Prototype>
 
 =item *
 
-L<Data::Object::Signatures>
+L<Data::Object::Config::Routine>
 
 =back
 

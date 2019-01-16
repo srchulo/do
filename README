@@ -1,3 +1,11 @@
+NAME
+
+    Data::Object - Object Orientation for Perl 5
+
+VERSION
+
+    version 0.80
+
 SYNOPSIS
 
       use Data::Object;
@@ -27,25 +35,49 @@ DESCRIPTION
     distribution provides classes which wrap Perl 5 native data types and
     provides methods for operating on the data.
 
+EXPORTS
+
+ all
+
       use Data::Object qw(:all);
 
     The all export tag will export all exportable functions.
 
+ core
+
       use Data::Object qw(:core);
 
-    The core export tag will export the exportable functions const, deduce,
-    deduce_deep, detract, detract_deep, immutable, load, prototype, reify,
+    The core export tag will export the exportable functions cast, const,
+    deduce, deduce_deep, detract, detract_deep, immutable, load, prototype,
     and throw exclusively.
+
+ data
 
       use Data::Object qw(:data);
 
     The data export tag will export all exportable functions whose names
     are prefixed with the word "data".
 
+ type
+
       use Data::Object qw(:type);
 
     The type export tag will export all exportable functions whose names
     are prefixed with the word "type".
+
+FUNCTIONS
+
+ cast
+
+      # given [1..9];
+    
+      $array = cast [1..9]; # Data::Object::Array
+
+    The cast function will determine the type of the value provided and
+    return it as a data type object. This method is an alias to the
+    deduce_deep function.
+
+ confess
 
       # die with error and stacktrace
     
@@ -54,12 +86,16 @@ DESCRIPTION
     The confess function causes the program to die with a stacktrace. This
     function is passed in from the Carp module.
 
+ croak
+
       # die with error
     
       croak "ooops, something went wrong!";
 
     The croak function causes the program to die from perspective of
     caller. This function is passed in from the Carp module.
+
+ carp
 
       # emit warning
     
@@ -68,6 +104,8 @@ DESCRIPTION
     The carp function causes the program to emit a warning from perspective
     of caller. This function is passed in from the Carp module.
 
+ const
+
       # given 1.098765;
     
       const VERSION => 1.098765;
@@ -75,6 +113,19 @@ DESCRIPTION
     The const function creates a constant function using the name and
     expression supplied to it. A constant function is a function that does
     not accept any arguments and whose result(s) are deterministic.
+
+ data_any
+
+      # given \*main;
+    
+      $object = data_any \*main;
+      $object->isa('Data::Object::Any');
+
+    The data_any function returns a Data::Object::Any instance which wraps
+    the provided data type and can be used to perform operations on the
+    data. The type_any function is an alias to this function.
+
+ data_array
 
       # given [2..5];
     
@@ -85,6 +136,8 @@ DESCRIPTION
     wraps the provided data type and can be used to perform operations on
     the data. The type_array function is an alias to this function.
 
+ data_code
+
       # given sub { 1 };
     
       $object = data_code sub { 1 };
@@ -93,6 +146,8 @@ DESCRIPTION
     The data_code function returns a Data::Object::Code instance which
     wraps the provided data type and can be used to perform operations on
     the data. The type_code function is an alias to this function.
+
+ data_float
 
       # given 5.25;
     
@@ -103,6 +158,8 @@ DESCRIPTION
     wraps the provided data type and can be used to perform operations on
     the data. The type_float function is an alias to this function.
 
+ data_hash
+
       # given {1..4};
     
       $object = data_hash {1..4};
@@ -111,6 +168,8 @@ DESCRIPTION
     The data_hash function returns a Data::Object::Hash instance which
     wraps the provided data type and can be used to perform operations on
     the data. The type_hash function is an alias to this function.
+
+ data_integer
 
       # given -100;
     
@@ -121,6 +180,8 @@ DESCRIPTION
     wraps the provided data type and can be used to perform operations on
     the data. The type_integer function is an alias to this function.
 
+ data_number
+
       # given 100;
     
       $object = data_number 100;
@@ -129,6 +190,8 @@ DESCRIPTION
     The data_number function returns a Data::Object::Number instance which
     wraps the provided data type and can be used to perform operations on
     the data. The type_number function is an alias to this function.
+
+ data_regexp
 
       # given qr/test/;
     
@@ -139,6 +202,8 @@ DESCRIPTION
     wraps the provided data type and can be used to perform operations on
     the data. The type_regexp function is an alias to this function.
 
+ data_scalar
+
       # given \*main;
     
       $object = data_scalar \*main;
@@ -147,6 +212,8 @@ DESCRIPTION
     The data_scalar function returns a Data::Object::Scalar instance which
     wraps the provided data type and can be used to perform operations on
     the data. The type_scalar function is an alias to this function.
+
+ data_string
 
       # given 'abcdefghi';
     
@@ -157,6 +224,8 @@ DESCRIPTION
     wraps the provided data type and can be used to perform operations on
     the data. The type_string function is an alias to this function.
 
+ data_undef
+
       # given undef;
     
       $object = data_undef undef;
@@ -166,15 +235,7 @@ DESCRIPTION
     wraps the provided data type and can be used to perform operations on
     the data. The type_undef function is an alias to this function.
 
-      # given 0;
-    
-      $object = data_universal 0;
-      $object->isa('Data::Object::Universal');
-
-    The data_universal function returns a Data::Object::Universal instance
-    which wraps the provided data type and can be used to perform
-    operations on the data. The type_universal function is an alias to this
-    function.
+ deduce
 
       # given qr/\w+/;
     
@@ -183,6 +244,8 @@ DESCRIPTION
 
     The deduce function returns a data type object instance based upon the
     deduced type of data provided.
+
+ deduce_deep
 
       # given {1,2,3,{4,5,6,[-1]}}
     
@@ -200,6 +263,8 @@ DESCRIPTION
     provided is complex, this function traverses the data converting all
     nested data to objects. Note: Blessed objects are not traversed.
 
+ deduce_type
+
       # given qr/\w+/;
     
       $type = deduce_type qr/\w+/; # REGEXP
@@ -207,12 +272,16 @@ DESCRIPTION
     The deduce_type function returns a data type description for the type
     of data provided, represented as a string in capital letters.
 
+ detract
+
       # given bless({1..4}, 'Data::Object::Hash');
     
       $object = detract $object; # {1..4}
 
     The detract function returns a value of native type, based upon the
     underlying reference of the data type object provided.
+
+ detract_deep
 
       # given {1,2,3,{4,5,6,[-1, 99, bless({}), sub { 123 }]}};
     
@@ -232,6 +301,8 @@ DESCRIPTION
     nested data type objects into native values using the objects
     underlying reference. Note: Blessed objects are not traversed.
 
+ immutable
+
       # given [1,2,3];
     
       $object = immutable data_array [1,2,3];
@@ -241,12 +312,16 @@ DESCRIPTION
     This function loads Data::Object::Immutable and returns the object
     provided as an argument.
 
+ load
+
       # given 'List::Util';
     
       $package = load 'List::Util'; # List::Util if loaded
 
     The load function attempts to dynamically load a module and either dies
     or returns the package name of the loaded module.
+
+ prototype
 
       # given ('$name' => [is => 'ro']);
     
@@ -259,13 +334,7 @@ DESCRIPTION
     Data::Object::Prototype and returns an object based on the arguments
     provided.
 
-      # given [1..9];
-    
-      $array = reify [1..9]; # Data::Object::Array
-
-    The reify function will determine the type of the value provided and
-    return it as a data type object. This method is an alias to the
-    deduce_deep function.
+ throw
 
       # given $message;
     
@@ -305,136 +374,30 @@ SEE ALSO
 
       * Data::Object::Undef
 
-      * Data::Object::Universal
+      * Data::Object::Any
 
       * Data::Object::Autobox
 
       * Data::Object::Immutable
 
-      * Data::Object::Library
+      * Data::Object::Config::Type
 
       * Data::Object::Prototype
 
-      * Data::Object::Signatures
+      * Data::Object::Config::Routine
 
-POD ERRORS
+AUTHOR
 
-    Hey! The above document had some coding errors, which are explained
-    below:
+    Al Newkirk <al@iamalnewkirk.com>
 
-    Around line 32:
+CONTRIBUTOR
 
-      Unknown directive: =export
+    Anthony Brummett <abrummet@genome.wustl.edu>
 
-    Around line 38:
+COPYRIGHT AND LICENSE
 
-      Unknown directive: =export
+    This software is copyright (c) 2011 by Al Newkirk.
 
-    Around line 46:
-
-      Unknown directive: =export
-
-    Around line 53:
-
-      Unknown directive: =export
-
-    Around line 60:
-
-      Unknown directive: =function
-
-    Around line 69:
-
-      Unknown directive: =function
-
-    Around line 78:
-
-      Unknown directive: =function
-
-    Around line 87:
-
-      Unknown directive: =function
-
-    Around line 97:
-
-      Unknown directive: =function
-
-    Around line 108:
-
-      Unknown directive: =function
-
-    Around line 119:
-
-      Unknown directive: =function
-
-    Around line 130:
-
-      Unknown directive: =function
-
-    Around line 141:
-
-      Unknown directive: =function
-
-    Around line 152:
-
-      Unknown directive: =function
-
-    Around line 163:
-
-      Unknown directive: =function
-
-    Around line 174:
-
-      Unknown directive: =function
-
-    Around line 185:
-
-      Unknown directive: =function
-
-    Around line 196:
-
-      Unknown directive: =function
-
-    Around line 207:
-
-      Unknown directive: =function
-
-    Around line 218:
-
-      Unknown directive: =function
-
-    Around line 228:
-
-      Unknown directive: =function
-
-    Around line 246:
-
-      Unknown directive: =function
-
-    Around line 255:
-
-      Unknown directive: =function
-
-    Around line 264:
-
-      Unknown directive: =function
-
-    Around line 284:
-
-      Unknown directive: =function
-
-    Around line 295:
-
-      Unknown directive: =function
-
-    Around line 304:
-
-      Unknown directive: =function
-
-    Around line 317:
-
-      Unknown directive: =function
-
-    Around line 326:
-
-      Unknown directive: =function
+    This is free software; you can redistribute it and/or modify it under
+    the same terms as the Perl 5 programming language system itself.
 

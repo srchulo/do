@@ -1,6 +1,27 @@
 Changelog for Data-Object
 
-0.70 2019-01-07T13:11:12
+0.80 2019-01-16T03:41:01
+ - Fixed ordering where data_any occurs
+ - Moved Universal namespaces to Any
+ - Reorganized Data::Object::Config
+ - Refactor type library
+ - Move Data::Object::Library to Data::Object::Config::Type
+ - Move Data::Object::Signatures to Data::Object::Config::Routine
+ - Move Export namespace to Config
+ - Add basic tests for new functions
+ - Add ability to delete namespaces
+ - Create functions for module name casing
+ - Rename "do" flags
+ - Better type reifier
+ - Cleanup Data::Object::Library
+ - Remove Data::Object::Util
+ - Fix Singleton implementation
+ - Rename reifiy to cast
+ - Fixed README errors
+ - Build 0.70
+
+0.70 2019-01-07T13:14:22
+ - Built release version 0.70
  - Added exportable functions for better composability
  - Added placeholder caller modifying export modules
  - Moved functions into Export namespace

@@ -8,7 +8,7 @@ use warnings;
 
 use Import::Into;
 
-use Data::Object::Export ':all';
+use Data::Object::Config ':all';
 
 # VERSION
 
@@ -22,23 +22,31 @@ sub import {
   import_into($target, 'warnings');
   import_into($target, 'feature', 'say');
 
-  # signatures (types and libraries)
-  import_into($target, 'Data::Object::Library');
-  import_into($target, 'Data::Object::Signatures');
+  # signatures
+  import_into($target, 'Data::Object::Config::Routine');
 
-  if ($type and ($type eq '-ex' || $type eq '-core')) {
+  # -pl i.e. perl lib
+  if ($type and ($type eq '-pl' || $type eq '-lib')) {
     import_core_config($target);
   }
 
-  if ($type and ($type eq '-ec' || $type eq '-class')) {
+  # -pm i.e. perl module
+  if ($type and ($type eq '-pm' || $type eq '-mod')) {
+    import_core_config($target);
+  }
+
+  # -pc i.e. perl class
+  if ($type and ($type eq '-pc' || $type eq '-class')) {
     import_class_config($target);
   }
 
-  if ($type and ($type eq '-er' || $type eq '-role')) {
+  # -pr i.e. perl role
+  if ($type and ($type eq '-pr' || $type eq '-role')) {
     import_role_config($target);
   }
 
-  if ($type and ($type eq '-es' || $type eq '-script')) {
+  # -ps i.e. perl script
+  if ($type and ($type eq '-ps' || $type eq '-script')) {
     import_script_config($target);
   }
 
@@ -56,7 +64,7 @@ sub import_into {
 sub import_core_config {
   my ($target) = @_;
 
-  import_into($target, 'Data::Object::Export::Core');
+  import_into($target, 'Data::Object::Config::Core');
 
   return;
 }
@@ -76,7 +84,7 @@ sub import_role_config {
 sub import_script_config {
   my ($target) = @_;
 
-  import_into($target, 'Data::Object::Export::Script');
+  import_into($target, 'Data::Object::Config::Script');
 
   return;
 }
@@ -97,8 +105,8 @@ is equivalent to
   use warnings;
   use feature 'say';
 
-  use Data::Object::Library;
-  use Data::Object::Signatures;
+  use Data::Object::Config::Type;
+  use Data::Object::Config::Routine;
 
 =head1 DESCRIPTION
 
@@ -171,7 +179,7 @@ L<Data::Object::Undef>
 
 =item *
 
-L<Data::Object::Universal>
+L<Data::Object::Any>
 
 =item *
 
@@ -183,7 +191,7 @@ L<Data::Object::Immutable>
 
 =item *
 
-L<Data::Object::Library>
+L<Data::Object::Config::Type>
 
 =item *
 
@@ -191,7 +199,7 @@ L<Data::Object::Prototype>
 
 =item *
 
-L<Data::Object::Signatures>
+L<Data::Object::Config::Routine>
 
 =back
 

@@ -5,7 +5,7 @@ use Test::More;
 use Test::TypeTiny;
 
 use Data::Object qw(deduce);
-use Data::Object::Library qw(
+use Data::Object::Config::Type qw(
   FloatObj
   FloatObject
   Object
