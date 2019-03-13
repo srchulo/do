@@ -7,10 +7,10 @@ plan skip_all => 'Missing implicit dependencies. Tests skipped.' unless eval q(
     1;
 );
 
-use Data::Object 'type_any';
+use Data::Object::Export 'type_any';
 use Scalar::Util 'refaddr';
 
-can_ok 'Data::Object', 'type_any';
+can_ok 'Data::Object::Export', 'type_any';
 
 subtest 'test the type_any function' => sub {
   my $universal1 = type_any 'Test::More';

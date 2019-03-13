@@ -1,17 +1,18 @@
 package Data::Object::Registry;
 
-use 5.014;
-
 use strict;
 use warnings;
 
-use Data::Object::Singleton;
+use Data::Object::State;
 use Type::Registry;
 
-# VERSION
+use parent 'Data::Object::Kind';
+
+# BUILD
+# METHODS
 
 sub def {
-  'Data::Object::Config::Type';
+  'Data::Object::Config::Library';
 }
 
 sub get {

@@ -2,10 +2,10 @@ use strict;
 use warnings;
 use Test::More;
 
-use_ok 'Data::Object';
+use_ok 'Data::Object::Export';
 
 subtest 'test module' => sub {
-  can_ok 'Data::Object' => qw(
+  can_ok 'Data::Object::Export' => qw(
     load
     data_any
     data_array

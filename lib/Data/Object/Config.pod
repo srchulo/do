@@ -1,0 +1,356 @@
+
+=encoding utf8
+
+=head1 NAME
+
+Data::Object::Config
+
+=cut
+
+=head1 ABSTRACT
+
+Data-Object Package Configuration
+
+=cut
+
+=head1 SYNOPSIS
+
+  use Data::Object::Config;
+
+=cut
+
+=head1 DESCRIPTION
+
+Data::Object::Config is used to configure the consuming package based on
+arguments passed to the import statement.
+
+=cut
+
+=head1 FUNCTIONS
+
+This package implements the following functions.
+
+=cut
+
+=head2 choose
+
+  choose('class');
+
+The choose function returns the configuration (plans) based on the argument passed.
+
+=cut
+
+=head2 prepare
+
+  prepare($package, $type);
+
+The prepare function returns configuration plans based on the arguments passed.
+
+=cut
+
+=head2 process
+
+  process($caller, $plans);
+
+The process function executes a series of plans on behalf of the caller.
+
+=cut
+
+=head2 prepare_add
+
+  prepare_add($package, $function);
+
+The prepare_add function returns an add-plan for the arguments passed.
+
+=cut
+
+=head2 process_add
+
+  process_add($caller, $plan);
+
+The process_add function executes the add-plan on behalf of the caller.
+
+=cut
+
+=head2 prepare_call
+
+  prepare_call($function, @args);
+
+The prepare_call function returns a call-plan for the arguments passed.
+
+=cut
+
+=head2 process_call
+
+  process_call($caller, $plan);
+
+The process_call function executes the call-plan on behalf of the caller.
+
+=cut
+
+=head2 prepare_use
+
+  prepare_use($package, @args);
+
+The prepare_use function returns a use-plan for the arguments passed.
+
+=cut
+
+=head2 process_use
+
+  process_use($caller, $plan);
+
+The process_use function executes the use-plan on behalf of the caller.
+
+=cut
+
+=head2 subject
+
+  subject('-Role', 'Role');
+
+The subject function returns truthy if both arguments match alphanumerically (not case-sensitive).
+
+=cut
+
+=head2 config
+
+  my $plans = config;
+
+The config function returns plans for configuring a package with the standard
+L<Data::Object> setup.
+
+=cut
+
+=head2 config_cli
+
+  my $plans = config_cli;
+
+The config_cli function returns plans for configuring the package to be a
+L<Data::Object::Class> which extends L<Data::Object::Cli>.
+
+=cut
+
+=head2 config_array
+
+  my $plans = config_array;
+
+The config_array function returns plans for configuring the package to be a
+L<Data::Object::Class> which extends L<Data::Object::Array>.
+
+=cut
+
+=head2 config_code
+
+  my $plans = config_code;
+
+The config_code function returns plans for configuring the package to be a
+L<Data::Object::Class> which extends L<Data::Object::Code>.
+
+=cut
+
+=head2 config_dispatch
+
+  my $plans = config_dispatch;
+
+The config_dispatch function returns plans for configuring the package to be a
+L<Data::Object::Class> which extends L<Data::Object::Dispatch>.
+
+=cut
+
+=head2 config_exception
+
+  my $plans = config_exception;
+
+The config_exception function returns plans for configuring the package to be a
+L<Data::Object::Class> which extends L<Data::Object::Exception>.
+
+=cut
+
+=head2 config_float
+
+  my $plans = config_float;
+
+The config_float function returns plans for configuring the package to be a
+L<Data::Object::Class> which extends L<Data::Object::Float>.
+
+=cut
+
+=head2 config_hash
+
+  my $plans = config_hash;
+
+The config_hash function returns plans for configuring the package to be a
+L<Data::Object::Class> which extends L<Data::Object::Hash>.
+
+=cut
+
+=head2 config_integer
+
+  my $plans = config_integer;
+
+The config_integer function returns plans for configuring the package to be a
+L<Data::Object::Class> which extends L<Data::Object::Integer>.
+
+=cut
+
+=head2 config_json
+
+  my $plans = config_json;
+
+The config_json function returns plans for configuring the package to have a
+C<json> function that loads a L<Data::Object::Json> object.
+
+=cut
+
+=head2 config_kind
+
+  my $plans = config_kind;
+
+The config_kind function returns plans for configuring the package to be a
+L<Data::Object::Class> which extends L<Data::Object::Kind>.
+
+=cut
+
+=head2 config_number
+
+  my $plans = config_number;
+
+The config_number function returns plans for configuring the package to be a
+L<Data::Object::Class> which extends L<Data::Object::Number>.
+
+=cut
+
+=head2 config_path
+
+  my $plans = config_path;
+
+The config_path function returns plans for configuring the package to have a
+C<path> function that loads a L<Data::Object::Path> object.
+
+=cut
+
+=head2 config_regexp
+
+  my $plans = config_regexp;
+
+The config_regexp function returns plans for configuring the package to be a
+L<Data::Object::Class> which extends L<Data::Object::Regexp>.
+
+=cut
+
+=head2 config_replace
+
+  my $plans = config_replace;
+
+The config_replace function returns plans for configuring the package to be a
+L<Data::Object::Class> which extends L<Data::Object::Replace>.
+
+=cut
+
+=head2 config_scalar
+
+  my $plans = config_scalar;
+
+The config_scalar function returns plans for configuring the package to be a
+L<Data::Object::Class> which extends L<Data::Object::Scalar>.
+
+=cut
+
+=head2 config_search
+
+  my $plans = config_search;
+
+The config_search function returns plans for configuring the package to be a
+L<Data::Object::Class> which extends L<Data::Object::Search>.
+
+=cut
+
+=head2 config_state
+
+  my $plans = config_state;
+
+The config_state function returns plans for configuring the package to be a
+L<Data::Object::Class> which extends L<Data::Object::State>.
+
+=cut
+
+=head2 config_string
+
+  my $plans = config_string;
+
+The config_string function returns plans for configuring the package to be a
+L<Data::Object::Class> which extends L<Data::Object::String>.
+
+=cut
+
+=head2 config_tmpl
+
+  my $plans = config_tmpl;
+
+The config_tmpl function returns plans for configuring the package to have a
+C<tmpl> function that loads a L<Data::Object::Template> object.
+
+=cut
+
+=head2 config_try
+
+  my $plans = config_try;
+
+The config_try function returns plans for configuring the package to have
+C<try> and C<catch> constructs for trapping exceptions.
+
+=cut
+
+=head2 config_type
+
+  my $plans = config_type;
+
+The config_type function returns plans for configuring the package to be a
+L<Data::Object::Class> which extends L<Data::Object::Type>.
+
+=cut
+
+=head2 config_yaml
+
+  my $plans = config_yaml;
+
+The config_yaml function returns plans for configuring the package to have a
+C<yaml> function that loads a L<Data::Object::Yaml> object.
+
+=cut
+
+=head2 config_undef
+
+  my $plans = config_undef;
+
+The config_undef function returns plans for configuring the package to be a
+L<Data::Object::Class> which extends L<Data::Object::Undef>.
+
+=cut
+
+=head2 config_class
+
+  my $plans = config_class;
+
+The config_class function returns plans for configuring the package to be a
+L<Data::Object::Class>.
+
+=cut
+
+=head2 config_role
+
+  my $plans = config_role;
+
+The config_role function returns plans for configuring the package to be a
+L<Data::Object::Role>.
+
+=cut
+
+=head2 config_rule
+
+  my $plans = config_rule;
+
+The config_rule function returns plans for configuring a package to be a
+L<Data::Object::Rule>.
+
+=cut

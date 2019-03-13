@@ -1,0 +1,172 @@
+
+=encoding utf8
+
+=head1 NAME
+
+Data::Object::Type
+
+=cut
+
+=head1 ABSTRACT
+
+Data-Object Type Constraint Builder
+
+=cut
+
+=head1 SYNOPSIS
+
+  package App::Type::Id;
+
+  use parent 'Data::Object::Type';
+
+  sub name {
+    return 'Id';
+  }
+
+  sub parent {
+    return 'Str';
+  }
+
+  sub namespace {
+    return 'App::Type::Library';
+  }
+
+  sub validation {
+    my ($self, $data) = @_;
+
+    return 0 if !$data;
+
+    return 0 if $data !~ /^\d+$/;
+
+    return 1;
+  }
+
+=cut
+
+=head1 DESCRIPTION
+
+Data::Object::Type is an abstract base class for type constraint builder
+classes.
+
+=cut
+
+=head1 METHODS
+
+This package implements the following methods.
+
+=cut
+
+=head2 new
+
+  my $data = Data::Object::Type->new();
+
+Construct a new object.
+
+=cut
+
+=head2 name
+
+  my $name = $data->name();
+
+The name method returns the name of the data type.
+
+=cut
+
+=head2 aliases
+
+  my $aliases = $data->aliases();
+
+The aliases method returns aliases to register in the type library.
+
+=cut
+
+=head2 coercions
+
+  my $coercions = $data->coercions();
+
+The coercions method returns coercions to configure on the type constraint.
+
+=cut
+
+=head2 parent
+
+  my $parent = $data->parent();
+
+The parent method represents the type expression (or parent type) that its type
+should derive from.
+
+=cut
+
+=head2 library
+
+  my $library = $data->library();
+
+The library method returns an instance of the type library instance.
+
+=cut
+
+=head2 namespace
+
+  my $namespace = $data->namespace();
+
+The namespace method returns the name of the data type.
+
+=cut
+
+=head2 register
+
+  my $register = $data->register();
+
+The register method registers the built type constraint in the specified type
+library.
+
+=cut
+
+=head2 validator
+
+  my $validator = $data->validator();
+
+The validator method returns the built type constraint object.
+
+=cut
+
+=head2 options
+
+  my $options = $data->options();
+
+The options method is used internally to create the options for building the
+L<Type::Tiny> type constraint.
+
+=cut
+
+=head2 validation
+
+  my $validation = $self->validation();
+
+The validation method returns truthy if type check is valid.
+
+=cut
+
+=head2 coercion_generator
+
+  my $coercion_generator = $self->coercion_generator();
+
+coercion_generator
+
+=cut
+
+=head2 constraint_generator
+
+  my $constraint_generator = $self->constraint_generator();
+
+constraint_generator
+
+=cut
+
+=head2 explaination_generator
+
+  my $explaination_generator = $self->explaination_generator();
+
+The explaination_generator method returns the explaination for the type check failure.
+
+=cut

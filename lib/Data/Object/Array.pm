@@ -1,1121 +1,948 @@
-# ABSTRACT: Array Object for Perl 5
 package Data::Object::Array;
 
-use strict;
-use warnings;
+use Try::Tiny;
 
-use 5.014;
-
-use Data::Object;
 use Data::Object::Class;
-use Data::Object::Config::Type;
-use Data::Object::Config::Routine;
-use Scalar::Util;
+use Data::Object::Export qw(
+  cast
+  croak
+  load
+);
 
-with 'Data::Object::Role::Array';
+map with($_), my @roles = qw(
+  Data::Object::Role::Detract
+  Data::Object::Role::Dumper
+  Data::Object::Role::Output
+  Data::Object::Role::Throwable
+  Data::Object::Role::Type
+);
 
-# VERSION
+map with($_), my @rules = qw(
+  Data::Object::Rule::Collection
+  Data::Object::Rule::Comparison
+  Data::Object::Rule::Defined
+  Data::Object::Rule::List
+);
 
-method new ($class: @args) {
+use overload (
+  '""'     => 'data',
+  '~~'     => 'data',
+  '@{}'    => 'self',
+  fallback => 1
+);
 
-  my $arg  = @args > 1 ? [@args] : $args[0];
+use parent 'Data::Object::Kind';
+
+# BUILD
+
+sub new {
+  my ($class, $arg) = @_;
+
   my $role = 'Data::Object::Role::Type';
 
-  $arg = $arg->data
-    if Scalar::Util::blessed($arg)
-    and $arg->can('does')
-    and $arg->does($role);
-
-  Data::Object::throw('Type Instantiation Error: Not an ArrayRef')
-    unless ref($arg) eq 'ARRAY';
-
-  return bless $arg, $class;
-
-}
-
-our @METHODS = @{__PACKAGE__->methods};
-
-my $exclude = qr/^data|detract|new$/;
-
-around [grep { !/$exclude/ } @METHODS] => fun($orig, $self, @args) {
-
-  my $results = $self->$orig(@args);
-
-  return Data::Object::deduce_deep($results);
-
-};
-
-around 'list' => fun($orig, $self, @args) {
-
-  my $results = $self->$orig(@args);
-
-  return wantarray ? (@$results) : $results;
-
-};
-
-1;
-
-=encoding utf8
-
-=head1 SYNOPSIS
-
-  use Data::Object::Array;
-
-  my $array = Data::Object::Array->new([1..9]);
-
-=cut
-
-=head1 DESCRIPTION
-
-Data::Object::Array provides routines for operating on Perl 5 array
-references. Array methods work on array references. Users of these methods
-should be aware of the methods that modify the array reference itself as opposed
-to returning a new array reference. Unless stated, it may be safe to assume that
-the following methods copy, modify and return new array references based on
-their function.
-
-=cut
-
-=head1 COMPOSITION
-
-This package inherits all functionality from the L<Data::Object::Role::Array>
-role and implements proxy methods as documented herewith.
-
-=cut
-
-=head1 CODIFICATION
-
-Certain methods provided by the this module support codification, a process
-which converts a string argument into a code reference which can be used to
-supply a callback to the method called. A codified string can access its
-arguments by using variable names which correspond to letters in the alphabet
-which represent the position in the argument list. For example:
-
-  $array->example('$a + $b * $c', 100);
-
-  # if the example method does not supply any arguments automatically then
-  # the variable $a would be assigned the user-supplied value of 100,
-  # however, if the example method supplies two arguments automatically then
-  # those arugments would be assigned to the variables $a and $b whereas $c
-  # would be assigned the user-supplied value of 100
-
-  # e.g.
-
-  $array->each('the value at $index is $value');
-
-  # or
-
-  $array->each_n_values(4, 'the value at $index0 is $value0');
-
-  # etc
-
-Any place a codified string is accepted, a coderef or L<Data::Object::Code>
-object is also valid. Arguments are passed through the usual C<@_> list.
-
-=cut
-
-=head1 ROLES
-
-This package is comprised of the following roles.
-
-=over 4
-
-=item *
-
-L<Data::Object::Role::Collection>
-
-=item *
-
-L<Data::Object::Role::Comparison>
-
-=item *
-
-L<Data::Object::Role::Defined>
-
-=item *
-
-L<Data::Object::Role::Detract>
-
-=item *
-
-L<Data::Object::Role::Dumper>
-
-=item *
-
-L<Data::Object::Role::Item>
-
-=item *
-
-L<Data::Object::Role::List>
-
-=item *
-
-L<Data::Object::Role::Output>
-
-=item *
-
-L<Data::Object::Role::Throwable>
-
-=item *
-
-L<Data::Object::Role::Type>
-
-=back
-
-=cut
-
-=method all
-
-  # given [2..5]
-
-  $array->all('$value > 1'); # 1; true
-  $array->all('$value > 3'); # 0; false
-
-The all method returns true if all of the elements in the array meet the
-criteria set by the operand and rvalue. This method supports codification, i.e,
-takes an argument which can be a codifiable string, a code reference, or a code
-data type object. This method returns a L<Data::Object::Number> object.
-
-=cut
-
-=method any
-
-  # given [2..5]
-
-  $array->any('$value > 5'); # 0; false
-  $array->any('$value > 3'); # 1; true
-
-The any method returns true if any of the elements in the array meet the
-criteria set by the operand and rvalue. This method supports codification, i.e,
-takes an argument which can be a codifiable string, a code reference, or a code
-data type object. This method returns a L<Data::Object::Number> object.
-
-=cut
-
-=method clear
-
-  # given ['a'..'g']
-
-  $array->clear; # []
-
-The clear method is an alias to the empty method. This method returns a
-L<Data::Object::Undef> object. This method is an alias to the empty method.
-Note: This method modifies the array.
-
-=cut
-
-=method count
-
-  # given [1..5]
-
-  $array->count; # 5
-
-The count method returns the number of elements within the array. This method
-returns a L<Data::Object::Number> object.
-
-=cut
-
-=method data
-
-  # given $array
-
-  $array->data; # original value
-
-The data method returns the original and underlying value contained by the
-object. This method is an alias to the detract method.
-
-=cut
-
-=method defined
-
-  # given [1,2,undef,4,5]
-
-  $array->defined(2); # 0; false
-  $array->defined(1); # 1; true
-
-The defined method returns true if the element within the array at the index
-specified by the argument meets the criteria for being defined, otherwise it
-returns false. This method returns a L<Data::Object::Number> object.
-
-=cut
-
-=method delete
-
-  # given [1..5]
-
-  $array->delete(2); # 3
-
-The delete method returns the value of the element within the array at the
-index specified by the argument after removing it from the array. This method
-returns a data type object to be determined after execution. Note: This method
-modifies the array.
-
-=cut
-
-=method detract
-
-  # given $array
-
-  $array->detract; # original value
-
-The detract method returns the original and underlying value contained by the
-object.
-
-=cut
-
-=method dump
-
-  # given [1..5]
-
-  $array->dump; # '[1,2,3,4,5]'
-
-The dump method returns returns a string representation of the object.
-This method returns a L<Data::Object::String> object.
-
-=cut
-
-=method each
-
-  # given ['a'..'g']
-
-  $array->each(sub{
-      my $index = shift; # 0
-      my $value = shift; # a
-      ...
-  });
-
-The each method iterates over each element in the array, executing the code
-reference supplied in the argument, passing the routine the index and value at
-the current position in the loop. This method supports codification, i.e, takes
-an argument which can be a codifiable string, a code reference, or a code data
-type object. This method returns a L<Data::Object::Array> object.
-
-=cut
-
-=method each_key
-
-  # given ['a'..'g']
-
-  $array->each_key(sub{
-      my $index = shift; # 0
-      ...
-  });
-
-The each_key method iterates over each element in the array, executing the
-code reference supplied in the argument, passing the routine the index at the
-current position in the loop. This method supports codification, i.e, takes an
-argument which can be a codifiable string, a code reference, or a code data type
-object. This method returns a L<Data::Object::Array> object.
-
-=cut
-
-=method each_n_values
-
-  # given ['a'..'g']
-
-  $array->each_n_values(4, sub{
-      my $value_1 = shift; # a
-      my $value_2 = shift; # b
-      my $value_3 = shift; # c
-      my $value_4 = shift; # d
-      ...
-  });
-
-The each_n_values method iterates over each element in the array, executing
-the code reference supplied in the argument, passing the routine the next n
-values until all values have been seen. This method supports codification, i.e,
-takes an argument which can be a codifiable string, a code reference, or a code
-data type object. This method returns a L<Data::Object::Array> object.
-
-=cut
-
-=method each_value
-
-  # given ['a'..'g']
-
-  $array->each_value(sub{
-      my $value = shift; # a
-      ...
-  });
-
-The each_value method iterates over each element in the array, executing the
-code reference supplied in the argument, passing the routine the value at the
-current position in the loop. This method supports codification, i.e, takes an
-argument which can be a codifiable string, a code reference, or a code data type
-object. This method returns a L<Data::Object::Array> object.
-
-=cut
-
-=method empty
-
-  # given ['a'..'g']
-
-  $array->empty; # []
-
-The empty method drops all elements from the array. This method returns a
-L<Data::Object::Array> object. Note: This method modifies the array.
-
-=cut
-
-=method eq
-
-  # given $array
-
-  $array->eq; # exception thrown
-
-This method is a consumer requirement but has no function and is not implemented.
-This method will throw an exception if called.
-
-=cut
-
-=method exists
-
-  # given [1,2,3,4,5]
-
-  $array->exists(5); # 0; false
-  $array->exists(0); # 1; true
-
-The exists method returns true if the element within the array at the index
-specified by the argument exists, otherwise it returns false. This method
-returns a L<Data::Object::Number> object.
-
-=cut
-
-=method first
-
-  # given [1..5]
-
-  $array->first; # 1
-
-The first method returns the value of the first element in the array. This
-method returns a data type object to be determined after execution.
-
-=cut
-
-=method ge
-
-  # given $array
-
-  $array->ge; # exception thrown
-
-This method is a consumer requirement but has no function and is not implemented.
-This method will throw an exception if called.
-
-=cut
-
-=method get
-
-  # given [1..5]
-
-  $array->get(0); # 1;
-
-The get method returns the value of the element in the array at the index
-specified by the argument. This method returns a data type object to be
-determined after execution.
-
-=cut
-
-=method grep
-
-  # given [1..5]
-
-  $array->grep(sub{
-      shift >= 3
-  });
-
-  # [3,4,5]
-
-The grep method iterates over each element in the array, executing the
-code reference supplied in the argument, passing the routine the value at the
-current position in the loop and returning a new array reference containing
-the elements for which the argument evaluated true. This method supports
-codification, i.e, takes an argument which can be a codifiable string, a code
-reference, or a code data type object. This method returns a
-L<Data::Object::Array> object.
-
-=cut
-
-=method gt
-
-  # given $array
-
-  $array->gt; # exception thrown
-
-This method is a consumer requirement but has no function and is not implemented.
-This method will throw an exception if called.
-
-=cut
-
-=method hash
-
-  # given [1..5]
-
-  $array->hash; # {0=>1,1=>2,2=>3,3=>4,4=>5}
-
-The hash method returns a hash reference where each key and value pairs
-corresponds to the index and value of each element in the array. This method
-returns a L<Data::Object::Hash> object.
-
-=cut
-
-=method hashify
-
-  # given [1..5]
-
-  $array->hashify; # {1=>1,2=>1,3=>1,4=>1,5=>1}
-  $array->hashify(sub { shift % 2 }); # {1=>1,2=>0,3=>1,4=>0,5=>1}
-
-The hashify method returns a hash reference where the elements of array become
-the hash keys and the corresponding values are assigned a value of 1. This
-method supports codification, i.e, takes an argument which can be a codifiable
-string, a code reference, or a code data type object. Note, undefined elements
-will be dropped. This method returns a L<Data::Object::Hash> object.
-
-=cut
-
-=method head
-
-  # given [9,8,7,6,5]
-
-  my $head = $array->head; # 9
-
-The head method returns the value of the first element in the array. This
-method returns a data type object to be determined after execution.
-
-=cut
-
-=method invert
-
-  # given [1..5]
-
-  $array->invert; # [5,4,3,2,1]
-
-The invert method returns an array reference containing the elements in the
-array in reverse order. This method returns a L<Data::Object::Array> object.
-
-=cut
-
-=method iterator
-
-  # given [1..5]
-
-  my $iterator = $array->iterator;
-  while (my $value = $iterator->next) {
-      say $value; # 1
+  if (Scalar::Util::blessed($arg)) {
+    $arg = $arg->data if $arg->can('does') && $arg->does($role);
   }
 
-The iterator method returns a code reference which can be used to iterate over
-the array. Each time the iterator is executed it will return the next element
-in the array until all elements have been seen, at which point the iterator
-will return an undefined value. This method returns a L<Data::Object::Code>
-object.
+  unless (ref($arg) eq 'ARRAY') {
+    croak('Instantiation Error: Not a ArrayRef');
+  }
 
-=cut
+  return bless $arg, $class;
+}
 
-=method join
+# METHODS
 
-  # given [1..5]
+sub self {
+  return shift;
+}
 
-  $array->join; # 12345
-  $array->join(', '); # 1, 2, 3, 4, 5
+sub roles {
+  return cast([@roles]);
+}
 
-The join method returns a string consisting of all the elements in the array
-joined by the join-string specified by the argument. Note: If the argument is
-omitted, an empty string will be used as the join-string. This method returns a
-L<Data::Object::String> object.
+sub rules {
+  return cast([@rules]);
+}
 
-=cut
+# DISPATCHERS
 
-=method keyed
+sub all {
+  my ($self, @args) = @_;
 
-  # given [1..5]
+  try {
+    my $func = 'Data::Object::Func::Array::All';
 
-  $array->keyed('a'..'d'); # {a=>1,b=>2,c=>3,d=>4}
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-The keyed method returns a hash reference where the arguments become the keys,
-and the elements of the array become the values. This method returns a
-L<Data::Object::Hash> object.
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-=cut
+sub any {
+  my ($self, @args) = @_;
 
-=method keys
+  try {
+    my $func = 'Data::Object::Func::Array::Any';
 
-  # given ['a'..'d']
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-  $array->keys; # [0,1,2,3]
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-The keys method returns an array reference consisting of the indicies of the
-array. This method returns a L<Data::Object::Array> object.
+sub clear {
+  my ($self, @args) = @_;
 
-=cut
+  try {
+    my $func = 'Data::Object::Func::Array::Clear';
 
-=method last
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-  # given [1..5]
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-  $array->last; # 5
+sub count {
+  my ($self, @args) = @_;
 
-The last method returns the value of the last element in the array. This method
-returns a data type object to be determined after execution.
+  try {
+    my $func = 'Data::Object::Func::Array::Count';
 
-=cut
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-=method le
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-  # given $array
+sub defined {
+  my ($self, @args) = @_;
 
-  $array->le; # exception thrown
+  try {
+    my $func = 'Data::Object::Func::Array::Defined';
 
-This method is a consumer requirement but has no function and is not implemented.
-This method will throw an exception if called.
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-=cut
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-=method length
+sub delete {
+  my ($self, @args) = @_;
 
-  # given [1..5]
+  try {
+    my $func = 'Data::Object::Func::Array::Delete';
 
-  $array->length; # 5
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-The length method returns the number of elements in the array. This method
-returns a L<Data::Object::Number> object.
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-=cut
+sub each {
+  my ($self, @args) = @_;
 
-=method list
+  try {
+    my $func = 'Data::Object::Func::Array::Each';
 
-  # given $array
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-  my $list = $array->list;
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-The list method returns a shallow copy of the underlying array reference as an
-array reference. This method return a L<Data::Object::Array> object.
+sub each_key {
+  my ($self, @args) = @_;
 
-=cut
+  try {
+    my $func = 'Data::Object::Func::Array::EachKey';
 
-=method lt
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-  # given $array
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-  $array->lt; # exception thrown
+sub each_n_values {
+  my ($self, @args) = @_;
 
-This method is a consumer requirement but has no function and is not implemented.
-This method will throw an exception if called.
+  try {
+    my $func = 'Data::Object::Func::Array::EachNValues';
 
-=cut
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-=method map
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-  # given [1..5]
+sub each_value {
+  my ($self, @args) = @_;
 
-  $array->map(sub{
-      shift + 1
-  });
+  try {
+    my $func = 'Data::Object::Func::Array::EachValue';
 
-  # [2,3,4,5,6]
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-The map method iterates over each element in the array, executing the
-code reference supplied in the argument, passing the routine the value at the
-current position in the loop and returning a new array reference containing
-the elements for which the argument returns a value or non-empty list. This
-method returns a L<Data::Object::Array> object.
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-=cut
+sub empty {
+  my ($self, @args) = @_;
 
-=method max
+  try {
+    my $func = 'Data::Object::Func::Array::Empty';
 
-  # given [8,9,1,2,3,4,5]
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-  $array->max; # 9
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-The max method returns the element in the array with the highest numerical
-value. All non-numerical element are skipped during the evaluation process. This
-method returns a L<Data::Object::Number> object.
+sub eq {
+  my ($self, @args) = @_;
 
-=cut
+  try {
+    my $func = 'Data::Object::Func::Array::Eq';
 
-=method methods
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-  # given $array
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-  $array->methods;
+sub exists {
+  my ($self, @args) = @_;
 
-The methods method returns the list of methods attached to object. This method
-returns a L<Data::Object::Array> object.
+  try {
+    my $func = 'Data::Object::Func::Array::Exists';
 
-=cut
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-=method min
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-  # given [8,9,1,2,3,4,5]
+sub first {
+  my ($self, @args) = @_;
 
-  $array->min; # 1
+  try {
+    my $func = 'Data::Object::Func::Array::First';
 
-The min method returns the element in the array with the lowest numerical
-value. All non-numerical element are skipped during the evaluation process. This
-method returns a L<Data::Object::Number> object.
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-=cut
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-=method ne
+sub ge {
+  my ($self, @args) = @_;
 
-  # given $array
+  try {
+    my $func = 'Data::Object::Func::Array::Ge';
 
-  $array->ne; # exception thrown
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-This method is a consumer requirement but has no function and is not implemented.
-This method will throw an exception if called.
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-=cut
+sub get {
+  my ($self, @args) = @_;
 
-=method new
+  try {
+    my $func = 'Data::Object::Func::Array::Get';
 
-  # given 1..9
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-  my $array = Data::Object::Array->new(1..9);
-  my $array = Data::Object::Array->new([1..9]);
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-The new method expects a list or array reference and returns a new class
-instance.
+sub grep {
+  my ($self, @args) = @_;
 
-=cut
+  try {
+    my $func = 'Data::Object::Func::Array::Grep';
 
-=method none
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-  # given [2..5]
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-  $array->none('$value <= 1'); # 1; true
-  $array->none('$value <= 2'); # 0; false
+sub gt {
+  my ($self, @args) = @_;
 
-The none method returns true if none of the elements in the array meet the
-criteria set by the operand and rvalue. This method supports codification, i.e,
-takes an argument which can be a codifiable string, a code reference, or a code
-data type object. This method returns a L<Data::Object::Number> object.
+  try {
+    my $func = 'Data::Object::Func::Array::Gt';
 
-=cut
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-=method nsort
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-  # given [5,4,3,2,1]
+sub hash {
+  my ($self, @args) = @_;
 
-  $array->nsort; # [1,2,3,4,5]
+  try {
+    my $func = 'Data::Object::Func::Array::Hash';
 
-The nsort method returns an array reference containing the values in the array
-sorted numerically. This method returns a L<Data::Object::Array> object.
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-=cut
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-=method one
+sub hashify {
+  my ($self, @args) = @_;
 
-  # given [2..5]
+  try {
+    my $func = 'Data::Object::Func::Array::Hashify';
 
-  $array->one('$value == 5'); # 1; true
-  $array->one('$value == 6'); # 0; false
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-The one method returns true if only one of the elements in the array meet the
-criteria set by the operand and rvalue. This method supports codification, i.e,
-takes an argument which can be a codifiable string, a code reference, or a code
-data type object. This method returns a L<Data::Object::Number> object.
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-=cut
+sub head {
+  my ($self, @args) = @_;
 
-=method pairs
+  try {
+    my $func = 'Data::Object::Func::Array::Head';
 
-  # given [1..5]
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-  $array->pairs; # [[0,1],[1,2],[2,3],[3,4],[4,5]]
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-The pairs method is an alias to the pairs_array method. This method returns a
-L<Data::Object::Array> object. This method is an alias to the pairs_array
-method.
+sub invert {
+  my ($self, @args) = @_;
 
-=cut
+  try {
+    my $func = 'Data::Object::Func::Array::Invert';
 
-=method pairs_array
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-  # given [1..5]
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-  $array->pairs_array; # [[0,1],[1,2],[2,3],[3,4],[4,5]]
+sub iterator {
+  my ($self, @args) = @_;
 
-The pairs_array method returns an array reference consisting of array references
-where each sub-array reference has two elements corresponding to the index and
-value of each element in the array. This method returns a L<Data::Object::Array>
-object.
+  try {
+    my $func = 'Data::Object::Func::Array::Iterator';
 
-=cut
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-=method pairs_hash
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-  # given [1..5]
+sub join {
+  my ($self, @args) = @_;
 
-  $array->pairs_hash; # {0=>1,1=>2,2=>3,3=>4,4=>5}
+  try {
+    my $func = 'Data::Object::Func::Array::Join';
 
-The pairs_hash method returns a hash reference where each key and value pairs
-corresponds to the index and value of each element in the array. This method
-returns a L<Data::Object::Hash> object.
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-=cut
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-=method part
+sub keyed {
+  my ($self, @args) = @_;
 
-  # given [1..10]
+  try {
+    my $func = 'Data::Object::Func::Array::Keyed';
 
-  $array->part(sub { shift > 5 }); # [[6, 7, 8, 9, 10], [1, 2, 3, 4, 5]]
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-The part method iterates over each element in the array, executing the
-code reference supplied in the argument, using the result of the code reference
-to partition to array into two distinct array references. This method returns
-an array reference containing exactly two array references. This method supports
-codification, i.e, takes an argument which can be a codifiable string, a code
-reference, or a code data type object. This method returns a
-L<Data::Object::Array> object.
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-=cut
+sub keys {
+  my ($self, @args) = @_;
 
-=method pop
+  try {
+    my $func = 'Data::Object::Func::Array::Keys';
 
-  # given [1..5]
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-  $array->pop; # 5
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-The pop method returns the last element of the array shortening it by one. Note,
-this method modifies the array. This method returns a data type object to be
-determined after execution. Note: This method modifies the array.
+sub last {
+  my ($self, @args) = @_;
 
-=cut
+  try {
+    my $func = 'Data::Object::Func::Array::Last';
 
-=method print
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-  # given [1..5]
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-  $array->print; # '[1,2,3,4,5]'
+sub le {
+  my ($self, @args) = @_;
 
-The print method outputs the value represented by the object to STDOUT and
-returns true. This method returns a L<Data::Object::Number> object.
+  try {
+    my $func = 'Data::Object::Func::Array::Le';
 
-=cut
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-=method push
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-  # given [1..5]
+sub length {
+  my ($self, @args) = @_;
 
-  $array->push(6,7,8); # [1,2,3,4,5,6,7,8]
+  try {
+    my $func = 'Data::Object::Func::Array::Length';
 
-The push method appends the array by pushing the agruments onto it and returns
-itself. This method returns a data type object to be determined after execution.
-Note: This method modifies the array.
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-=cut
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-=method random
+sub list {
+  my ($self) = @_;
 
-  # given [1..5]
+  my @retv = (map cast($_), @$self);
 
-  $array->random; # 4
+  return wantarray ? (@retv) : cast([@retv]);
+}
 
-The random method returns a random element from the array. This method returns a
-data type object to be determined after execution.
+sub lt {
+  my ($self, @args) = @_;
 
-=cut
+  try {
+    my $func = 'Data::Object::Func::Array::Lt';
 
-=method reverse
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-  # given [1..5]
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-  $array->reverse; # [5,4,3,2,1]
+sub map {
+  my ($self, @args) = @_;
 
-The reverse method returns an array reference containing the elements in the
-array in reverse order. This method returns a L<Data::Object::Array> object.
+  try {
+    my $func = 'Data::Object::Func::Array::Map';
 
-=cut
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-=method rnsort
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-  # given [5,4,3,2,1]
+sub max {
+  my ($self, @args) = @_;
 
-  $array->rnsort; # [5,4,3,2,1]
+  try {
+    my $func = 'Data::Object::Func::Array::Max';
 
-The rnsort method returns an array reference containing the values in the
-array sorted numerically in reverse. This method returns a
-L<Data::Object::Array> object.
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-=cut
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-=method roles
+sub min {
+  my ($self, @args) = @_;
 
-  # given $array
+  try {
+    my $func = 'Data::Object::Func::Array::Min';
 
-  $array->roles;
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-The roles method returns the list of roles attached to object. This method
-returns a L<Data::Object::Array> object.
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-=cut
+sub ne {
+  my ($self, @args) = @_;
 
-=method rotate
+  try {
+    my $func = 'Data::Object::Func::Array::Ne';
 
-  # given [1..5]
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-  $array->rotate; # [2,3,4,5,1]
-  $array->rotate; # [3,4,5,1,2]
-  $array->rotate; # [4,5,1,2,3]
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-The rotate method rotates the elements in the array such that first elements
-becomes the last element and the second element becomes the first element each
-time this method is called. This method returns a L<Data::Object::Array> object.
-Note: This method modifies the array.
+sub none {
+  my ($self, @args) = @_;
 
-=cut
+  try {
+    my $func = 'Data::Object::Func::Array::None';
 
-=method rsort
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-  # given ['a'..'d']
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-  $array->rsort; # ['d','c','b','a']
+sub nsort {
+  my ($self, @args) = @_;
 
-The rsort method returns an array reference containing the values in the array
-sorted alphanumerically in reverse. This method returns a L<Data::Object::Array>
-object.
+  try {
+    my $func = 'Data::Object::Func::Array::Nsort';
 
-=cut
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-=method say
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-  # given [1..5]
+sub one {
+  my ($self, @args) = @_;
 
-  $array->say; # '[1,2,3,4,5]\n'
+  try {
+    my $func = 'Data::Object::Func::Array::One';
 
-The say method outputs the value represented by the object appended with a
-newline to STDOUT and returns true. This method returns a L<Data::Object::Number>
-object.
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-=cut
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-=method set
+sub pairs {
+  my ($self, @args) = @_;
 
-  # given [1..5]
+  try {
+    my $func = 'Data::Object::Func::Array::Pairs';
 
-  $array->set(4,6); # [1,2,3,4,6]
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-The set method returns the value of the element in the array at the index
-specified by the argument after updating it to the value of the second argument.
-This method returns a data type object to be determined after execution. Note:
-This method modifies the array.
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-=cut
+sub pairs_array {
+  my ($self, @args) = @_;
 
-=method shift
+  try {
+    my $func = 'Data::Object::Func::Array::PairsArray';
 
-  # given [1..5]
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-  $array->shift; # 1
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-The shift method returns the first element of the array shortening it by one.
-This method returns a data type object to be determined after execution. Note:
-This method modifies the array.
+sub pairs_hash {
+  my ($self, @args) = @_;
 
-=cut
+  try {
+    my $func = 'Data::Object::Func::Array::PairsHash';
 
-=method size
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-  # given [1..5]
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-  $array->size; # 5
+sub part {
+  my ($self, @args) = @_;
 
-The size method is an alias to the length method. This method returns a
-L<Data::Object::Number> object. This method is an alias to the length method.
+  try {
+    my $func = 'Data::Object::Func::Array::Part';
 
-=cut
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-=method slice
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-  # given [1..5]
+sub pop {
+  my ($self, @args) = @_;
 
-  $array->slice(2,4); # [3,5]
+  try {
+    my $func = 'Data::Object::Func::Array::Pop';
 
-The slice method returns an array reference containing the elements in the
-array at the index(es) specified in the arguments. This method returns a
-L<Data::Object::Array> object.
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-=cut
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-=method sort
+sub push {
+  my ($self, @args) = @_;
 
-  # given ['d','c','b','a']
+  try {
+    my $func = 'Data::Object::Func::Array::Push';
 
-  $array->sort; # ['a','b','c','d']
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-The sort method returns an array reference containing the values in the array
-sorted alphanumerically. This method returns a L<Data::Object::Array> object.
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-=cut
+sub random {
+  my ($self, @args) = @_;
 
-=method sum
+  try {
+    my $func = 'Data::Object::Func::Array::Random';
 
-  # given [1..5]
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-  $array->sum; # 15
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-The sum method returns the sum of all values for all numerical elements in the
-array. All non-numerical element are skipped during the evaluation process. This
-method returns a L<Data::Object::Number> object.
+sub reverse {
+  my ($self, @args) = @_;
 
-=cut
+  try {
+    my $func = 'Data::Object::Func::Array::Reverse';
 
-=method tail
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-  # given [1..5]
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-  $array->tail; # [2,3,4,5]
+sub rotate {
+  my ($self, @args) = @_;
 
-The tail method returns an array reference containing the second through the
-last elements in the array omitting the first. This method returns a
-L<Data::Object::Array> object.
+  try {
+    my $func = 'Data::Object::Func::Array::Rotate';
 
-=cut
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-=method throw
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-  # given $array
+sub rnsort {
+  my ($self, @args) = @_;
 
-  $array->throw;
+  try {
+    my $func = 'Data::Object::Func::Array::Rnsort';
 
-The throw method terminates the program using the core die keyword, passing the
-object to the L<Data::Object::Exception> class as the named parameter C<object>.
-If captured this method returns a L<Data::Object::Exception> object.
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-=cut
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-=method type
+sub rsort {
+  my ($self, @args) = @_;
 
-  # given $array
+  try {
+    my $func = 'Data::Object::Func::Array::Rsort';
 
-  $array->type; # ARRAY
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-The type method returns a string representing the internal data type object name.
-This method returns a L<Data::Object::String> object.
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-=cut
+sub set {
+  my ($self, @args) = @_;
 
-=method unique
+  try {
+    my $func = 'Data::Object::Func::Array::Set';
 
-  # given [1,1,1,1,2,3,1]
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-  $array->unique; # [1,2,3]
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-The unique method returns an array reference consisting of the unique elements
-in the array. This method returns a L<Data::Object::Array> object.
+sub shift {
+  my ($self, @args) = @_;
 
-=cut
+  try {
+    my $func = 'Data::Object::Func::Array::Shift';
 
-=method unshift
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-  # given [1..5]
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-  $array->unshift(-2,-1,0); # [-2,-1,0,1,2,3,4,5]
+sub size {
+  my ($self, @args) = @_;
 
-The unshift method prepends the array by pushing the agruments onto it and
-returns itself. This method returns a data type object to be determined after
-execution. Note: This method modifies the array.
+  try {
+    my $func = 'Data::Object::Func::Array::Size';
 
-=cut
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-=method values
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-  # given [1..5]
+sub slice {
+  my ($self, @args) = @_;
 
-  $array->values; # [1,2,3,4,5]
+  try {
+    my $func = 'Data::Object::Func::Array::Slice';
 
-The values method returns an array reference consisting of the elements in the
-array. This method essentially copies the content of the array into a new
-container. This method returns a L<Data::Object::Array> object.
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-=cut
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-=head1 SEE ALSO
+sub sort {
+  my ($self, @args) = @_;
 
-=over 4
+  try {
+    my $func = 'Data::Object::Func::Array::Sort';
 
-=item *
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-L<Data::Object::Array>
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-=item *
+sub sum {
+  my ($self, @args) = @_;
 
-L<Data::Object::Class>
+  try {
+    my $func = 'Data::Object::Func::Array::Sum';
 
-=item *
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-L<Data::Object::Class::Syntax>
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-=item *
+sub tail {
+  my ($self, @args) = @_;
 
-L<Data::Object::Code>
+  try {
+    my $func = 'Data::Object::Func::Array::Tail';
 
-=item *
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-L<Data::Object::Float>
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-=item *
+sub unique {
+  my ($self, @args) = @_;
 
-L<Data::Object::Hash>
+  try {
+    my $func = 'Data::Object::Func::Array::Unique';
 
-=item *
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-L<Data::Object::Integer>
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-=item *
+sub unshift {
+  my ($self, @args) = @_;
 
-L<Data::Object::Number>
+  try {
+    my $func = 'Data::Object::Func::Array::Unshift';
 
-=item *
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-L<Data::Object::Role>
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-=item *
+sub values {
+  my ($self, @args) = @_;
 
-L<Data::Object::Role::Syntax>
+  try {
+    my $func = 'Data::Object::Func::Array::Values';
 
-=item *
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-L<Data::Object::Regexp>
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-=item *
-
-L<Data::Object::Scalar>
-
-=item *
-
-L<Data::Object::String>
-
-=item *
-
-L<Data::Object::Undef>
-
-=item *
-
-L<Data::Object::Any>
-
-=item *
-
-L<Data::Object::Autobox>
-
-=item *
-
-L<Data::Object::Immutable>
-
-=item *
-
-L<Data::Object::Config::Type>
-
-=item *
-
-L<Data::Object::Prototype>
-
-=item *
-
-L<Data::Object::Config::Routine>
-
-=back
-
-=cut
+1;

@@ -1,0 +1,483 @@
+#!perl
+
+use 5.014;
+
+use strict;
+use warnings;
+
+use Cwd 'getcwd';
+use File::Basename 'dirname';
+use File::Find 'find';
+use File::Spec::Functions 'abs2rel';
+
+my @list;
+
+my $this = $0;
+my $home = getcwd;
+my $here = dirname($this);
+my $libs = join '/', $home, 'lib';
+my $file = sub { push @list, $File::Find::name if -f };
+
+find($file, $libs);
+
+# PROCESS
+
+process(@list) and print "generated POD documents\n";
+
+# FUNCTIONS
+
+sub files {
+  my (@files) = @_;
+
+  return (map abs2rel($_, $libs), sort(@files));
+}
+
+sub head1 {
+  my ($name, $data) = @_;
+
+  return join("\n", "", "=head1 \U$name", @{$data}, "=cut", "");
+}
+
+sub head2 {
+  my ($name, $data) = @_;
+
+  return join("\n", "", "=head2 \L$name", @{$data}, "=cut", "");
+}
+
+sub items {
+  my (@data) = @_;
+
+  return join("\n", "", "=over 4", "", items_list(@data), "=back", "");
+}
+
+sub items_list {
+  my (@data) = @_;
+
+  return map(("=item *\n", "$_\n"), @data);
+}
+
+sub mods {
+  my (@files) = @_;
+
+  return (map type($_, 'pm'), files(@files));
+}
+
+sub output_abstract {
+  my ($data) = @_;
+
+  return output_content($data, 'abstract');
+}
+
+sub output_caller_configuration {
+  my ($data) = @_;
+
+  return output_content($data, 'caller-configuration');
+}
+
+sub output_constructor_functions {
+  my ($data) = @_;
+
+  return output_content($data, 'constructor-functions');
+}
+
+sub output_content {
+  my ($data, $for) = @_;
+
+  return $data->{$for}{content};
+}
+
+sub output_data_type_objects {
+  my ($data) = @_;
+
+  return output_content($data, 'data-type-objects');
+}
+
+sub output_description {
+  my ($data) = @_;
+
+  return output_content($data, 'description');
+}
+
+sub output_dispatchers {
+  my ($data) = @_;
+
+  return output_content($data, 'dispatchers');
+}
+
+sub output_function_classes {
+  my ($data) = @_;
+
+  return output_content($data, 'function-classes');
+}
+
+sub output_function_signatures {
+  my ($data) = @_;
+
+  return output_content($data, 'function-signatures');
+}
+
+sub output_getting_started {
+  my ($data) = @_;
+
+  return output_content($data, 'getting-started');
+}
+
+sub output_installation {
+  my ($data) = @_;
+
+  return output_content($data, 'installation');
+}
+
+sub output_name {
+  my ($data) = @_;
+
+  return output_content($data, 'name');
+}
+
+sub output_object_system {
+  my ($data) = @_;
+
+  return output_content($data, 'object-system');
+}
+
+sub output_package_class {
+  my ($data) = @_;
+
+  return output_content($data, 'package-class');
+}
+
+sub output_pod_for_can_test {
+  my ($file) = @_;
+
+  my $data = parse_pod($file);
+  my $name = output_name($data);
+  my $type = output_type($data);
+  my $usage = output_usage($data);
+  my $description = output_description($data);
+
+  pop @$usage;
+
+  return (head2($name->[1], [@$usage, @$description]), $type->[1]);
+}
+
+sub output_pod_for_mod {
+  my ($mod) = @_;
+
+  my @output;
+
+  push @output, "\n", "=encoding utf8", "\n";
+
+  push @output, output_pod_for_use_test("t/0.90/use/$mod.t");
+
+  my @methods; my @functions; my @routines;
+
+  for my $sub (subs($mod)) {
+    my ($data, $type) = output_pod_for_can_test("t/0.90/can/$mod/$sub.t");
+    if ($type eq 'function') {
+      push @functions, $data;
+    }
+    elsif ($type eq 'method') {
+      push @methods, $data;
+    }
+    else {
+      push @routines, $data;
+    }
+  }
+
+  if (@routines) {
+    push @output, head1('routines', [
+      "", "This package implements the following routines.", ""
+    ]);
+    push @output, @routines;
+  }
+
+  if (@functions) {
+    push @output, head1('functions', [
+      "", "This package implements the following functions.", ""
+    ]);
+    push @output, @functions;
+  }
+
+  if (@methods) {
+    push @output, head1('methods', [
+      "", "This package implements the following methods.", ""
+    ]);
+    push @output, @methods;
+  }
+
+  my $pkg = $mod =~ s/\//::/gr;
+
+  my $roles = eval "use $pkg (); $pkg->roles";
+  my $rules = eval "use $pkg (); $pkg->rules";
+
+  if ($roles) {
+    push @output, head1('roles', [
+      "", "This package inherits all behavior from the folowing role(s):", ""
+    ]);
+    push @output, items(map("L<$_>", @$roles));
+  }
+
+  if ($rules) {
+    push @output, head1('rules', [
+      "", "This package adheres to the requirements in the folowing rule(s):", ""
+    ]);
+    push @output, items(map("L<$_>", @$rules));
+  }
+
+
+  return [@output];
+}
+
+sub output_pod_for_use_test {
+  my ($file) = @_;
+
+  my $data = parse_pod($file);
+
+  my $name = head1('name', output_name($data));
+  my $abstract = head1('abstract', output_abstract($data));
+  my $description = head1('description', output_description($data));
+  my $synopsis = head1('synopsis', output_synopsis($data));
+
+  my @extras;
+  my @exports;
+
+  if (exists $data->{export}) {
+    push @exports, head1('exports', [
+      "", "This package can export the following functions.", ""
+    ]);
+    for my $item (@{$data->{export}}) {
+      push @exports, head2($item->{name}, $item->{content});
+    }
+  }
+
+  my @types;
+
+  if (exists $data->{type}) {
+    push @exports, head1('types', [
+      "", "This package can export the following type constraints.", ""
+    ]);
+    for my $item (@{$data->{type}}) {
+      push @exports, head2($item->{name}, $item->{content});
+    }
+  }
+
+  if (my $installation = output_installation($data)) {
+    push @extras, head1('installation', $installation);
+  }
+
+  if (my $getting_started = output_getting_started($data)) {
+    push @extras, head1('getting started', $getting_started);
+  }
+
+  if (my $package_class = output_package_class($data)) {
+    push @extras, head1('package class', $package_class);
+  }
+
+  if (my $type_system = output_type_system($data)) {
+    push @extras, head1('type system', $type_system);
+  }
+
+  if (my $object_system = output_object_system($data)) {
+    push @extras, head1('object system', $object_system);
+  }
+
+  if (my $type_builder = output_type_builder($data)) {
+    push @extras, head1('type builder', $type_builder);
+  }
+
+  if (my $roles_and_rules = output_roles_and_rules($data)) {
+    push @extras, head1('roles and rules', $roles_and_rules);
+  }
+
+  if (my $singleton_support = output_singleton_support($data)) {
+    push @extras, head1('singleton support', $singleton_support);
+  }
+
+  if (my $podish_parser = output_podish_parser($data)) {
+    push @extras, head1('podish parser', $podish_parser);
+  }
+
+  if (my $dispatchers = output_dispatchers($data)) {
+    push @extras, head1('dispatchers', $dispatchers);
+  }
+
+  if (my $function_signatures = output_function_signatures($data)) {
+    push @extras, head1('function signatures', $function_signatures);
+  }
+
+  if (my $caller_configuration = output_caller_configuration($data)) {
+    push @extras, head1('caller configuration', $caller_configuration);
+  }
+
+  if (my $constructor_functions = output_constructor_functions($data)) {
+    push @extras, head1('constructor functions', $constructor_functions);
+  }
+
+  if (my $data_type_objects = output_data_type_objects($data)) {
+    push @extras, head1('data type objects', $data_type_objects);
+  }
+
+  if (my $function_classes = output_function_classes($data)) {
+    push @extras, head1('function classes', $function_classes);
+  }
+
+  if (my $standard_library = output_standard_library($data)) {
+    push @extras, head1('standard library', $standard_library);
+  }
+
+  return join("", $name, $abstract, $synopsis, $description, @extras, @exports);
+}
+
+sub output_podish_parser {
+  my ($data) = @_;
+
+  return output_content($data, 'podish-parser');
+}
+
+sub output_roles_and_rules {
+  my ($data) = @_;
+
+  return output_content($data, 'roles-and-rules');
+}
+
+sub output_singleton_support {
+  my ($data) = @_;
+
+  return output_content($data, 'singleton-support');
+}
+
+sub output_standard_library {
+  my ($data) = @_;
+
+  return output_content($data, 'standard-library');
+}
+
+sub output_synopsis {
+  my ($data) = @_;
+
+  return output_content($data, 'synopsis');
+}
+
+sub output_type {
+  my ($data) = @_;
+
+  return output_content($data, 'type');
+}
+
+sub output_type_builder {
+  my ($data) = @_;
+
+  return output_content($data, 'type-builder');
+}
+
+sub output_type_system {
+  my ($data) = @_;
+
+  return output_content($data, 'type-system');
+}
+
+sub output_usage {
+  my ($data) = @_;
+
+  return output_content($data, 'usage');
+}
+
+sub parse_pod {
+  my ($file) = @_;
+  # a minimalist pod-parser for files with specific types of markers
+
+  my $content = {};
+  my $capture = undef;
+  my $position = 0;
+
+  my $marker = qr/^=([\-\w]+)(?:\s([a-zA-Z][\-\w]+))?$/;
+
+  my @lines = source($file);
+
+  for my $line (@lines) {
+    # stop capturing
+    if ($line =~ /^=cut$/) {
+      undef $capture; next;
+    }
+
+    # process marker
+    if (my (@info) = $line =~ $marker) {
+      if (! defined $info[1]) {
+        # content is simple
+        my $type = 'head1';
+        my $name = $info[0];
+        $content->{$name} = {
+          content => [],
+          name => $name,
+          position => ++$position,
+          type => $type
+        };
+        $capture = $content->{$name}{content}; next;
+      } else {
+        # content is a collection
+        my $type = 'head2';
+        my $list = $info[0];
+        my $name = $info[1];
+        my $index = push @{$content->{$list}}, {
+          content => [],
+          name => $name,
+          position => ++$position,
+          type => $type
+        };
+        $capture = $content->{$list}[$index-1]{content}; next;
+      }
+    }
+
+    # capture content
+    if (defined $capture) {
+      push @{$capture}, $line; next;
+    }
+  }
+
+  return $content;
+}
+
+sub process {
+  my (@list) = @_;
+
+  for my $mod (mods(@list)) {
+    my $output = output_pod_for_mod($mod);
+    open my $fh, '>', "lib/$mod.pod" or die "Can't open lib/$mod.pod $!";
+    print $fh join "", @$output;
+    close $fh;
+  }
+
+  return 1;
+}
+
+sub source {
+  my ($file) = @_;
+
+  open my $fh, '<', "$file" or die "Can't open $file $!";
+
+  return (map { chomp; $_ } (<$fh>));
+}
+
+sub subs {
+  my ($path) = @_;
+
+  my $re = 'fun|method|sub';
+
+  my %ignore = map +($_, 1), qw(
+    BUILD
+    BUILDARGS
+    import
+  );
+
+  my @files = map { /^(?:$re)\s+([a-zA-Z]\w+).*/ } source("lib/$path.pm");
+
+  return (grep !$ignore{$_}, @files);
+}
+
+sub type {
+  my ($file, $type) = @_;
+
+  my @parts = split(/\./, $file, 2);
+
+  return $parts[1] eq $type ? ($parts[0]) : ();
+}

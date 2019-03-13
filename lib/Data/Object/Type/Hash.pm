@@ -1,15 +1,14 @@
 package Data::Object::Type::Hash;
 
-use 5.014;
-
 use strict;
 use warnings;
 
-use Data::Object::Config 'type_hash';
+use Data::Object::Export;
 
 use parent 'Data::Object::Type';
 
-# VERSION
+# BUILD
+# METHODS
 
 sub name {
   return 'DoHash';
@@ -20,14 +19,13 @@ sub aliases {
 }
 
 sub coercions {
-  return ['HashRef', sub { type_hash($_[0]) }];
+  return ['HashRef', sub { do('hash', $_[0]) }];
 }
 
 sub validation {
   my ($self, $data) = @_;
 
   return 0 if !$data->isa('Data::Object::Hash');
-  return 0 if !$data->DOES('Data::Object::Role::Hash');
 
   return 1;
 }

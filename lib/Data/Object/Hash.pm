@@ -1,886 +1,663 @@
-# ABSTRACT: Hash Object for Perl 5
 package Data::Object::Hash;
 
-use strict;
-use warnings;
+use Try::Tiny;
 
-use 5.014;
-
-use Data::Object;
 use Data::Object::Class;
-use Data::Object::Config::Type;
-use Data::Object::Config::Routine;
-use Scalar::Util;
+use Data::Object::Export qw(
+  cast
+  croak
+  load
+);
 
-with 'Data::Object::Role::Hash';
+map with($_), my @roles = qw(
+  Data::Object::Role::Detract
+  Data::Object::Role::Dumper
+  Data::Object::Role::Output
+  Data::Object::Role::Throwable
+  Data::Object::Role::Type
+);
 
-# VERSION
+map with($_), my @rules = qw(
+  Data::Object::Rule::Collection
+  Data::Object::Rule::Comparison
+  Data::Object::Rule::Defined
+  Data::Object::Rule::List
+);
 
-method new ($class: @args) {
+use overload (
+  '""'     => 'data',
+  '~~'     => 'data',
+  '%{}'    => 'self',
+  fallback => 1
+);
 
-  my $arg  = @args > 1 && !(@args % 2) ? {@args} : $args[0];
+use parent 'Data::Object::Kind';
+
+# BUILD
+
+sub new {
+  my ($class, $arg) = @_;
+
   my $role = 'Data::Object::Role::Type';
 
-  $arg = $arg->data
-    if Scalar::Util::blessed($arg)
-    and $arg->can('does')
-    and $arg->does($role);
-
-  Data::Object::throw('Type Instantiation Error: Not a HashRef')
-    unless ref($arg) eq 'HASH';
-
-  return bless $arg, $class;
-
-}
-
-our @METHODS = @{__PACKAGE__->methods};
-
-my $exclude = qr/^data|detract|new$/;
-
-around [grep { !/$exclude/ } @METHODS] => fun($orig, $self, @args) {
-
-  my $results = $self->$orig(@args);
-
-  return Data::Object::deduce_deep($results);
-
-};
-
-around 'list' => fun($orig, $self, @args) {
-
-  my $results = $self->$orig(@args);
-
-  return wantarray ? (@$results) : $results;
-
-};
-
-1;
-
-=encoding utf8
-
-=head1 SYNOPSIS
-
-  use Data::Object::Hash;
-
-  my $hash = Data::Object::Hash->new({1..4});
-
-=cut
-
-=head1 DESCRIPTION
-
-Data::Object::Hash provides routines for operating on Perl 5 hash
-references. Hash methods work on hash references. Users of these methods should
-be aware of the methods that modify the array reference itself as opposed to
-returning a new array reference. Unless stated, it may be safe to assume that
-the following methods copy, modify and return new hash references based on their
-function.
-
-=cut
-
-=head1 COMPOSITION
-
-This package inherits all functionality from the L<Data::Object::Role::Hash>
-role and implements proxy methods as documented herewith.
-
-=cut
-
-=head1 CODIFICATION
-
-Certain methods provided by the this module support codification, a process
-which converts a string argument into a code reference which can be used to
-supply a callback to the method called. A codified string can access its
-arguments by using variable names which correspond to letters in the alphabet
-which represent the position in the argument list. For example:
-
-  $hash->example('$a + $b * $c', 100);
-
-  # if the example method does not supply any arguments automatically then
-  # the variable $a would be assigned the user-supplied value of 100,
-  # however, if the example method supplies two arguments automatically then
-  # those arugments would be assigned to the variables $a and $b whereas $c
-  # would be assigned the user-supplied value of 100
-
-  # e.g.
-
-  $hash->each('the value at $key is $value');
-
-  # or
-
-  $hash->each_n_values(4, 'the value at $key0 is $value0');
-
-  # etc
-
-Any place a codified string is accepted, a coderef or L<Data::Object::Code>
-object is also valid. Arguments are passed through the usual C<@_> list.
-
-=cut
-
-=head1 ROLES
-
-This package is comprised of the following roles.
-
-=over 4
-
-=item *
-
-L<Data::Object::Role::Collection>
-
-=item *
-
-L<Data::Object::Role::Comparison>
-
-=item *
-
-L<Data::Object::Role::Defined>
-
-=item *
-
-L<Data::Object::Role::Detract>
-
-=item *
-
-L<Data::Object::Role::Dumper>
-
-=item *
-
-L<Data::Object::Role::Item>
-
-=item *
-
-L<Data::Object::Role::List>
-
-=item *
-
-L<Data::Object::Role::Output>
-
-=item *
-
-L<Data::Object::Role::Throwable>
-
-=item *
-
-L<Data::Object::Role::Type>
-
-=back
-
-=cut
-
-=method clear
-
-  # given {1..8}
-
-  $hash->clear; # {}
-
-The clear method is an alias to the empty method. This method returns a
-L<Data::Object::Hash> object. This method is an alias to the empty method.
-
-=cut
-
-=method count
-
-  # given {1..4}
-
-  my $count = $hash->count; # 2
-
-The count method returns the total number of keys defined. This method returns
-a L<Data::Object::Number> object.
-
-=cut
-
-=method data
-
-  # given $hash
-
-  $hash->data; # original value
-
-The data method returns the original and underlying value contained by the
-object. This method is an alias to the detract method.
-
-=cut
-
-=method defined
-
-  # given {1..8,9,undef}
-
-  $hash->defined(1); # 1; true
-  $hash->defined(0); # 0; false
-  $hash->defined(9); # 0; false
-
-The defined method returns true if the value matching the key specified in the
-argument if defined, otherwise returns false. This method returns a
-L<Data::Object::Number> object.
-
-=cut
-
-=method delete
-
-  # given {1..8}
-
-  $hash->delete(1); # 2
-
-The delete method returns the value matching the key specified in the argument
-and returns the value. This method returns a data type object to be determined
-after execution.
-
-=cut
-
-=method detract
-
-  # given $hash
-
-  $hash->detract; # original value
-
-The detract method returns the original and underlying value contained by the
-object.
-
-=cut
-
-=method dump
-
-  # given {1..4}
-
-  $hash->dump; # '{1=>2,3=>4}'
-
-The dump method returns returns a string representation of the object.
-This method returns a L<Data::Object::String> object.
-
-=cut
-
-=method each
-
-  # given {1..8}
-
-  $hash->each(sub{
-      my $key   = shift; # 1
-      my $value = shift; # 2
-  });
-
-The each method iterates over each element in the hash, executing the code
-reference supplied in the argument, passing the routine the key and value at the
-current position in the loop. This method supports codification, i.e, takes an
-argument which can be a codifiable string, a code reference, or a code data type
-object. This method returns a L<Data::Object::Hash> object.
-
-=cut
-
-=method each_key
-
-  # given {1..8}
-
-  $hash->each_key(sub{
-      my $key = shift; # 1
-  });
-
-The each_key method iterates over each element in the hash, executing the code
-reference supplied in the argument, passing the routine the key at the current
-position in the loop. This method supports codification, i.e, takes an argument
-which can be a codifiable string, a code reference, or a code data type object.
-This method returns a L<Data::Object::Hash> object.
-
-=cut
-
-=method each_n_values
-
-  # given {1..8}
-
-  $hash->each_n_values(4, sub {
-      my $value_1 = shift; # 2
-      my $value_2 = shift; # 4
-      my $value_3 = shift; # 6
-      my $value_4 = shift; # 8
-      ...
-  });
-
-The each_n_values method iterates over each element in the hash, executing the
-code reference supplied in the argument, passing the routine the next n values
-until all values have been seen. This method supports codification, i.e, takes
-an argument which can be a codifiable string, a code reference, or a code data
-type object. This method returns a L<Data::Object::Hash> object.
-
-=cut
-
-=method each_value
-
-  # given {1..8}
-
-  $hash->each_value(sub {
-      my $value = shift; # 2
-  });
-
-The each_value method iterates over each element in the hash, executing the code
-reference supplied in the argument, passing the routine the value at the current
-position in the loop. This method supports codification, i.e, takes an argument
-which can be a codifiable string, a code reference, or a code data type object.
-This method returns a L<Data::Object::Hash> object.
-
-=cut
-
-=method empty
-
-  # given {1..8}
-
-  $hash->empty; # {}
-
-The empty method drops all elements from the hash. This method returns a
-L<Data::Object::Hash> object. Note: This method modifies the hash.
-
-=cut
-
-=method eq
-
-  # given $hash
-
-  $hash->eq; # exception thrown
-
-This method is a consumer requirement but has no function and is not implemented.
-This method will throw an exception if called.
-
-=cut
-
-=method exists
-
-  # given {1..8,9,undef}
-
-  $hash->exists(1); # 1; true
-  $hash->exists(0); # 0; false
-
-The exists method returns true if the value matching the key specified in the
-argument exists, otherwise returns false. This method returns a
-L<Data::Object::Number> object.
-
-=cut
-
-=method filter_exclude
-
-  # given {1..8}
-
-  $hash->filter_exclude(1,3); # {5=>6,7=>8}
-
-The filter_exclude method returns a hash reference consisting of all key/value
-pairs in the hash except for the pairs whose keys are specified in the
-arguments. This method returns a L<Data::Object::Hash> object.
-
-=cut
-
-=method filter_include
-
-  # given {1..8}
-
-  $hash->filter_include(1,3); # {1=>2,3=>4}
-
-The filter_include method returns a hash reference consisting of only key/value
-pairs whose keys are specified in the arguments. This method returns a
-L<Data::Object::Hash> object.
-
-=cut
-
-=method fold
-
-  # given {3,[4,5,6],7,{8,8,9,9}}
-
-  $hash->fold; # {'3:0'=>4,'3:1'=>5,'3:2'=>6,'7.8'=>8,'7.9'=>9}
-
-The fold method returns a single-level hash reference consisting of key/value
-pairs whose keys are paths (using dot-notation where the segments correspond to
-nested hash keys and array indices) mapped to the nested values. This method
-returns a L<Data::Object::Hash> object.
-
-=cut
-
-=method ge
-
-  # given $hash
-
-  $hash->ge; # exception thrown
-
-This method is a consumer requirement but has no function and is not implemented.
-This method will throw an exception if called.
-
-=cut
-
-=method get
-
-  # given {1..8}
-
-  $hash->get(5); # 6
-
-The get method returns the value of the element in the hash whose key
-corresponds to the key specified in the argument. This method returns a data
-type object to be determined after execution.
-
-=cut
-
-=method grep
-
-  # given {1..4}
-
-  $hash->grep(sub {
-      shift >= 3
-  });
-
-  # {3=>5}
-
-The grep method iterates over each key/value pair in the hash, executing the
-code reference supplied in the argument, passing the routine the key and value
-at the current position in the loop and returning a new hash reference
-containing the elements for which the argument evaluated true. This method
-supports codification, i.e, takes an argument which can be a codifiable string,
-a code reference, or a code data type object. This method returns a
-L<Data::Object::Hash> object.
-
-=cut
-
-=method gt
-
-  # given $hash
-
-  $hash->gt; # exception thrown
-
-This method is a consumer requirement but has no function and is not implemented.
-This method will throw an exception if called.
-
-=cut
-
-=method head
-
-  # given $hash
-
-  $hash->head; # exception thrown
-
-This method is a consumer requirement but has no function and is not implemented.
-This method will throw an exception if called.
-
-=cut
-
-=method invert
-
-  # given {1..8,9,undef,10,''}
-
-  $hash->invert; # {''=>10,2=>1,4=>3,6=>5,8=>7}
-
-The invert method returns the hash after inverting the keys and values
-respectively. Note, keys with undefined values will be dropped, also, this
-method modifies the hash. This method returns a L<Data::Object::Hash> object.
-Note: This method modifies the hash.
-
-=cut
-
-=method iterator
-
-  # given {1..8}
-
-  my $iterator = $hash->iterator;
-  while (my $value = $iterator->next) {
-      say $value; # 2
+  if (Scalar::Util::blessed($arg)) {
+    $arg = $arg->data if $arg->can('does') && $arg->does($role);
   }
 
-The iterator method returns a code reference which can be used to iterate over
-the hash. Each time the iterator is executed it will return the values of the
-next element in the hash until all elements have been seen, at which point
-the iterator will return an undefined value. This method returns a
-L<Data::Object::Code> object.
+  unless (ref($arg) eq 'HASH') {
+    croak('Instantiation Error: Not a HashRef');
+  }
 
-=cut
+  return bless $arg, $class;
+}
 
-=method join
+# METHODS
 
-  # given $hash
+sub self {
+  return shift;
+}
 
-  $hash->join; # exception thrown
+sub roles {
+  return cast([@roles]);
+}
 
-This method is a consumer requirement but has no function and is not implemented.
-This method will throw an exception if called.
-=cut
+sub rules {
+  return cast([@rules]);
+}
 
-=method keys
+# DISPATCHERS
 
-  # given {1..8}
+sub clear {
+  my ($self, @args) = @_;
 
-  $hash->keys; # [1,3,5,7]
+  try {
+    my $func = 'Data::Object::Func::Hash::Clear';
 
-The keys method returns an array reference consisting of all the keys in the
-hash. This method returns a L<Data::Object::Array> object.
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-=cut
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-=method le
+sub count {
+  my ($self, @args) = @_;
 
-  # given $hash
+  try {
+    my $func = 'Data::Object::Func::Hash::Count';
 
-  $hash->le; # exception thrown
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-This method is a consumer requirement but has no function and is not implemented.
-This method will throw an exception if called.
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-=cut
+sub defined {
+  my ($self, @args) = @_;
 
-=method length
+  try {
+    my $func = 'Data::Object::Func::Hash::Defined';
 
-  # given {1..8}
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-  my $length = $hash->length; # 4
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-The length method returns the number of keys in the hash. This method
-return a L<Data::Object::Number> object.
+sub delete {
+  my ($self, @args) = @_;
 
-=cut
+  try {
+    my $func = 'Data::Object::Func::Hash::Delete';
 
-=method list
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-  # given $hash
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-  my $list = $hash->list;
+sub each {
+  my ($self, @args) = @_;
 
-The list method returns a shallow copy of the underlying hash reference as an
-array reference. This method return a L<Data::Object::Array> object.
+  try {
+    my $func = 'Data::Object::Func::Hash::Each';
 
-=cut
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-=method lookup
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-  # given {1..3,{4,{5,6,7,{8,9,10,11}}}}
+sub each_key {
+  my ($self, @args) = @_;
 
-  $hash->lookup('3.4.7'); # {8=>9,10=>11}
-  $hash->lookup('3.4'); # {5=>6,7=>{8=>9,10=>11}}
-  $hash->lookup(1); # 2
+  try {
+    my $func = 'Data::Object::Func::Hash::EachKey';
 
-The lookup method returns the value of the element in the hash whose key
-corresponds to the key specified in the argument. The key can be a string which
-references (using dot-notation) nested keys within the hash. This method will
-return undefined if the value is undef or the location expressed in the argument
-can not be resolved. Please note, keys containing dots (periods) are not
-handled. This method returns a data type object to be determined after
-execution.
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-=cut
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-=method lt
+sub each_n_values {
+  my ($self, @args) = @_;
 
-  # given $hash
+  try {
+    my $func = 'Data::Object::Func::Hash::EachNValues';
 
-  $hash->lt; # exception thrown
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-This method is a consumer requirement but has no function and is not implemented.
-This method will throw an exception if called.
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-=cut
+sub each_value {
+  my ($self, @args) = @_;
 
-=method map
+  try {
+    my $func = 'Data::Object::Func::Hash::EachValue';
 
-  # given {1..4}
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-  $hash->map(sub {
-      shift + 1
-  });
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-The map method iterates over each key/value in the hash, executing the code
-reference supplied in the argument, passing the routine the value at the
-current position in the loop and returning a new hash reference containing the
-elements for which the argument returns a value or non-empty list. This method
-returns a L<Data::Object::Hash> object.
+sub empty {
+  my ($self, @args) = @_;
 
-=cut
+  try {
+    my $func = 'Data::Object::Func::Hash::Empty';
 
-=method merge
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-  # given {1..8}
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-  $hash->merge({7,7,9,9}); # {1=>2,3=>4,5=>6,7=>7,9=>9}
+sub eq {
+  my ($self, @args) = @_;
 
-The merge method returns a hash reference where the elements in the hash and
-the elements in the argument(s) are merged. This operation performs a deep
-merge and clones the datasets to ensure no side-effects. The merge behavior
-merges hash references only, all other data types are assigned with precendence
-given to the value being merged. This method returns a L<Data::Object::Hash>
-object.
+  try {
+    my $func = 'Data::Object::Func::Hash::Eq';
 
-=cut
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-=method methods
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-  # given $hash
+sub exists {
+  my ($self, @args) = @_;
 
-  $hash->methods;
+  try {
+    my $func = 'Data::Object::Func::Hash::Exists';
 
-The methods method returns the list of methods attached to object. This method
-returns a L<Data::Object::Array> object.
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-=cut
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-=method ne
+sub filter_exclude {
+  my ($self, @args) = @_;
 
-  # given $hash
+  try {
+    my $func = 'Data::Object::Func::Hash::FilterExclude';
 
-  $hash->ne; # exception thrown
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-This method is a consumer requirement but has no function and is not implemented.
-This method will throw an exception if called.
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-=cut
+sub filter_include {
+  my ($self, @args) = @_;
 
-=method new
+  try {
+    my $func = 'Data::Object::Func::Hash::FilterInclude';
 
-  # given 1..4
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-  my $hash = Data::Object::Hash->new(1..4);
-  my $hash = Data::Object::Hash->new({1..4});
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-The new method expects a list or hash reference and returns a new class
-instance.
+sub fold {
+  my ($self, @args) = @_;
 
-=cut
+  try {
+    my $func = 'Data::Object::Func::Hash::Fold';
 
-=method pairs
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-  # given {1..8}
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-  $hash->pairs; # [[1,2],[3,4],[5,6],[7,8]]
+sub ge {
+  my ($self, @args) = @_;
 
-The pairs method is an alias to the pairs_array method. This method returns a
-L<Data::Object::Array> object. This method is an alias to the pairs_array
-method.
+  try {
+    my $func = 'Data::Object::Func::Hash::Ge';
 
-=cut
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-=method print
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-  # given {1..4}
+sub get {
+  my ($self, @args) = @_;
 
-  $hash->print; # '{1=>2,3=>4}'
+  try {
+    my $func = 'Data::Object::Func::Hash::Get';
 
-The print method outputs the value represented by the object to STDOUT and
-returns true. This method returns a L<Data::Object::Number> object.
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-=cut
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-=method reset
+sub grep {
+  my ($self, @args) = @_;
 
-  # given {1..8}
+  try {
+    my $func = 'Data::Object::Func::Hash::Grep';
 
-  $hash->reset; # {1=>undef,3=>undef,5=>undef,7=>undef}
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-The reset method returns nullifies the value of each element in the hash. This
-method returns a L<Data::Object::Hash> object. Note: This method modifies the
-hash.
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-=cut
+sub gt {
+  my ($self, @args) = @_;
 
-=method reverse
+  try {
+    my $func = 'Data::Object::Func::Hash::Gt';
 
-  # given {1..8,9,undef}
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-  $hash->reverse; # {8=>7,6=>5,4=>3,2=>1}
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-The reverse method returns a hash reference consisting of the hash's keys and
-values inverted. Note, keys with undefined values will be dropped. This method
-returns a L<Data::Object::Hash> object.
+sub head {
+  my ($self, @args) = @_;
 
-=cut
+  try {
+    my $func = 'Data::Object::Func::Hash::Head';
 
-=method roles
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-  # given $hash
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-  $hash->roles;
+sub invert {
+  my ($self, @args) = @_;
 
-The roles method returns the list of roles attached to object. This method
-returns a L<Data::Object::Array> object.
+  try {
+    my $func = 'Data::Object::Func::Hash::Invert';
 
-=cut
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-=method say
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-  # given {1..4}
+sub iterator {
+  my ($self, @args) = @_;
 
-  $hash->say; # '{1=>2,3=>4}\n'
+  try {
+    my $func = 'Data::Object::Func::Hash::Iterator';
 
-The say method outputs the value represented by the object appended with a
-newline to STDOUT and returns true. This method returns a L<Data::Object::Number>
-object.
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-=cut
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-=method set
+sub join {
+  my ($self, @args) = @_;
 
-  # given {1..8}
+  try {
+    my $func = 'Data::Object::Func::Hash::Join';
 
-  $hash->set(1,10); # 10
-  $hash->set(1,12); # 12
-  $hash->set(1,0); # 0
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-The set method returns the value of the element in the hash corresponding to
-the key specified by the argument after updating it to the value of the second
-argument. This method returns a data type object to be determined after
-execution.
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-=cut
+sub keys {
+  my ($self, @args) = @_;
 
-=method slice
+  try {
+    my $func = 'Data::Object::Func::Hash::Keys';
 
-  # given {1..8}
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-  my $slice = $hash->slice(1,5); # {1=>2,5=>6}
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-The slice method returns a hash reference containing the elements in the hash
-at the key(s) specified in the arguments. This method returns a
-L<Data::Object::Hash> object.
+sub le {
+  my ($self, @args) = @_;
 
-=cut
+  try {
+    my $func = 'Data::Object::Func::Hash::Le';
 
-=method sort
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-  # given $hash
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-  $hash->sort; # exception thrown
+sub length {
+  my ($self, @args) = @_;
 
-This method is a consumer requirement but has no function and is not implemented.
-This method will throw an exception if called.
+  try {
+    my $func = 'Data::Object::Func::Hash::Length';
 
-=cut
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-=method tail
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-  # given $hash
+sub list {
+  my ($self) = @_;
 
-  $hash->tail; # exception thrown
+  my @retv = (map cast($_), %$self);
 
-This method is a consumer requirement but has no function and is not implemented.
-This method will throw an exception if called.
+  return wantarray ? (@retv) : cast([@retv]);
+}
 
-=cut
+sub lookup {
+  my ($self, @args) = @_;
 
-=method throw
+  try {
+    my $func = 'Data::Object::Func::Hash::Lookup';
 
-  # given $hash
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-  $hash->throw;
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-The throw method terminates the program using the core die keyword, passing the
-object to the L<Data::Object::Exception> class as the named parameter C<object>.
-If captured this method returns a L<Data::Object::Exception> object.
+sub lt {
+  my ($self, @args) = @_;
 
-=cut
+  try {
+    my $func = 'Data::Object::Func::Hash::Lt';
 
-=method type
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-  # given $hash
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-  $hash->type; # HASH
+sub map {
+  my ($self, @args) = @_;
 
-The type method returns a string representing the internal data type object name.
-This method returns a L<Data::Object::String> object.
+  try {
+    my $func = 'Data::Object::Func::Hash::Map';
 
-=cut
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-=method unfold
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-  # given {'3:0'=>4,'3:1'=>5,'3:2'=>6,'7.8'=>8,'7.9'=>9}
+sub merge {
+  my ($self, @args) = @_;
 
-  $hash->unfold; # {3=>[4,5,6],7,{8,8,9,9}}
+  try {
+    my $func = 'Data::Object::Func::Hash::Merge';
 
-The unfold method processes previously folded hash references and returns an
-unfolded hash reference where the keys, which are paths (using dot-notation
-where the segments correspond to nested hash keys and array indices), are used
-to created nested hash and/or array references. This method returns a
-L<Data::Object::Hash> object.
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-=cut
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-=method values
+sub ne {
+  my ($self, @args) = @_;
 
-  # given {1..8}
+  try {
+    my $func = 'Data::Object::Func::Hash::Ne';
 
-  $hash->values; # [2,4,6,8]
-  $hash->values(1,3); # [2,4]
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-The values method returns an array reference consisting of the values of the
-elements in the hash. This method returns a L<Data::Object::Array> object.
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-=cut
+sub pairs {
+  my ($self, @args) = @_;
 
-=head1 SEE ALSO
+  try {
+    my $func = 'Data::Object::Func::Hash::Pairs';
 
-=over 4
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-=item *
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-L<Data::Object::Array>
+sub reset {
+  my ($self, @args) = @_;
 
-=item *
+  try {
+    my $func = 'Data::Object::Func::Hash::Reset';
 
-L<Data::Object::Class>
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-=item *
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-L<Data::Object::Class::Syntax>
+sub reverse {
+  my ($self, @args) = @_;
 
-=item *
+  try {
+    my $func = 'Data::Object::Func::Hash::Reverse';
 
-L<Data::Object::Code>
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-=item *
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-L<Data::Object::Float>
+sub set {
+  my ($self, @args) = @_;
 
-=item *
+  try {
+    my $func = 'Data::Object::Func::Hash::Set';
 
-L<Data::Object::Hash>
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-=item *
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-L<Data::Object::Integer>
+sub slice {
+  my ($self, @args) = @_;
 
-=item *
+  try {
+    my $func = 'Data::Object::Func::Hash::Slice';
 
-L<Data::Object::Number>
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-=item *
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-L<Data::Object::Role>
+sub sort {
+  my ($self, @args) = @_;
 
-=item *
+  try {
+    my $func = 'Data::Object::Func::Hash::Sort';
 
-L<Data::Object::Role::Syntax>
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-=item *
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-L<Data::Object::Regexp>
+sub tail {
+  my ($self, @args) = @_;
 
-=item *
+  try {
+    my $func = 'Data::Object::Func::Hash::Tail';
 
-L<Data::Object::Scalar>
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-=item *
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-L<Data::Object::String>
+sub unfold {
+  my ($self, @args) = @_;
 
-=item *
+  try {
+    my $func = 'Data::Object::Func::Hash::Unfold';
 
-L<Data::Object::Undef>
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-=item *
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-L<Data::Object::Any>
+sub values {
+  my ($self, @args) = @_;
 
-=item *
+  try {
+    my $func = 'Data::Object::Func::Hash::Values';
 
-L<Data::Object::Autobox>
+    return cast(load($func)->new($self, @args)->execute);
+  }
+  catch {
+    my $error = $_;
 
-=item *
+    $self->throw(ref($error) ? $error->message : "$error");
+  };
+}
 
-L<Data::Object::Immutable>
-
-=item *
-
-L<Data::Object::Config::Type>
-
-=item *
-
-L<Data::Object::Prototype>
-
-=item *
-
-L<Data::Object::Config::Routine>
-
-=back
-
-=cut
+1;

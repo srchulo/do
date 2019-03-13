@@ -1,0 +1,87 @@
+
+=encoding utf8
+
+=head1 NAME
+
+Data::Object::Config::Signatures
+
+=cut
+
+=head1 ABSTRACT
+
+Data-Object Signatures Configuration
+
+=cut
+
+=head1 SYNOPSIS
+
+  use Data::Object::Config::Signatures;
+
+  fun hello (Str $name) {
+    return "Hello $name, how are you?";
+  }
+
+=cut
+
+=head1 DESCRIPTION
+
+Data::Object::Config::Signatures is a subclass of L<Type::Tiny::Signatures> providing
+method and function signatures supporting all the type constraints provided by
+L<Data::Object::Config::Type>.
+
+=cut
+
+=head1 FUNCTIONS
+
+This package implements the following functions.
+
+=cut
+
+=head2 settings
+
+  my $settings = settings();
+
+The settings function returns the settings for Function::Parameters
+configuration.
+
+=cut
+
+=head2 func_settings
+
+  my $func_settings = func_settings();
+
+The func_settings function returns the fun-keyword configuration.
+
+=cut
+
+=head2 meth_settings
+
+  my $meth_settings = meth_settings();
+
+The meth_settings function returns the method-keyword configuration.
+
+=cut
+
+=head2 aftr_settings
+
+  my $aftr_settings = aftr_settings();
+
+The aftr_settings function returns the after-keyword configuration.
+
+=cut
+
+=head2 befr_settings
+
+  my $befr_settings = befr_settings();
+
+The befr_settings function returns the before-keyword configuration.
+
+=cut
+
+=head2 arnd_settings
+
+  my $arnd_settings = arnd_settings();
+
+The arnd_settings function returns the around-keyword configuration.
+
+=cut

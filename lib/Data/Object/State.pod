@@ -1,0 +1,44 @@
+
+=encoding utf8
+
+=head1 NAME
+
+Data::Object::State
+
+=cut
+
+=head1 ABSTRACT
+
+Data-Object Singleton Declaration
+
+=cut
+
+=head1 SYNOPSIS
+
+  package Registry;
+
+  use Data::Object State;
+
+  extends 'Environment';
+
+=cut
+
+=head1 DESCRIPTION
+
+Data::Object::State modifies the consuming package makes it a singleton class.
+
+=cut
+
+=head1 METHODS
+
+This package implements the following methods.
+
+=cut
+
+=head2 renew
+
+  my $RENEW = $self->RENEW(@args);
+
+The RENEW method resets the state and returns a new singleton.
+
+=cut

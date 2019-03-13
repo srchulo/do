@@ -1,0 +1,151 @@
+
+=encoding utf8
+
+=head1 NAME
+
+Data::Object::Regexp
+
+=cut
+
+=head1 ABSTRACT
+
+Data-Object Regexp Class
+
+=cut
+
+=head1 SYNOPSIS
+
+  use Data::Object::Regexp;
+
+  my $re = Data::Object::Regexp->new(qr(\w+));
+
+=cut
+
+=head1 DESCRIPTION
+
+Data::Object::Regexp provides routines for operating on Perl 5 regular
+expressions. Data::Object::Regexp methods work on data that meets the criteria
+for being a regular expression.
+
+=cut
+
+=head1 METHODS
+
+This package implements the following methods.
+
+=cut
+
+=head2 new
+
+  # given qr(something to match against)
+
+  my $re = Data::Object::Regexp->new(qr(something to match against));
+
+The new method expects a regular-expression object and returns a new class
+instance.
+
+=cut
+
+=head2 roles
+
+  # given $regexp
+
+  $regexp->roles;
+
+The roles method returns the list of roles attached to object. This method
+returns a L<Data::Object::Array> object.
+
+=cut
+
+=head2 rules
+
+  my $rules = $regexp->rules();
+
+The rules method returns consumed rules.
+
+=cut
+
+=head2 defined
+
+  # given $regexp
+
+  $regexp->defined; # 1
+
+The defined method returns true if the object represents a value that meets the
+criteria for being defined, otherwise it returns false. This method returns a
+L<Data::Object::Number> object.
+
+=cut
+
+=head2 search
+
+  # given qr((test))
+
+  $re->search('this is a test');
+  $re->search('this does not match', 'gi');
+
+The search method performs a regular expression match against the given string
+This method will always return a L<Data::Object::Search> object which
+can be used to introspect the result of the operation.
+
+=cut
+
+=head2 replace
+
+  # given qr(test)
+
+  $re->replace('this is a test', 'drill');
+  $re->replace('test 1 test 2 test 3', 'drill', 'gi');
+
+The replace method performs a regular expression substitution on the given
+string. The first argument is the string to match against. The second argument
+is the replacement string. The optional third argument might be a string
+representing flags to append to the s///x operator, such as 'g' or 'e'.  This
+method will always return a L<Data::Object::Replace> object which can be
+used to introspect the result of the operation.
+
+=cut
+
+=head1 ROLES
+
+This package inherits all behavior from the folowing role(s):
+
+=cut
+
+=over 4
+
+=item *
+
+L<Data::Object::Role::Detract>
+
+=item *
+
+L<Data::Object::Role::Dumper>
+
+=item *
+
+L<Data::Object::Role::Output>
+
+=item *
+
+L<Data::Object::Role::Throwable>
+
+=item *
+
+L<Data::Object::Role::Type>
+
+=back
+
+=head1 RULES
+
+This package adheres to the requirements in the folowing rule(s):
+
+=cut
+
+=over 4
+
+=item *
+
+L<Data::Object::Rule::Defined>
+
+=back

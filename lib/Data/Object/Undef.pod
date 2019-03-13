@@ -1,0 +1,189 @@
+
+=encoding utf8
+
+=head1 NAME
+
+Data::Object::Undef
+
+=cut
+
+=head1 ABSTRACT
+
+Data-Object Undef Class
+
+=cut
+
+=head1 SYNOPSIS
+
+  use Data::Object::Undef;
+
+  my $undef = Data::Object::Undef->new(undef);
+
+=cut
+
+=head1 DESCRIPTION
+
+Data::Object::Undef provides routines for operating on Perl 5 undefined
+data. Undef methods work on undefined values.
+
+=cut
+
+=head1 METHODS
+
+This package implements the following methods.
+
+=cut
+
+=head2 new
+
+  # given undef
+
+  my $undef = Data::Object::Undef->new(undef);
+
+The new method expects an undefined value and returns a new class instance.
+
+=cut
+
+=head2 roles
+
+  # given $undef
+
+  $undef->roles;
+
+The roles method returns the list of roles attached to object. This method
+returns a L<Data::Object::Array> object.
+
+=cut
+
+=head2 rules
+
+  my $rules = $undef->rules();
+
+The rules method returns consumed rules.
+
+=cut
+
+=head2 defined
+
+  # given undef
+
+  $undef->defined ? 'Yes' : 'No'; # No
+
+The defined method always returns false. This method returns a
+L<Data::Object::Number> object.
+
+=cut
+
+=head2 eq
+
+  # given $undef
+
+  $undef->eq; # exception thrown
+
+This method is a consumer requirement but has no function and is not implemented.
+This method will throw an exception if called.
+
+=cut
+
+=head2 gt
+
+  # given $undef
+
+  $undef->gt; # exception thrown
+
+This method is a consumer requirement but has no function and is not implemented.
+This method will throw an exception if called.
+
+=cut
+
+=head2 ge
+
+  # given $undef
+
+  $undef->ge; # exception thrown
+
+This method is a consumer requirement but has no function and is not implemented.
+This method will throw an exception if called.
+
+=cut
+
+=head2 lt
+
+  # given $undef
+
+  $undef->lt; # exception thrown
+
+This method is a consumer requirement but has no function and is not implemented.
+This method will throw an exception if called.
+
+=cut
+
+=head2 le
+
+  # given $undef
+
+  $undef->le; # exception thrown
+
+This method is a consumer requirement but has no function and is not implemented.
+This method will throw an exception if called.
+
+=cut
+
+=head2 ne
+
+  # given $undef
+
+  $undef->ne; # exception thrown
+
+This method is a consumer requirement but has no function and is not implemented.
+This method will throw an exception if called.
+
+=cut
+
+=head1 ROLES
+
+This package inherits all behavior from the folowing role(s):
+
+=cut
+
+=over 4
+
+=item *
+
+L<Data::Object::Role::Detract>
+
+=item *
+
+L<Data::Object::Role::Dumper>
+
+=item *
+
+L<Data::Object::Role::Output>
+
+=item *
+
+L<Data::Object::Role::Throwable>
+
+=item *
+
+L<Data::Object::Role::Type>
+
+=back
+
+=head1 RULES
+
+This package adheres to the requirements in the folowing rule(s):
+
+=cut
+
+=over 4
+
+=item *
+
+L<Data::Object::Rule::Comparison>
+
+=item *
+
+L<Data::Object::Rule::Defined>
+
+=back

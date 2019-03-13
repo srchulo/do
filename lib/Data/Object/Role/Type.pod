@@ -1,0 +1,51 @@
+
+=encoding utf8
+
+=head1 NAME
+
+Data::Object::Role::Type
+
+=cut
+
+=head1 ABSTRACT
+
+Data-Object Type Role
+
+=cut
+
+=head1 SYNOPSIS
+
+  use Data::Object::Class;
+
+  with 'Data::Object::Role::Type';
+
+=cut
+
+=head1 DESCRIPTION
+
+Data::Object::Role::Type provides routines for operating on Perl 5 data
+objects which meet the criteria for being considered type objects.
+
+=cut
+
+=head1 METHODS
+
+This package implements the following methods.
+
+=cut
+
+=head2 methods
+
+  my $methods = $self->methods();
+
+The methods method returns all object functions and methods.
+
+=cut
+
+=head2 type
+
+  my $type = $self->type();
+
+The type method returns object type string.
+
+=cut

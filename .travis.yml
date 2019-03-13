@@ -18,12 +18,10 @@ install:
 
 jobs:
   include:
-    - stage: linting
+    - stage: check
+      script: perl -Ilib -c $(find lib t -type f)
+    - stage: critique
       script: perlcritic lib t
-    - stage: testing
-      script: prove -Ilib -r t
-    - stage: checking
-      script: find lib t -type f -exec perl -Ilib -c {} \;
 
 notifications:
   email: false

@@ -4,15 +4,16 @@ use Test::More;
 
 use_ok 'Data::Object::Any';
 
-ok Data::Object::Any->does('Data::Object::Role::Comparison');
-ok Data::Object::Any->does('Data::Object::Role::Defined');
+ok Data::Object::Any->does('Data::Object::Rule::Comparison');
+ok Data::Object::Any->does('Data::Object::Rule::Defined');
 ok Data::Object::Any->does('Data::Object::Role::Detract');
 ok Data::Object::Any->does('Data::Object::Role::Dumper');
-ok Data::Object::Any->does('Data::Object::Role::Item');
 ok Data::Object::Any->does('Data::Object::Role::Output');
 ok Data::Object::Any->does('Data::Object::Role::Throwable');
 ok Data::Object::Any->does('Data::Object::Role::Type');
-ok Data::Object::Any->does('Data::Object::Role::Value');
+
+# no longer supported
+# ok Data::Object::Any->does('Data::Object::Role::Value');
 
 can_ok 'Data::Object::Any', 'data';
 can_ok 'Data::Object::Any', 'defined';

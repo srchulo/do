@@ -1,0 +1,86 @@
+
+=encoding utf8
+
+=head1 NAME
+
+Data::Object::Template
+
+=cut
+
+=head1 ABSTRACT
+
+Data-Object Template Class
+
+=cut
+
+=head1 SYNOPSIS
+
+  use Data::Object::Template;
+
+  my $template = Data::Object::Template->new;
+
+  $template->render($string, $vars);
+
+=cut
+
+=head1 DESCRIPTION
+
+Data::Object::Template provides methods for rendering templates and
+encapsulates the behavior of L<Template::Tiny>.
+
+=cut
+
+=head1 METHODS
+
+This package implements the following methods.
+
+=cut
+
+=head2 buildproxy
+
+  # given $template
+
+  $template->BUILDPROXY(...);
+
+  # ...
+
+The BUILDPROXY method handles resolving missing-methods via autoloaded. This
+method is never called directly.
+
+=cut
+
+=head2 origin
+
+  # given $template
+
+  $template->origin();
+
+  # ...
+
+The origin method returns the package name of the proxy used.
+
+=cut
+
+=head2 source
+
+  # given $source
+
+  $template->source();
+
+  # Template::Tiny
+
+The source method returns the underlying proxy object used.
+
+=cut
+
+=head2 render
+
+  # given $template
+
+  $template->render($content, $variables);
+
+  # ...
+
+The render method renders the given template interpolating the given variables.
+
+=cut

@@ -2,7 +2,7 @@ use strict;
 use warnings;
 use Test::More;
 
-plan skip_all => 'Missing implicit dependencies. Tests skipped.' unless eval q(
+plan skip_all => "Test Error: $@" unless eval q(
     require Data::Object::Any;
     require Data::Object::Array;
     require Data::Object::Code;
@@ -16,10 +16,10 @@ plan skip_all => 'Missing implicit dependencies. Tests skipped.' unless eval q(
     1;
 );
 
-use Data::Object 'deduce_deep';
+use Data::Object::Export 'deduce_deep';
 use Scalar::Util 'refaddr';
 
-can_ok 'Data::Object', 'deduce_deep';
+can_ok 'Data::Object::Export', 'deduce_deep';
 subtest 'test the deduce_deep function' => sub {
   my $main   = bless {}, 'main';
   my $object = deduce_deep {1, 2, 3, {4, 5, 6, [-1, 99, $main]}};

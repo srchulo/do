@@ -1,22 +1,18 @@
-# ABSTRACT: Dumper Object Role for Perl 5
 package Data::Object::Role::Dumper;
 
 use strict;
 use warnings;
 
-use 5.014;
-
-use Data::Object;
 use Data::Object::Role;
-use Data::Object::Config::Type;
-use Data::Object::Config::Routine;
-use Scalar::Util;
 
-# VERSION
+# BUILD
+# METHODS
 
-method dump () {
+sub dump {
+  my ($data) = @_;
 
   require Data::Dumper;
+  require Data::Object::Export;
 
   no warnings 'once';
 
@@ -29,128 +25,11 @@ method dump () {
   local $Data::Dumper::Terse = 1;
   local $Data::Dumper::Useqq = 1;
 
-  my $result = Data::Object::detract_deep($self);
-  $result = Data::Dumper::Dumper($result);
-  $result =~ s/^"|"$//g;
+  $data = Data::Object::Export::detract_deep($_[0]);
+  $data = Data::Dumper::Dumper($data);
+  $data =~ s/^"|"$//g;
 
-  return $result;
-
+  return $data;
 }
 
 1;
-
-=encoding utf8
-
-=head1 SYNOPSIS
-
-  use Data::Object::Class;
-
-  with 'Data::Object::Role::Dumper';
-
-=cut
-
-=head1 DESCRIPTION
-
-Data::Object::Role::Dumper provides routines for operating on Perl 5 data
-objects which meet the criteria for being dumpable.
-
-=cut
-
-=method dump
-
-  # given $dumper
-
-  $dumper->dump;
-
-The dump method returns returns a string representation of the object.
-This method returns a string value.
-
-=cut
-
-=head1 SEE ALSO
-
-=over 4
-
-=item *
-
-L<Data::Object::Array>
-
-=item *
-
-L<Data::Object::Class>
-
-=item *
-
-L<Data::Object::Class::Syntax>
-
-=item *
-
-L<Data::Object::Code>
-
-=item *
-
-L<Data::Object::Float>
-
-=item *
-
-L<Data::Object::Hash>
-
-=item *
-
-L<Data::Object::Integer>
-
-=item *
-
-L<Data::Object::Number>
-
-=item *
-
-L<Data::Object::Role>
-
-=item *
-
-L<Data::Object::Role::Syntax>
-
-=item *
-
-L<Data::Object::Regexp>
-
-=item *
-
-L<Data::Object::Scalar>
-
-=item *
-
-L<Data::Object::String>
-
-=item *
-
-L<Data::Object::Undef>
-
-=item *
-
-L<Data::Object::Any>
-
-=item *
-
-L<Data::Object::Autobox>
-
-=item *
-
-L<Data::Object::Immutable>
-
-=item *
-
-L<Data::Object::Config::Type>
-
-=item *
-
-L<Data::Object::Prototype>
-
-=item *
-
-L<Data::Object::Config::Routine>
-
-=back
-
-=cut

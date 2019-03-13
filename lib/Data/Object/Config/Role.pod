@@ -1,0 +1,37 @@
+
+=encoding utf8
+
+=head1 NAME
+
+Data::Object::Config::Role
+
+=cut
+
+=head1 ABSTRACT
+
+Data-Object Role Configuration
+
+=cut
+
+=head1 SYNOPSIS
+
+  package Pointable;
+
+  use Data::Object::Role;
+  use Data::Object::Config::Role;
+
+  has 'x';
+  has 'y';
+
+  1;
+
+=cut
+
+=head1 DESCRIPTION
+
+Data::Object::Config::Role modifies the consuming package with behaviors
+useful in defining roles. Specifically, this package wraps the C<has>
+attribute keyword functions and adds enhancements which as documented in
+L<Data::Object::Role>.
+
+=cut

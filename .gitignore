@@ -1,5 +1,6 @@
 /*
 
+!/bin
 !/lib
 !/t
 
@@ -7,6 +8,7 @@
 !INSTALL
 !LICENSE
 !Makefile.PL
+!MANIFEST.SKIP
 !README
 !README.mkdn
 !cpanfile

@@ -1,0 +1,91 @@
+
+=encoding utf8
+
+=head1 NAME
+
+Data::Object::Registry
+
+=cut
+
+=head1 ABSTRACT
+
+Data-Object Namespace Registry
+
+=cut
+
+=head1 SYNOPSIS
+
+  use Data::Object::Registry;
+
+  my $registry = Data::Object::Registry->new;
+
+=cut
+
+=head1 DESCRIPTION
+
+Data::Object::Registry is a singleton that holds mappings for namespaces and
+type libraries.
+
+=cut
+
+=head1 METHODS
+
+This package implements the following methods.
+
+=cut
+
+=head2 def
+
+  my $def = $registry->def();
+
+Returns the default type library.
+
+=cut
+
+=head2 get
+
+  my $get = $registry->get($key);
+
+The get method returns the value of the element with the specific key.
+
+=cut
+
+=head2 lut
+
+  my $lut = $registry->lut($key);
+
+Returns the lookup table for a given namespace.
+
+=cut
+
+=head2 obj
+
+  my $obj = $registry->obj($key);
+
+Return the L<Type::Registry> object for a given namespace.
+
+=cut
+
+=head2 rem
+
+  my $rem = $registry->rem($key, $val);
+
+Remove the registered type library from a given namespace.
+
+=cut
+
+=head2 set
+
+  my $set = $registry->set($key, $val);
+
+Set the supplied key and value, and return the value.
+
+=cut
+
+=head2 tns
+
+  my $tns = $registry->tns();
+
+Returns the registered type-namespaces.
+
+=cut

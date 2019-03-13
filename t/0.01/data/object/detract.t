@@ -2,7 +2,7 @@ use strict;
 use warnings;
 use Test::More;
 
-plan skip_all => 'Missing implicit dependencies. Tests skipped.' unless eval q(
+plan skip_all => "Test Error: $@" unless eval q(
     require Data::Object::Any;
     require Data::Object::Array;
     require Data::Object::Code;
@@ -16,10 +16,10 @@ plan skip_all => 'Missing implicit dependencies. Tests skipped.' unless eval q(
     1;
 );
 
-use Data::Object 'deduce', 'detract';
+use Data::Object::Export 'deduce', 'detract';
 use Scalar::Util 'refaddr';
 
-can_ok 'Data::Object', 'deduce', 'detract';
+can_ok 'Data::Object::Export', 'deduce', 'detract';
 subtest 'test the deduce/detract functions' => sub {
   my $array = deduce [1 .. 5];
   isa_ok $array, 'Data::Object::Array';

@@ -1,0 +1,510 @@
+
+=encoding utf8
+
+=head1 NAME
+
+Data::Object::Space
+
+=cut
+
+=head1 ABSTRACT
+
+Data-Object Space Class
+
+=cut
+
+=head1 SYNOPSIS
+
+  use Data::Object::Space;
+
+  my $space = Data::Object::Space->new('data/object');
+
+  "$space"
+  # Data::Object
+
+  $space->name;
+  # Data::Object
+
+  $space->path;
+  # Data/Object
+
+  $space->file;
+  # Data/Object.pm
+
+  $space->children;
+  # ['Data/Object/Array.pm', ...]
+
+  $space->siblings;
+  # ['Data/Dumper.pm', ...]
+
+  $space->load;
+  # Data::Object
+
+=cut
+
+=head1 DESCRIPTION
+
+Data::Object::Space provides methods for parsing and manipulating package
+namespaces.
+
+=cut
+
+=head1 METHODS
+
+This package implements the following methods.
+
+=cut
+
+=head2 id
+
+  # given $space (Foo::Bar)
+
+  $space->id;
+
+  # Foo_Bar
+
+The id method returns the fully-qualified package name as a label.
+
+=cut
+
+=head2 parse
+
+  # given Foo::Bar
+
+  $space->parse('Foo::Bar');
+
+  # ['Foo', 'Bar']
+
+  $space->parse('Foo/Bar');
+
+  # ['Foo', 'Bar']
+
+  $space->parse('Foo\Bar');
+
+  # ['Foo', 'Bar']
+
+  $space->parse('foo-bar');
+
+  # ['FooBar']
+
+  $space->parse('foo_bar');
+
+  # ['FooBar']
+
+The parse method parses the string argument and returns an arrayref of package
+namespace segments (parts) suitable for object construction.
+
+=cut
+
+=head2 call
+
+  # given $space (Foo::Bar)
+
+  $space->call(@args);
+
+  # ...
+
+The call method attempts to call the given subroutine on the package namespace and if
+successful returns the resulting value.
+
+=cut
+
+=head2 cop
+
+  # given $space (Foo::Bar)
+
+  $space->cop(@args);
+
+  # ...
+
+The cop method attempts to curry the given subroutine on the package namespace and if
+successful returns a closure.
+
+=cut
+
+=head2 bless
+
+  # given $space (Foo::Bar)
+
+  $space->bless();
+
+  # bless({}, 'Foo::Bar')
+
+The bless method blesses the given value into the package namespace and returns
+an object. If no value is given, an empty hashref is used.
+
+=cut
+
+=head2 build
+
+  # given $space (Foo::Bar)
+
+  $space->build(@args);
+
+  # bless(..., 'Foo::Bar')
+
+The build method attempts to call C<new> on the package namespace and if
+successful returns the resulting object.
+
+=cut
+
+=head2 child
+
+  # given $space (Foo::Bar)
+
+  $space->child('baz');
+
+  # Foo::Bar::Baz
+
+The child method returns a new L<Data::Object::Space> object for the child
+package namespace.
+
+=cut
+
+=head2 load
+
+  # given $space (Foo::Bar)
+
+  $space->load();
+
+  # throws exception, unless Foo::Bar is loadable
+
+The load method check whether the package namespace is already loaded and if
+not attempts to load the package. If the package is not loaded and is not
+loadable, this method will throw an exception using C<croak>. If the package is
+loadable, this method returns truthy with the package name.
+
+=cut
+
+=head2 used
+
+  # given $space (Foo::Bar)
+
+  $space->used();
+
+  # undef, unless Foo::Bar is in %INC
+
+The used method searches C<%INC> for the package namespace and if found returns
+the filepath and complete filepath for the loaded package, otherwise returns
+undef.
+
+=cut
+
+=head2 parts
+
+  # given $space (Foo::Bar)
+
+  $space->parts();
+
+  # ['Foo', 'Bar']
+
+The parts method returns an arrayref of package namespace segments (parts).
+
+=cut
+
+=head2 parent
+
+  # given $space (Foo::Bar)
+
+  $space->parent();
+
+  # Foo
+
+The parent method returns a new L<Data::Object::Space> object for the parent
+package namespace.
+
+=cut
+
+=head2 sibling
+
+  # given $space (Foo::Bar)
+
+  $space->sibling('Baz');
+
+  # Foo::Baz
+
+The sibling method returns a new L<Data::Object::Space> object for the sibling
+package namespace.
+
+=cut
+
+=head2 append
+
+  # given $space (Foo::Bar)
+
+  $space->append('baz');
+
+  "$space"
+
+  # Foo::Bar::Baz
+
+The append method modifies the object by appending to the package namespace
+parts.
+
+=cut
+
+=head2 prepend
+
+  # given $space (Foo::Bar)
+
+  $space->prepend('via');
+
+  "$space"
+
+  # Via::Foo::Bar
+
+The prepend method modifies the object by prepending to the package namespace
+parts.
+
+=cut
+
+=head2 base
+
+  # given $space (Foo::Bar)
+
+  $space->base();
+
+  # Bar
+
+The base method returns the last segment of the package namespace parts.
+
+=cut
+
+=head2 children
+
+  # given $space (Foo::Bar)
+
+  $space->children();
+
+  # ['Foo::Bar::Baz', ...]
+
+The children method searches C<%INC> and C<@INC> and retuns a list of
+L<Data::Object::Space> objects for each child namespace found (one level deep).
+
+=cut
+
+=head2 siblings
+
+  # given $space (Foo::Bar)
+
+  $space->siblings();
+
+  # ['Foo::Baz', ...]
+
+The siblings method searches C<%INC> and C<@INC> and retuns a list of
+L<Data::Object::Space> objects for each sibling namespace found (one level deep).
+
+=cut
+
+=head2 name
+
+  # given $space (Foo::Bar)
+
+  $space->name;
+
+  # Foo::Bar
+
+The name method returns the fully-qualified package name.
+
+=cut
+
+=head2 root
+
+  # given $space (root => 'Foo', parts => 'Bar')
+
+  $space->root();
+
+  # ['Foo']
+
+The root method returns the root package namespace segments (parts). Sometimes
+separating the C<root> from the C<parts> helps identify how subsequent child
+objects were derived.
+
+=cut
+
+=head2 path
+
+  # given $space (Foo::Bar)
+
+  $space->path();
+
+  # Foo/Bar
+
+  $space->path('lib/%s');
+
+  # lib/Foo/Bar
+
+The path method returns a path string for the package namespace. This method
+optionally takes a format string.
+
+=cut
+
+=head2 file
+
+  # given $space (Foo::Bar)
+
+  $space->file();
+
+  # Foo/Bar.pm
+
+  $space->file('lib/%s');
+
+  # lib/Foo/Bar.pm
+
+The file method returns a file string for the package namespace. This method
+optionally takes a format string.
+
+=cut
+
+=head2 type
+
+  # given $space (Foo/Bar.pod)
+
+  $space->type();
+
+  # pod
+
+The type method returns the parsed filetype and defaults to C<pm>. This value
+is used when calling the C<file> method.
+
+=cut
+
+=head2 variables
+
+  # given Foo/Bar
+
+  $space->variables();
+
+  # [,...]
+
+The variables method searches the package namespace for variables and returns
+their names.
+
+=cut
+
+=head2 scalar
+
+  # given Foo/Bar
+
+  $space->scalar('VERSION');
+
+  # 0.01
+
+The scalar method returns the value for the given package scalar variable name.
+
+=cut
+
+=head2 scalars
+
+  # given Foo/Bar
+
+  $space->scalars();
+
+  # [,...]
+
+The scalars method searches the package namespace for scalars and returns
+their names.
+
+=cut
+
+=head2 array
+
+  # given Foo/Bar
+
+  $space->array('EXPORT');
+
+  # (,...)
+
+The array method returns the value for the given package array variable name.
+
+=cut
+
+=head2 arrays
+
+  # given Foo/Bar
+
+  $space->arrays();
+
+  # [,...]
+
+The arrays method searches the package namespace for arrays and returns
+their names.
+
+=cut
+
+=head2 hash
+
+  # given Foo/Bar
+
+  $space->hash('EXPORT_TAGS');
+
+  # (,...)
+
+The hashes method returns the value for the given package hash variable name.
+
+=cut
+
+=head2 hashes
+
+  # given Foo/Bar
+
+  $space->hashes();
+
+  # [,...]
+
+The hashes method searches the package namespace for hashes and returns
+their names.
+
+=cut
+
+=head2 routine
+
+  # given Foo/Bar
+
+  $space->routine('import');
+
+  # ...
+
+The routine method returns the subroutine reference for the given subroutine
+name.
+
+=cut
+
+=head2 routines
+
+  # given Foo/Bar
+
+  $space->routines();
+
+  # [,...]
+
+The routines method searches the package namespace for routines and returns
+their names.
+
+=cut
+
+=head2 methods
+
+  # given Foo/Bar
+
+  $space->methods();
+
+  # [,...]
+
+The methods method searches the package namespace for methods and returns
+their names.
+
+=cut
+
+=head2 functions
+
+  # given Foo/Bar
+
+  $space->functions();
+
+  # [,...]
+
+The functions method searches the package namespace for functions and returns
+their names.
+
+=cut

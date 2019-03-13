@@ -4,8 +4,8 @@ use warnings;
 use Test::More;
 use Test::TypeTiny;
 
-use Data::Object qw(data_any);
-use Data::Object::Config::Type qw(
+use Data::Object::Export qw(data_any);
+use Data::Object::Config::Library qw(
   AnyObj
   AnyObject
   Object

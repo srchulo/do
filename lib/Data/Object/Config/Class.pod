@@ -1,0 +1,37 @@
+
+=encoding utf8
+
+=head1 NAME
+
+Data::Object::Config::Class
+
+=cut
+
+=head1 ABSTRACT
+
+Data-Object Class Configuration
+
+=cut
+
+=head1 SYNOPSIS
+
+  package Point;
+
+  use Data::Object::Class;
+  use Data::Object::Config::Class;
+
+  has 'x';
+  has 'y';
+
+  1;
+
+=cut
+
+=head1 DESCRIPTION
+
+Data::Object::Config::Class modifies the consuming package with behaviors
+useful in defining classes. Specifically, this package wraps the C<has>
+attribute keyword functions and adds enhancements which as documented in
+L<Data::Object::Class>.
+
+=cut

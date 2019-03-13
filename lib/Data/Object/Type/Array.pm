@@ -1,15 +1,14 @@
 package Data::Object::Type::Array;
 
-use 5.014;
-
 use strict;
 use warnings;
 
-use Data::Object::Config 'type_array';
+use Data::Object::Export;
 
 use parent 'Data::Object::Type';
 
-# VERSION
+# BUILD
+# METHODS
 
 sub name {
   return 'DoArray';
@@ -20,14 +19,13 @@ sub aliases {
 }
 
 sub coercions {
-  return ['ArrayRef', sub { type_array($_[0]) }];
+  return ['ArrayRef', sub { do('array', $_[0]) }];
 }
 
 sub validation {
   my ($self, $data) = @_;
 
   return 0 if !$data->isa('Data::Object::Array');
-  return 0 if !$data->DOES('Data::Object::Role::Array');
 
   return 1;
 }

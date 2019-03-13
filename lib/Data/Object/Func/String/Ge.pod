@@ -1,0 +1,59 @@
+
+=encoding utf8
+
+=head1 NAME
+
+Data::Object::Func::String::Ge
+
+=cut
+
+=head1 ABSTRACT
+
+Data-Object String Function (Ge) Class
+
+=cut
+
+=head1 SYNOPSIS
+
+  use Data::Object::Func::String::Ge;
+
+  my $func = Data::Object::Func::String::Ge->new(@args);
+
+  $func->execute;
+
+=cut
+
+=head1 DESCRIPTION
+
+Data::Object::Func::String::Ge is a function object for Data::Object::String.
+
+=cut
+
+=head1 METHODS
+
+This package implements the following methods.
+
+=cut
+
+=head2 execute
+
+  my $data = Data::Object::String->new("hello");
+
+  my $func = Data::Object::Func::String::Ge->new(
+    arg1 => $data,
+    arg2 => 'ello'
+  );
+
+  my $result = $func->execute;
+
+Executes the function logic and returns the result.
+
+=cut
+
+=head2 mapping
+
+  my @data = $self->mapping;
+
+Returns the ordered list of named function object arguments.
+
+=cut

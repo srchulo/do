@@ -1,600 +1,542 @@
-# ABSTRACT: Exportable Functions for Perl 5
 package Data::Object::Config;
-
-use 5.014;
 
 use strict;
 use warnings;
 
-use Carp;
-use Scalar::Util;
-use Sub::Quote;
-
-use parent 'Exporter';
-
-# VERSION
-
-our @CORE = (
-  'cast',
-  'codify',
-  'const',
-  'deduce',
-  'deduce_deep',
-  'deduce_type',
-  'detract',
-  'detract_deep',
-  'dispatch',
-  'dump',
-  'immutable',
-  'load',
-  'prototype',
-  'throw'
+use Data::Object::Export qw(
+  croak
+  namespace
+  registry
 );
 
-our @DATA = (
-  'data_any',
-  'data_array',
-  'data_code',
-  'data_float',
-  'data_hash',
-  'data_integer',
-  'data_number',
-  'data_regexp',
-  'data_scalar',
-  'data_string',
-  'data_undef'
-);
+use Import::Into;
+use Type::Tiny;
 
-our @TYPE = (
-  'type_any',
-  'type_array',
-  'type_code',
-  'type_float',
-  'type_hash',
-  'type_integer',
-  'type_number',
-  'type_regexp',
-  'type_scalar',
-  'type_string',
-  'type_undef'
-);
+# BUILD
 
-our @PLUS = (
-  @Carp::EXPORT,
-  'class_file',
-  'class_name',
-  'class_path',
-  'library',
-  'namespace',
-  'path_class',
-  'path_name',
-  'registry',
-  'reify',
-  'typify'
-);
+sub import {
+  my ($class, $type, $meta) = @_;
 
-our @VARS = (
-  '$dispatch',
-  '$library'
-);
+  process(scalar(caller), prepare($class, $type), $type, $meta);
 
-our @EXPORT_OK = (
-    @CORE,
-    @DATA,
-    @TYPE,
-    @PLUS,
-    @VARS
-);
-
-our %EXPORT_TAGS = (
-  core => [@CORE],
-  data => [@DATA],
-  type => [@TYPE],
-  all  => [@EXPORT_OK],
-  plus => [@PLUS],
-  vars => [@VARS]
-);
-
-# JUMPERS
-
-sub data_any($) {
-  my $class = 'Data::Object::Any';
-  my $point = load($class)->can('new');
-
-  unshift @_, $class and goto $point;
+  return;
 }
 
-sub data_array($) {
-  my $class = 'Data::Object::Array';
-  my $point = load($class)->can('new');
+# METHODS
 
-  unshift @_, $class and goto $point;
+sub choose {
+  my ($type) = @_;
+
+  # * specail config pl
+  if (subject($type, 'pl')) {
+    return 'config_cli';
+  }
+
+  # * specail config pm
+  if (subject($type, 'pm')) {
+    return 'config_class';
+  }
+
+  # config cli
+  if (subject($type, 'cli')) {
+    return 'config_cli';
+  }
+
+  # * specail config core
+  if (subject($type, 'core')) {
+    return;
+  }
+
+  # config array
+  if (subject($type, 'array')) {
+    return 'config_array';
+  }
+
+  # config code
+  if (subject($type, 'code')) {
+    return 'config_code';
+  }
+
+  # config dispatch
+  if (subject($type, 'dispatch')) {
+    return 'config_dispatch';
+  }
+
+  # config exception
+  if (subject($type, 'exception')) {
+    return 'config_exception';
+  }
+
+  # config float
+  if (subject($type, 'float')) {
+    return 'config_float';
+  }
+
+  # config hash
+  if (subject($type, 'hash')) {
+    return 'config_hash';
+  }
+
+  # config integer
+  if (subject($type, 'integer')) {
+    return 'config_integer';
+  }
+
+  # config kind
+  if (subject($type, 'kind')) {
+    return 'config_kind';
+  }
+
+  # config number
+  if (subject($type, 'number')) {
+    return 'config_number';
+  }
+
+  # config regexp
+  if (subject($type, 'regexp')) {
+    return 'config_regexp';
+  }
+
+  # config replace
+  if (subject($type, 'replace')) {
+    return 'config_replace';
+  }
+
+  # config scalar
+  if (subject($type, 'scalar')) {
+    return 'config_scalar';
+  }
+
+  # config search
+  if (subject($type, 'search')) {
+    return 'config_search';
+  }
+
+  # config state
+  if (subject($type, 'state')) {
+    return 'config_state';
+  }
+
+  # config string
+  if (subject($type, 'string')) {
+    return 'config_string';
+  }
+
+  # config type
+  if (subject($type, 'type')) {
+    return 'config_type';
+  }
+
+  # config undef
+  if (subject($type, 'undef')) {
+    return 'config_undef';
+  }
+
+  # config class
+  if (subject($type, 'class')) {
+    return 'config_class';
+  }
+
+  # config role
+  if (subject($type, 'role')) {
+    return 'config_role';
+  }
+
+  # config rule
+  if (subject($type, 'rule')) {
+    return 'config_rule';
+  }
+
+  # config json
+  if (subject($type, 'json')) {
+    return 'config_json';
+  }
+
+  # config path
+  if (subject($type, 'path')) {
+    return 'config_path';
+  }
+
+  # config tmpl
+  if (subject($type, 'tmpl')) {
+    return 'config_tmpl';
+  }
+
+  # config try
+  if (subject($type, 'try')) {
+    return 'config_try';
+  }
+
+  # config yaml
+  if (subject($type, 'yaml')) {
+    return 'config_yaml';
+  }
+
+  return;
 }
 
-sub data_code($) {
-  my $class = 'Data::Object::Code';
-  my $point = load($class)->can('new');
+sub prepare {
+  my ($class, $type) = @_;
 
-  unshift @_, $class and goto $point;
-}
-
-sub data_float($) {
-  my $class = 'Data::Object::Float';
-  my $point = load($class)->can('new');
-
-  unshift @_, $class and goto $point;
-}
-
-sub data_hash($) {
-  my $class = 'Data::Object::Hash';
-  my $point = load($class)->can('new');
-
-  unshift @_, $class and goto $point;
-}
-
-sub data_integer($) {
-  my $class = 'Data::Object::Integer';
-  my $point = load($class)->can('new');
-
-  unshift @_, $class and goto $point;
-}
-
-sub data_number($) {
-  my $class = 'Data::Object::Number';
-  my $point = load($class)->can('new');
-
-  unshift @_, $class and goto $point;
-}
-
-sub data_regexp($) {
-  my $class = 'Data::Object::Regexp';
-  my $point = load($class)->can('new');
-
-  unshift @_, $class and goto $point;
-}
-
-sub data_scalar($) {
-  my $class = 'Data::Object::Scalar';
-  my $point = load($class)->can('new');
-
-  unshift @_, $class and goto $point;
-}
-
-sub data_string($) {
-  my $class = 'Data::Object::String';
-  my $point = load($class)->can('new');
-
-  unshift @_, $class and goto $point;
-}
-
-sub data_undef(;$) {
-  my $class = 'Data::Object::Undef';
-  my $point = load($class)->can('new');
-
-  unshift @_, $class and goto $point;
-}
-
-sub immutable($) {
-  my $class = 'Data::Object::Immutable';
-  my $point = load($class)->can('new');
-
-  unshift @_, $class and goto $point;
-}
-
-sub library(@) {
-  my $class = 'Data::Object::Config::Type';
-  my $point = load($class)->can('meta');
-
-  unshift @_, $class and goto $point;
-}
-
-sub prototype(@) {
-  my $class = 'Data::Object::Prototype';
-  my $point = load($class)->can('new');
-
-  unshift @_, $class and goto $point;
-}
-
-sub registry(@) {
-  my $class = 'Data::Object::Registry';
-  my $point = load($class)->can('new');
-
-  unshift @_, $class and goto $point;
-}
-
-sub reify(@) {
-  my ($from, $expr) = @_;
-
-  my $class = registry()->obj($from);
-  my $point = $class->can('lookup');
-
-  @_ = ($class, $expr) and goto $point;
-}
-
-sub throw(@) {
-  my $class = 'Data::Object::Exception';
-  my $point = load($class)->can('throw');
-
-  unshift @_, $class and goto $point;
-}
-
-# FUNCTIONS
-
-sub cast($) {
-  goto &deduce_deep;
-}
-
-sub const($$) {
-  my ($name, $data) = @_;
-
-  my $class = caller(0);
-  my $fqsub = $name =~ /(::|')/ ? $name : "${class}::${name}";
+  my $plans;
+  my $config = choose($type);
 
   no strict 'refs';
-  no warnings 'redefine';
 
-  *{$fqsub} = sub () { (ref $data eq "CODE") ? goto &$data : $data };
+  $plans = &$config() if $config;
 
-  return $data;
+  return config($plans);
 }
 
-sub codify($;$) {
-  my ($code, $refs) = @_;
+sub process {
+  my ($target, $plans, $type, $meta) = @_;
 
-  $code = cast($code);
-
-  if ($code->type eq 'UNDEF') {
-    # as you were !!!
-    $code = q{ @_ };
-  } elsif ($code->type eq 'CODE') {
-    my $func = $code;
-    # perform inception !!!
-    $refs->{'$exec'} = \$func;
-    $code = q{ goto &{$exec} };
-  }
-
-  # (facepalm) purely for backwards compatibility
-  my $vars = sprintf 'my ($%s) = @_;', join ',$', 'a' .. 'z';
-  my $body = sprintf '%s do { %s; }', $vars, "$code" // '@_';
-  my $func = Sub::Quote::quote_sub($body, ref($refs) ? $refs : {});
-
-  return $func;
-}
-
-sub dispatch(@) {
-  my ($class, $sub, @args) = @_;
-
-  return if !$class;
-
-  my $package;
-
-  if (!Scalar::Util::blessed($class)) {
-    load($class);
-    $package = $class;
-  } else {
-    unshift @args, $class;
-    $package = ref $class;
-  }
-
-  if (!$sub) {
-    return sub { my $sub = $package->can(shift); $sub->(@_) };
-  }
-
-  my $currier = $package->can($sub);
-
-  if (!$currier) {
-    die "Can't create dispatcher for $sub from $package";
-  }
-
-  return sub { @args ? $currier->(@args, @_) : $currier->(@_) };
-}
-
-sub dump {
-  require Data::Dumper;
-
-  no warnings 'once';
-
- local $Data::Dumper::Indent = 1;
- local $Data::Dumper::Purity = 1;
- local $Data::Dumper::Quotekeys = 0;
- local $Data::Dumper::Deepcopy = 1;
- local $Data::Dumper::Deparse = 1;
- local $Data::Dumper::Sortkeys = 1;
- local $Data::Dumper::Terse = 0;
- local $Data::Dumper::Useqq = 1;
-
-  return Data::Dumper::Dumper(@_);
-}
-
-sub load($) {
-  my ($class) = @_;
-
-  my $failed = !$class || $class !~ /^\w(?:[\w:']*\w)?$/;
-  my $loaded;
-
-  my $error = do {
-    local $@;
-    $loaded = $class->can('new') || eval "require $class; 1";
-    $@;
-  };
-
-  croak "Error attempting to load $class: $error"
-    if $error
-    or $failed
-    or not $loaded;
-
-  return $class;
-}
-
-sub namespace($;$) {
-  my ($class, $types) = @_;
-
-  my $registry = registry();
-
-  return $registry->set($class, path_class($types));
-}
-
-# DEDUCERS
-
-sub deduce($) {
-  my ($data) = @_;
-
-  return data_undef($data) if not defined $data;
-  return deduce_blessed($data) if Scalar::Util::blessed $data;
-  return deduce_defined($data);
-}
-
-sub deduce_defined($) {
-  my ($data) = @_;
-
-  return deduce_references($data) if ref $data;
-  return deduce_numberlike($data) if Scalar::Util::looks_like_number $data;
-  return deduce_stringlike($data);
-}
-
-sub deduce_blessed($) {
-  my ($data) = @_;
-
-  return data_regexp($data) if $data->isa('Regexp');
-  return $data;
-}
-
-sub deduce_references($) {
-  my ($data) = @_;
-
-  return data_array($data) if 'ARRAY' eq ref $data;
-  return data_code($data) if 'CODE' eq ref $data;
-  return data_hash($data) if 'HASH' eq ref $data;
-  return data_scalar($data); # glob, etc
-}
-
-sub deduce_numberlike($) {
-  my ($data) = @_;
-
-  return data_float($data) if $data =~ /\./;
-  return data_number($data) if $data =~ /^\d[_\d]*$/;
-  return data_integer($data);
-}
-
-sub deduce_stringlike($) {
-  my ($data) = @_;
-
-  return data_string($data);
-}
-
-sub deduce_scalars($) {
-  my ($data) = @_;
-
-  return data_scalar($data);
-}
-
-sub deduce_deep{
-  my @data = map deduce($_), @_;
-
-  for my $data (@data) {
-    my $type = deduce_type($data);
-
-    if ($type and $type eq 'HASH') {
-      for my $i (keys %$data) {
-        my $val = $data->{$i};
-        $data->{$i} = ref($val) ? deduce_deep($val) : deduce($val);
-      }
+  for my $plan (@$plans) {
+    if ($plan->[0] eq 'add') {
+      process_add($target, $plan);
     }
-    if ($type and $type eq 'ARRAY') {
-      for (my $i = 0; $i < @$data; $i++) {
-        my $val = $data->[$i];
-        $data->[$i] = ref($val) ? deduce_deep($val) : deduce($val);
-      }
+    if ($plan->[0] eq 'call') {
+      process_call($target, $plan);
+    }
+    if ($plan->[0] eq 'use') {
+      process_use($target, $plan);
     }
   }
 
-  return wantarray ? (@data) : $data[0];
+  # experimental! auto-register type
+  _process_meta($target, $type, $meta) if $meta;
+
+  return;
 }
 
-sub deduce_type($) {
-  my ($data) = (deduce $_[0]);
+sub prepare_add {
+  my ($class, $func) = @_;
 
-  return "ANY" if $data->isa("Data::Object::Any");
-  return "ARRAY" if $data->isa("Data::Object::Array");
-  return "HASH" if $data->isa("Data::Object::Hash");
-  return "CODE" if $data->isa("Data::Object::Code");
-  return "FLOAT" if $data->isa("Data::Object::Float");
-  return "NUMBER" if $data->isa("Data::Object::Number");
-  return "INTEGER" if $data->isa("Data::Object::Integer");
-  return "STRING" if $data->isa("Data::Object::String");
-  return "SCALAR" if $data->isa("Data::Object::Scalar");
-  return "REGEXP" if $data->isa("Data::Object::Regexp");
-  return "UNDEF" if $data->isa("Data::Object::Undef");
-
-  return undef;
+  return ['add', $class, $func];
 }
 
-sub detract($) {
-  my ($data) = (deduce $_[0]);
+sub process_add {
+  my ($target, $plan) = @_;
 
-  my $type = deduce_type $data;
+  my ($action, $package, $name) = @$plan;
 
-INSPECT:
-  return $data unless $type;
+  no warnings 'redefine', 'prototype';
 
-  return [@$data] if $type eq 'ARRAY';
-  return {%$data} if $type eq 'HASH';
-  return $$data if $type eq 'REGEXP';
-  return $$data if $type eq 'FLOAT';
-  return $$data if $type eq 'NUMBER';
-  return $$data if $type eq 'INTEGER';
-  return $$data if $type eq 'STRING';
-  return undef  if $type eq 'UNDEF';
+  *{"${target}::${name}"} = $package->can($name);
 
-  if ($type eq 'ANY' or $type eq 'SCALAR') {
-    $type = Scalar::Util::reftype($data) // '';
+  return;
+}
 
-    return [@$data] if $type eq 'ARRAY';
-    return {%$data} if $type eq 'HASH';
-    return $$data if $type eq 'FLOAT';
-    return $$data if $type eq 'INTEGER';
-    return $$data if $type eq 'NUMBER';
-    return $$data if $type eq 'REGEXP';
-    return $$data if $type eq 'SCALAR';
-    return $$data if $type eq 'STRING';
-    return undef  if $type eq 'UNDEF';
+sub prepare_call {
+  my ($func, @args) = @_;
 
-    if ($type eq 'REF') {
-      $type = deduce_type($data = $$data) and goto INSPECT;
-    }
+  return ['call', $func, @args];
+}
+
+sub process_call {
+  my ($target, $plan) = @_;
+
+  my ($action, $name, @args) = @$plan;
+
+  $target->can($name)->(@args);
+
+  return;
+}
+
+sub prepare_use {
+  my ($class, @args) = @_;
+
+  return ['use', $class, @args];
+}
+
+sub process_use {
+  my ($target, $plan) = @_;
+
+  my ($action, $package, @args) = @$plan;
+
+  import::into($package, $target, @args);
+
+  return;
+}
+
+sub subject {
+  my ($type, $name) = @_;
+
+  return 0 if !$type;
+
+  $type =~ s/^\W//g;
+
+  return 1 if lc($type) eq lc($name);
+
+  return 0;
+}
+
+sub config {
+  [
+    # basics
+    prepare_use('strict'),
+    prepare_use('warnings'),
+    prepare_use('feature', 'say'),
+    prepare_use('feature', 'state'),
+
+    # types and signatures
+    prepare_use('Data::Object::Config::Library'),
+    prepare_use('Data::Object::Config::Signatures'),
+
+    # contextual
+    ($_[0] ? @{$_[0]} : ()),
+
+    # tools and functions
+    prepare_use('Data::Object::Export'),
+
+    # special function
+    prepare_use('subs', 'do')
+  ]
+}
+
+sub config_cli {
+  [
+    @{config_class()},
+    prepare_call('extends', 'Data::Object::Cli')
+  ]
+}
+
+sub config_array {
+  [
+    prepare_use('Role::Tiny::With'),
+    prepare_use('parent', 'Data::Object::Array')
+  ]
+}
+
+sub config_code {
+  [
+    prepare_use('Role::Tiny::With'),
+    prepare_use('parent', 'Data::Object::Code')
+  ]
+}
+
+sub config_dispatch {
+  [
+    prepare_use('Role::Tiny::With'),
+    prepare_use('parent', 'Data::Object::Dispatch')
+  ]
+}
+
+sub config_exception {
+  [
+    @{config_class()},
+    prepare_call('extends', 'Data::Object::Exception')
+  ]
+}
+
+sub config_float {
+  [
+    prepare_use('Role::Tiny::With'),
+    prepare_use('parent', 'Data::Object::Float')
+  ]
+}
+
+sub config_hash {
+  [
+    prepare_use('Role::Tiny::With'),
+    prepare_use('parent', 'Data::Object::Hash')
+  ]
+}
+
+sub config_integer {
+  [
+    prepare_use('Role::Tiny::With'),
+    prepare_use('parent', 'Data::Object::Integer')
+  ]
+}
+
+sub config_json {
+  [
+    prepare_use('Data::Object::Export', 'data_json')
+  ]
+}
+
+sub config_kind {
+  [
+    prepare_use('Role::Tiny::With'),
+    prepare_use('parent', 'Data::Object::Kind')
+  ]
+}
+
+sub config_number {
+  [
+    prepare_use('Role::Tiny::With'),
+    prepare_use('parent', 'Data::Object::Number')
+  ]
+}
+
+sub config_path {
+  [
+    prepare_use('Data::Object::Export', 'data_path')
+  ]
+}
+
+sub config_regexp {
+  [
+    prepare_use('Role::Tiny::With'),
+    prepare_use('parent', 'Data::Object::Regexp')
+  ]
+}
+
+sub config_replace {
+  [
+    prepare_use('Role::Tiny::With'),
+    prepare_use('parent', 'Data::Object::Replace')
+  ]
+}
+
+sub config_scalar {
+  [
+    prepare_use('Role::Tiny::With'),
+    prepare_use('parent', 'Data::Object::Scalar')
+  ]
+}
+
+sub config_search {
+  [
+    prepare_use('Role::Tiny::With'),
+    prepare_use('parent', 'Data::Object::Search')
+  ]
+}
+
+sub config_state {
+  [
+    prepare_use('Data::Object::State'),
+    prepare_use('Data::Object::Config::Class', { replace => 1 }, 'has')
+  ]
+}
+
+sub config_string {
+  [
+    prepare_use('Role::Tiny::With'),
+    prepare_use('parent', 'Data::Object::String')
+  ]
+}
+
+sub config_tmpl {
+  [
+    prepare_use('Data::Object::Export', 'data_tmpl')
+  ]
+}
+
+sub config_try {
+  [
+    prepare_use('Try::Tiny')
+  ]
+}
+
+sub config_type {
+  [
+    @{config_class()},
+    prepare_call('extends', 'Data::Object::Kind')
+  ]
+}
+
+sub config_yaml {
+  [
+    prepare_use('Data::Object::Export', 'data_yaml')
+  ]
+}
+
+sub config_undef {
+  [
+    prepare_use('Role::Tiny::With'),
+    prepare_use('parent', 'Data::Object::Undef')
+  ]
+}
+
+sub config_class {
+  [
+    prepare_use('Data::Object::Class'),
+    prepare_use('Data::Object::Config::Class', { replace => 1 }, 'has')
+  ]
+}
+
+sub config_role {
+  [
+    prepare_use('Data::Object::Role'),
+    prepare_use('Data::Object::Config::Role', { replace => 1 }, 'has')
+  ]
+}
+
+sub config_rule {
+  [
+    prepare_use('Data::Object::Rule'),
+    prepare_use('Data::Object::Config::Role', { replace => 1 }, 'has')
+  ]
+}
+
+# experimental!
+sub _process_meta {
+  my ($target, $type, $meta) = @_;
+
+  my $parent;
+
+  # get the plan name
+  my $config = choose($type) || '';
+
+  # set the parent type
+  if (!$parent && $config eq 'config_role') {
+    $parent = 'ConsumerOf';
+  }
+  if (!$parent && $config eq 'config_rule') {
+    $parent = 'ConsumerOf';
+  }
+  if (!$parent) {
+    $parent = 'InstanceOf';
   }
 
-  if ($type eq 'CODE') {
-    return sub { goto &{$data} };
-  }
+  # map target to typelib
+  my $namespace = _process_typelib($target, $meta);
 
-  return undef;
+  # attempt to load the type library from disk if not already loaded
+  eval "require $namespace";
+
+  # ensure that the type library is valid and operable
+  croak "$namespace is not a valid type library" unless $namespace->isa('Type::Library');
+
+  # build type-tiny constraint for target, then add constraint to typelib
+  _process_typereg($namespace, _process_typetiny(registry(), $target, $parent));
+
+  return;
 }
 
-sub detract_deep {
-  my @data = map detract($_), @_;
+# experimental!
+sub _process_typelib {
+  my ($target, $meta) = @_;
 
-  for my $data (@data) {
-    if ($data and 'HASH' eq ref $data) {
-      for my $i (keys %$data) {
-        my $val = $data->{$i};
-        $data->{$i} = ref($val) ? detract_deep($val) : detract($val);
-      }
-    }
-    if ($data and 'ARRAY' eq ref $data) {
-      for (my $i = 0; $i < @$data; $i++) {
-        my $val = $data->[$i];
-        $data->[$i] = ref($val) ? detract_deep($val) : detract($val);
-      }
-    }
-  }
-
-  return wantarray ? (@data) : $data[0];
+  # register target <-> typelib so target can use typelib
+  return namespace($target, ref($meta) ? join('-', @$meta) : $meta);
 }
 
-# MISCELLANOUS
+# experimental!
+sub _process_typereg {
+  my ($namespace, $constraint) = @_;
 
-sub class_file($) {
-  my ($class) = @_;
-  $class =~ s/::|'//g;
-  $class =~ s/([A-Z])([A-Z]*)/$1 . lc $2/ge;
-  return path_name($class);
+  # add type constraint to the user-defined type-library
+  return $namespace->get_type($constraint->name) || $namespace->add_type($constraint);
 }
 
-sub class_name($) {
-  my ($string) = @_;
-  if ($string =~ /^[A-Z]/) {
-    return $string;
-  } else {
-    my @parts = split '-', $string;
-    return join '::', map { join('', map { ucfirst lc } split '_') } @parts;
-  }
+# experimental!
+sub _process_typetiny {
+  my ($registry, $target, $reference) = @_;
+
+  # core typelib has InstanceOf and ConsumerOf type objects
+  my $library = $registry->def;
+
+  # type constraint name from target package name
+  my $name = ucfirst $target =~ s/\W//gr;
+
+  # new parameterized InstanceOf or ConsumerOf for target
+  my $parent = $library->get_type($reference)->of($target);
+
+  # return new type-tiny type constraint
+  return Type::Tiny->new(name => $name, parent => $parent);
 }
-
-sub class_path($) {
-  my ($class) = @_;
-  return join '.', join('/', split(/::|'/, $class)), 'pm';
-}
-
-sub path_class($) {
-  my ($path) = @_;
-  return join '::', map class_name($_), grep {length} split /\W/, $path;
-}
-
-sub path_name($) {
-  my ($string) = @_;
-  if ($string !~ /^[A-Z]/) {
-    return $string;
-  } else {
-    my @parts = map {
-      join('_', map {lc} grep {length} split /([A-Z]{1}[^A-Z]*)/)
-    } split '::', $string;
-    return join '-', @parts;
-  }
-}
-
-sub typify($) {
-  my ($expr) = @_;
-
-  return if !$expr;
-
-  my $e = 'enum';
-  my $s = 'slurpy';
-  my $q = qr/(?!q|qq|qw)/;
-  my $w = qr/\s*(\w+)\s*/;
-
-  my $g = join '|', (
-    'q[qwr]*\|[^\|]+\|', # pipe
-    'q[qwr]*\{[^\}]+\}', # curly
-    'q[qwr]*\([^\)]+\)', # paren
-    'q[qwr]*\/[^\/]+\/', # slash
-    'q[qwr]*\[[^\]]+\]'  # square
-  );
-
-  my @p = $expr =~ /$g/g;
-
-  for (my $i = 0; $i < @p; $i++) {
-    my ($p, $m) = (quotemeta($p[$i]), "#P$i"); $expr =~ s/$p/$m/;
-  }
-
-  # experiment! not great but works; do better :(
-  $expr =~ s/^$w$/class_name($1)/e;
-  $expr =~ s/$w\[/class_name($1).'['/ge;
-  $expr =~ s/$w\,/class_name($1).','/ge;
-  $expr =~ s/\,$w/','.class_name($1)/ge;
-  $expr =~ s/$w\|\s*/class_name($1).'|'/ge;
-  $expr =~ s/\s*\|$w/'|'.class_name($1)/ge;
-  $expr =~ s/$w\]/class_name($1).']'/ge;
-  $expr =~ s/$e\($q(\w+)/"$e(".class_name($1)/ge;
-  $expr =~ s/$s\($q(\w+)/"$s(".class_name($1)/ge;
-
-  for (my $i = 0; $i < @p; $i++) {
-    my ($p, $m) = ($p[$i], "#P$i"); $expr =~ s/$m/$p/;
-  }
-
-  return $expr;
-}
-
-{
-  # aliases
-  no warnings 'once';
-
-  *type_any = *data_any;
-  *type_array = *data_array;
-  *type_code = *data_code;
-  *type_float = *data_float;
-  *type_hash = *data_hash;
-  *type_integer = *data_integer;
-  *type_number = *data_number;
-  *type_regexp = *data_regexp;
-  *type_scalar = *data_scalar;
-  *type_string = *data_string;
-  *type_undef = *data_undef;
-}
-
-# VARIABLES
-
-our $library = library();
-our $dispatch = dispatch(__PACKAGE__, 'dispatch');
 
 1;

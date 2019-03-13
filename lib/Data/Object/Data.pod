@@ -1,0 +1,229 @@
+
+=encoding utf8
+
+=head1 NAME
+
+Data::Object::Data
+
+=cut
+
+=head1 ABSTRACT
+
+Data-Object Data Class
+
+=cut
+
+=head1 SYNOPSIS
+
+  package Command;
+
+  use Data::Object::Data;
+
+  =help
+
+  fetches results from the api
+
+  =cut
+
+  my $data = Data::Object::Data->new;
+
+  my $help = $data->content('help');
+  # fetches results ...
+
+  my $token = $data->content('token');
+  # token: the access token ...
+
+  my $secret = $data->content('secret');
+  # secret: the secret for ...
+
+  my $flag = $data->contents('flag');
+  # [,...]
+
+  __DATA__
+
+  =flag secret
+
+  secret: the secret for the account
+
+  =flag token
+
+  token: the access token for the account
+
+  =cut
+
+=cut
+
+=head1 DESCRIPTION
+
+Data::Object::Data provides methods for parsing and extracting pod-like data
+sections from any file or package. The pod-like syntax allows for using these
+sections anywhere in the source code and Perl properly ignoring them.
+
+=cut
+
+=head1 METHODS
+
+This package implements the following methods.
+
+=cut
+
+=head2 from_file
+
+  # given $data
+
+  $data->from_file($file);
+
+  # ...
+
+The from_data method returns content for the given file to be passed to the
+constructor.
+
+=cut
+
+=head2 from_data
+
+  # given $data
+
+  $data->from_data($class);
+
+  # ...
+
+The from_data method returns content for the given class to be passed to the
+constructor.
+
+=cut
+
+=head2 file
+
+  # given $data
+
+  $data->file($args);
+
+  # ...
+
+The file method returns the contents of a file which contains pod-like sections
+for a given filename.
+
+=cut
+
+=head2 data
+
+  # given $data
+
+  $data->data($class);
+
+  # ...
+
+The data method returns the contents from the C<DATA> and C<END> sections of a
+package.
+
+=cut
+
+=head2 item
+
+  =pod help
+
+  Example content
+
+  =cut
+
+  # given $data
+
+  $data->item('help');
+
+  # {,...}
+
+The item method returns metadata for the pod-like section that matches the
+given string.
+
+=cut
+
+=head2 list
+
+  =pod help
+
+  Example content
+
+  =cut
+
+  # given $data
+
+  $data->list('pod');
+
+  # [,...]
+
+The list method returns metadata for each pod-like section that matches the
+given string.
+
+=cut
+
+=head2 pluck
+
+  =pod help
+
+  Example content
+
+  =cut
+
+  # given $data
+
+  $data->pluck('item', 'help');
+
+  # {,...}
+
+The pluck method splices and returns metadata for the pod-like section that
+matches the given list or item by name.
+
+=cut
+
+=head2 content
+
+  =pod help
+
+  Example content
+
+  =cut
+
+  # given $data
+
+  $data->content('help');
+
+  # Example content
+
+The content method returns the pod-like section where the name matches the
+given string.
+
+=cut
+
+=head2 contents
+
+  =pod help
+
+  Example content
+
+  =cut
+
+  # given $data
+
+  $data->contents('pod');
+
+  # [,...]
+
+The contents method returns all pod-like sections that start with the given
+string, e.g. C<pod> matches C<=pod foo>. This method returns an arrayref of
+data for the matched sections.
+
+=cut
+
+=head2 parser
+
+  # given $data
+
+  $data->parser($string);
+
+  # [,...]
+
+The parser method extracts pod-like sections from a given string and returns an
+arrayref of metadata.
+
+=cut

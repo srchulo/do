@@ -1,0 +1,67 @@
+
+=encoding utf8
+
+=head1 NAME
+
+Data::Object::Func::Hash::Merge
+
+=cut
+
+=head1 ABSTRACT
+
+Data-Object Hash Function (Merge) Class
+
+=cut
+
+=head1 SYNOPSIS
+
+  use Data::Object::Func::Hash::Merge;
+
+  my $func = Data::Object::Func::Hash::Merge->new(@args);
+
+  $func->execute;
+
+=cut
+
+=head1 DESCRIPTION
+
+Data::Object::Func::Hash::Merge is a function object for Data::Object::Hash.
+
+=cut
+
+=head1 METHODS
+
+This package implements the following methods.
+
+=cut
+
+=head2 clone
+
+  my $clone = $self->clone();
+
+Returns a cloned data structure.
+
+=cut
+
+=head2 execute
+
+  my $data = Data::Object::Hash->new({1..8,9,undef});
+
+  my $func = Data::Object::Func::Hash::Merge->new(
+    arg1 => $data,
+    args => [{7,7,9,9}]
+  );
+
+  my $result = $func->execute;
+
+Executes the function logic and returns the result.
+
+=cut
+
+=head2 mapping
+
+  my @data = $self->mapping;
+
+Returns the ordered list of named function object arguments.
+
+=cut

@@ -1,228 +1,104 @@
-# ABSTRACT: Exception Object for Perl 5
 package Data::Object::Exception;
 
-use strict;
-use warnings;
-
-use 5.014;
-
-use Data::Object;
 use Data::Object::Class;
-use Data::Object::Config::Type;
-use Data::Object::Config::Routine;
-use Scalar::Util;
 
-use Data::Dumper ();
+use parent 'Data::Object::Kind';
 
-use overload ('""' => 'data', '~~' => 'data', fallback => 1,);
+use overload (
+  '""'     => 'data',
+  '~~'     => 'data',
+  fallback => 1
+);
 
-# VERSION
+# BUILD
 
-has file       => (is => 'ro');
-has line       => (is => 'ro');
-has message    => (is => 'ro');
-has object     => (is => 'ro');
-has package    => (is => 'ro');
-has subroutine => (is => 'ro');
+sub BUILD {
+  my ($self, $data) = @_;
 
-around BUILDARGS => fun($orig, $self, @args) {
+  my @attrs = qw(
+    default
+    file
+    frames
+    line
+    message
+    object
+    package
+    subroutine
+  );
 
-  unshift @args, (ref $args[0] ? 'object' : 'message') if @args == 1;
+  for my $attr (@attrs) {
+    $self->{$attr} = $data->{$attr} if defined $data->{$attr};
+  }
 
-  return $self->$orig(@args);
+  unless (defined $self->{default}) {
+    $self->{default} = 'An exception was thrown';
+  }
 
-};
+  unless (defined $self->{frames}) {
+    $self->{frames} = undef;
+  }
 
-method catch ($object) {
-
-  my $class = ref $self;
-
-  return UNIVERSAL::isa($object, $class);
-
+  return $self;
 }
 
-method data () {
+# METHODS
 
-  my $class   = ref $self;
-  my $file    = $self->file;
-  my $line    = $self->line;
-  my $default = $self->message;
-  my $object  = $self->object;
+sub data {
+  my ($self) = @_;
 
-  my $objref = overload::StrVal($object) if $object;
-  my $message = $default || "An exception ($class) was thrown";
-  my @with = join " ", "with", $objref if $objref and not $default;
+  my $file = $self->{file};
+  my $line = $self->{line};
+  my $default = $self->{default};
+  my $message = $self->{message};
+  my $object  = $self->{object};
 
-  return join(" ", $message, @with, "in $file at line $line") . "\n";
+  my @with = ("by", (ref($object) || $object)) if $object && !$message;
 
+  return join(" ", $message || $default, @with, "in $file at line $line");
 }
 
-method dump () {
+sub dump {
+  my ($self) = @_;
+
+  require Data::Dumper;
 
   local $Data::Dumper::Terse = 1;
 
   return Data::Dumper::Dumper($self);
-
 }
 
-method throw (Any @args) {
+sub explain {
+  my ($self) = @_;
 
-  my $class = ref $self || $self || __PACKAGE__;
+  my @data = $self->data;
 
-  unshift @args, (ref $args[0] ? 'object' : 'message') if @args == 1;
+  for my $frame (@{$self->{frames}}) {
+    push @data, "@{[$$frame[3]]} in @{[$$frame[1]]} at line @{[$$frame[2]]}";
+  }
 
-  die $class->new(
-    ref $self ? (%$self) : (), @args,
-    file       => (caller(0))[1],
-    line       => (caller(0))[2],
-    package    => (caller(0))[0],
-    subroutine => (caller(0))[3],
+  return join("\n", @data);
+}
+
+sub throw {
+  my ($self, @args) = @_;
+
+  my $class = ref($self) || $self || __PACKAGE__;
+
+  unshift @args, (ref($args[0]) ? 'object' : 'message') if @args == 1;
+
+  my $frames = [];
+
+  for (my $i = 0; my @caller = caller($i); $i++) {
+    push @$frames, [@caller];
+  }
+
+  die $class->new((ref($self) ? (object => $self) : ()), @args,
+    file       => $frames->[0][1],
+    line       => $frames->[0][2],
+    package    => $frames->[0][0],
+    subroutine => $frames->[0][3],
+    frames     => $frames
   );
-
 }
 
 1;
-
-=encoding utf8
-
-=head1 SYNOPSIS
-
-  use Data::Object::Exception;
-
-  my $exception = Data::Object::Exception->new;
-
-  $exception->throw('Something went wrong');
-
-=cut
-
-=head1 DESCRIPTION
-
-Data::Object::Exception provides a functionality for creating, throwing,
-catching, and introspecting generic exception objects.
-
-=cut
-
-=method catch
-
-  $exception->catch;
-
-The catch method returns true if the argument is the same type of object as the
-invocant.
-
-=cut
-
-=method data
-
-  # given $exception
-
-  $exception->data; # original value
-
-The data method returns the original and underlying value contained by the
-object. This method is an alias to the detract method.
-
-=cut
-
-=method dump
-
-  $exception->dump;
-
-The dump method returns a stringified version of the exception object.
-
-=cut
-
-=method throw
-
-  $exception->throw;
-
-The throw method terminates the program using the core die keyword, passing the
-exception object as the only argument.
-
-=cut
-
-=head1 SEE ALSO
-
-=over 4
-
-=item *
-
-L<Data::Object::Array>
-
-=item *
-
-L<Data::Object::Class>
-
-=item *
-
-L<Data::Object::Class::Syntax>
-
-=item *
-
-L<Data::Object::Code>
-
-=item *
-
-L<Data::Object::Float>
-
-=item *
-
-L<Data::Object::Hash>
-
-=item *
-
-L<Data::Object::Integer>
-
-=item *
-
-L<Data::Object::Number>
-
-=item *
-
-L<Data::Object::Role>
-
-=item *
-
-L<Data::Object::Role::Syntax>
-
-=item *
-
-L<Data::Object::Regexp>
-
-=item *
-
-L<Data::Object::Scalar>
-
-=item *
-
-L<Data::Object::String>
-
-=item *
-
-L<Data::Object::Undef>
-
-=item *
-
-L<Data::Object::Any>
-
-=item *
-
-L<Data::Object::Autobox>
-
-=item *
-
-L<Data::Object::Immutable>
-
-=item *
-
-L<Data::Object::Config::Type>
-
-=item *
-
-L<Data::Object::Prototype>
-
-=item *
-
-L<Data::Object::Config::Routine>
-
-=back
-
-=cut

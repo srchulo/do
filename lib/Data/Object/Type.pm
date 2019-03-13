@@ -1,7 +1,5 @@
 package Data::Object::Type;
 
-use 5.014;
-
 use strict;
 use warnings;
 
@@ -9,11 +7,15 @@ use Type::Tiny;
 use Type::Coercion;
 use Types::TypeTiny;
 
-# VERSION
+use parent 'Data::Object::Kind';
+
+# BUILD
 
 sub new {
   return bless {}, shift;
 }
+
+# METHODS
 
 sub name {
   die;
@@ -36,7 +38,7 @@ sub library {
 }
 
 sub namespace {
-  return 'Data::Object::Config::Type';
+  return 'Data::Object::Config::Library';
 }
 
 sub register {
