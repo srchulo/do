@@ -44,16 +44,16 @@ sub head2 {
   return join("\n", "", "=head2 \L$name", @{$data}, "=cut", "");
 }
 
-sub items {
-  my (@data) = @_;
+sub over4 {
+  my (@items) = @_;
 
-  return join("\n", "", "=over 4", "", items_list(@data), "=back", "");
+  return join("\n", "", "=over 4", "", @items, "=back", "");
 }
 
-sub items_list {
-  my (@data) = @_;
+sub item {
+  my ($name, $data) = @_;
 
-  return map(("=item *\n", "$_\n"), @data);
+  return "=item $name\n", "$data\n";
 }
 
 sub mods {
@@ -153,11 +153,20 @@ sub output_pod_for_can_test {
   my $name = output_name($data);
   my $type = output_type($data);
   my $usage = output_usage($data);
+
   my $description = output_description($data);
+  my $signature = output_signature($data);
+
+  $signature->[1] = '  ' . $signature->[1];
 
   pop @$usage;
+  shift @$usage;
+  pop @$description;
+  pop @$signature;
 
-  return (head2($name->[1], [@$usage, @$description]), $type->[1]);
+  my $example = over4(item("$$name[1] example", join("\n", @$usage)));
+
+  return (head2($name->[1], [@$signature, @$description, $example]), $type->[1]);
 }
 
 sub output_pod_for_mod {
@@ -214,14 +223,14 @@ sub output_pod_for_mod {
     push @output, head1('roles', [
       "", "This package inherits all behavior from the folowing role(s):", ""
     ]);
-    push @output, items(map("L<$_>", @$roles));
+    push @output, over4(map(item('*', "L<$_>"), @$roles));
   }
 
   if ($rules) {
     push @output, head1('rules', [
       "", "This package adheres to the requirements in the folowing rule(s):", ""
     ]);
-    push @output, items(map("L<$_>", @$rules));
+    push @output, over4(map(item('*', "L<$_>"), @$rules));
   }
 
 
@@ -338,6 +347,12 @@ sub output_roles_and_rules {
   my ($data) = @_;
 
   return output_content($data, 'roles-and-rules');
+}
+
+sub output_signature {
+  my ($data) = @_;
+
+  return output_content($data, 'signature');
 }
 
 sub output_singleton_support {
@@ -469,9 +484,9 @@ sub subs {
     import
   );
 
-  my @files = map { /^(?:$re)\s+([a-zA-Z]\w+).*/ } source("lib/$path.pm");
+  my @files = map { /^(?:$re)\s+([a-zA-Z]\w+).*\{$/ } source("lib/$path.pm");
 
-  return (grep !$ignore{$_}, @files);
+  return (sort grep !$ignore{$_}, @files);
 }
 
 sub type {
