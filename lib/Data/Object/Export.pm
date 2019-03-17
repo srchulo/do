@@ -4,9 +4,7 @@ use strict;
 use warnings;
 
 use Carp;
-
 use Scalar::Util;
-use Sub::Quote;
 
 use parent 'Exporter';
 
@@ -14,7 +12,6 @@ use parent 'Exporter';
 
 our @CORE = (
   'cast',
-  'codify',
   'const',
   'deduce',
   'deduce_deep',
@@ -324,29 +321,6 @@ sub const {
   *{$fqsub} = sub () { (ref $data eq "CODE") ? goto &$data : $data };
 
   return $data;
-}
-
-sub codify {
-  my ($code, $refs) = @_;
-
-  $code = cast($code);
-
-  if ($code->type eq 'UNDEF') {
-    # as you were !!!
-    $code = q{ @_ };
-  } elsif ($code->type eq 'CODE') {
-    my $func = $code;
-    # perform inception !!!
-    $refs->{'$exec'} = \$func;
-    $code = q{ goto &{$exec} };
-  }
-
-  # (facepalm) purely for backwards compatibility
-  my $vars = sprintf 'my ($%s) = @_;', join ',$', 'a' .. 'z';
-  my $body = sprintf '%s do { %s; }', $vars, "$code" // '@_';
-  my $func = Sub::Quote::quote_sub($body, ref($refs) ? $refs : {});
-
-  return $func;
 }
 
 sub dispatch {
