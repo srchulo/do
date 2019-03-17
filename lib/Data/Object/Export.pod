@@ -173,24 +173,6 @@ The class_path function converts a class name to a class file.
 
 =cut
 
-=head2 codify
-
-  codify(Str $arg1) : CodeRef
-
-The codify function returns a parameterized coderef from a string.
-
-=over 4
-
-=item codify example
-
-  my $coderef = codify('$a + $b + $c', 1, 2);
-
-  # $coderef->(3) returns 6
-
-=back
-
-=cut
-
 =head2 const
 
   const(Str $arg1, Any $arg2) : CodeRef
