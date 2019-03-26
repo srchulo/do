@@ -68,28 +68,10 @@ sub output_abstract {
   return output_content($data, 'abstract');
 }
 
-sub output_caller_configuration {
-  my ($data) = @_;
-
-  return output_content($data, 'caller-configuration');
-}
-
-sub output_constructor_functions {
-  my ($data) = @_;
-
-  return output_content($data, 'constructor-functions');
-}
-
 sub output_content {
   my ($data, $for) = @_;
 
   return $data->{$for}{content};
-}
-
-sub output_data_type_objects {
-  my ($data) = @_;
-
-  return output_content($data, 'data-type-objects');
 }
 
 sub output_description {
@@ -98,28 +80,12 @@ sub output_description {
   return output_content($data, 'description');
 }
 
-sub output_dispatchers {
+sub output_overviews {
   my ($data) = @_;
 
-  return output_content($data, 'dispatchers');
-}
+  my @sections = sort grep /^overview/, keys %{$data};
 
-sub output_function_classes {
-  my ($data) = @_;
-
-  return output_content($data, 'function-classes');
-}
-
-sub output_function_signatures {
-  my ($data) = @_;
-
-  return output_content($data, 'function-signatures');
-}
-
-sub output_getting_started {
-  my ($data) = @_;
-
-  return output_content($data, 'getting-started');
+  return [map +[$_, output_content($data, $_)], @sections];
 }
 
 sub output_installation {
@@ -132,18 +98,6 @@ sub output_name {
   my ($data) = @_;
 
   return output_content($data, 'name');
-}
-
-sub output_object_system {
-  my ($data) = @_;
-
-  return output_content($data, 'object-system');
-}
-
-sub output_package_class {
-  my ($data) = @_;
-
-  return output_content($data, 'package-class');
 }
 
 sub output_pod_for_can_test {
@@ -176,12 +130,14 @@ sub output_pod_for_mod {
 
   push @output, "\n", "=encoding utf8", "\n";
 
-  push @output, output_pod_for_use_test("t/0.90/use/$mod.t");
+  my $name = $mod =~ s/\//_/gr;
+
+  push @output, output_pod_for_use_test("t/0.90/use/$name.t");
 
   my @methods; my @functions; my @routines;
 
   for my $sub (subs($mod)) {
-    my ($data, $type) = output_pod_for_can_test("t/0.90/can/$mod/$sub.t");
+    my ($data, $type) = output_pod_for_can_test("t/0.90/can/${name}_${sub}.t");
     if ($type eq 'function') {
       push @functions, $data;
     }
@@ -274,97 +230,25 @@ sub output_pod_for_use_test {
     push @extras, head1('installation', $installation);
   }
 
-  if (my $getting_started = output_getting_started($data)) {
-    push @extras, head1('getting started', $getting_started);
-  }
+  if (my $overviews = output_overviews($data)) {
+    for my $overview (@$overviews) {
+      my $heading = $overview->[0];
+      my $document = $overview->[1];
 
-  if (my $package_class = output_package_class($data)) {
-    push @extras, head1('package class', $package_class);
-  }
+      $heading =~ s/overview-/overview: /g;
+      $heading =~ s/-/ /g;
 
-  if (my $type_system = output_type_system($data)) {
-    push @extras, head1('type system', $type_system);
-  }
-
-  if (my $object_system = output_object_system($data)) {
-    push @extras, head1('object system', $object_system);
-  }
-
-  if (my $type_builder = output_type_builder($data)) {
-    push @extras, head1('type builder', $type_builder);
-  }
-
-  if (my $roles_and_rules = output_roles_and_rules($data)) {
-    push @extras, head1('roles and rules', $roles_and_rules);
-  }
-
-  if (my $singleton_support = output_singleton_support($data)) {
-    push @extras, head1('singleton support', $singleton_support);
-  }
-
-  if (my $podish_parser = output_podish_parser($data)) {
-    push @extras, head1('podish parser', $podish_parser);
-  }
-
-  if (my $dispatchers = output_dispatchers($data)) {
-    push @extras, head1('dispatchers', $dispatchers);
-  }
-
-  if (my $function_signatures = output_function_signatures($data)) {
-    push @extras, head1('function signatures', $function_signatures);
-  }
-
-  if (my $caller_configuration = output_caller_configuration($data)) {
-    push @extras, head1('caller configuration', $caller_configuration);
-  }
-
-  if (my $constructor_functions = output_constructor_functions($data)) {
-    push @extras, head1('constructor functions', $constructor_functions);
-  }
-
-  if (my $data_type_objects = output_data_type_objects($data)) {
-    push @extras, head1('data type objects', $data_type_objects);
-  }
-
-  if (my $function_classes = output_function_classes($data)) {
-    push @extras, head1('function classes', $function_classes);
-  }
-
-  if (my $standard_library = output_standard_library($data)) {
-    push @extras, head1('standard library', $standard_library);
+      push @extras, head1($heading, $document);
+    }
   }
 
   return join("", $name, $abstract, $synopsis, $description, @extras, @exports);
-}
-
-sub output_podish_parser {
-  my ($data) = @_;
-
-  return output_content($data, 'podish-parser');
-}
-
-sub output_roles_and_rules {
-  my ($data) = @_;
-
-  return output_content($data, 'roles-and-rules');
 }
 
 sub output_signature {
   my ($data) = @_;
 
   return output_content($data, 'signature');
-}
-
-sub output_singleton_support {
-  my ($data) = @_;
-
-  return output_content($data, 'singleton-support');
-}
-
-sub output_standard_library {
-  my ($data) = @_;
-
-  return output_content($data, 'standard-library');
 }
 
 sub output_synopsis {
@@ -377,18 +261,6 @@ sub output_type {
   my ($data) = @_;
 
   return output_content($data, 'type');
-}
-
-sub output_type_builder {
-  my ($data) = @_;
-
-  return output_content($data, 'type-builder');
-}
-
-sub output_type_system {
-  my ($data) = @_;
-
-  return output_content($data, 'type-system');
 }
 
 sub output_usage {

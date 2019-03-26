@@ -147,29 +147,9 @@ sub choose {
     return 'config_rule';
   }
 
-  # config json
-  if (subject($type, 'json')) {
-    return 'config_json';
-  }
-
-  # config path
-  if (subject($type, 'path')) {
-    return 'config_path';
-  }
-
-  # config tmpl
-  if (subject($type, 'tmpl')) {
-    return 'config_tmpl';
-  }
-
   # config try
   if (subject($type, 'try')) {
     return 'config_try';
-  }
-
-  # config yaml
-  if (subject($type, 'yaml')) {
-    return 'config_yaml';
   }
 
   return;
@@ -276,28 +256,22 @@ sub config {
     # basics
     prepare_use('strict'),
     prepare_use('warnings'),
-    prepare_use('feature', 'say'),
-    prepare_use('feature', 'state'),
+
+    # say, state, switch, unicode_strings, array_base
+    prepare_use('feature', ':5.14'),
 
     # types and signatures
-    prepare_use('Data::Object::Config::Library'),
-    prepare_use('Data::Object::Config::Signatures'),
+    prepare_use('Data::Object::Library'),
+    prepare_use('Data::Object::Signatures'),
 
     # contextual
     ($_[0] ? @{$_[0]} : ()),
 
-    # tools and functions
+    # tools and functions, and "do" function
     prepare_use('Data::Object::Export'),
 
-    # special function
+    # make special "do" function work
     prepare_use('subs', 'do')
-  ]
-}
-
-sub config_cli {
-  [
-    @{config_class()},
-    prepare_call('extends', 'Data::Object::Cli')
   ]
 }
 
@@ -305,6 +279,20 @@ sub config_array {
   [
     prepare_use('Role::Tiny::With'),
     prepare_use('parent', 'Data::Object::Array')
+  ]
+}
+
+sub config_class {
+  [
+    prepare_use('Data::Object::Class'),
+    prepare_use('Data::Object::ClassHas')
+  ]
+}
+
+sub config_cli {
+  [
+    @{config_class()},
+    prepare_call('extends', 'Data::Object::Cli')
   ]
 }
 
@@ -350,12 +338,6 @@ sub config_integer {
   ]
 }
 
-sub config_json {
-  [
-    prepare_use('Data::Object::Export', 'data_json')
-  ]
-}
-
 sub config_kind {
   [
     prepare_use('Role::Tiny::With'),
@@ -370,12 +352,6 @@ sub config_number {
   ]
 }
 
-sub config_path {
-  [
-    prepare_use('Data::Object::Export', 'data_path')
-  ]
-}
-
 sub config_regexp {
   [
     prepare_use('Role::Tiny::With'),
@@ -387,6 +363,20 @@ sub config_replace {
   [
     prepare_use('Role::Tiny::With'),
     prepare_use('parent', 'Data::Object::Replace')
+  ]
+}
+
+sub config_role {
+  [
+    prepare_use('Data::Object::Role'),
+    prepare_use('Data::Object::RoleHas')
+  ]
+}
+
+sub config_rule {
+  [
+    prepare_use('Data::Object::Rule'),
+    prepare_use('Data::Object::RoleHas')
   ]
 }
 
@@ -407,7 +397,7 @@ sub config_search {
 sub config_state {
   [
     prepare_use('Data::Object::State'),
-    prepare_use('Data::Object::Config::Class', { replace => 1 }, 'has')
+    prepare_use('Data::Object::ClassHas')
   ]
 }
 
@@ -415,12 +405,6 @@ sub config_string {
   [
     prepare_use('Role::Tiny::With'),
     prepare_use('parent', 'Data::Object::String')
-  ]
-}
-
-sub config_tmpl {
-  [
-    prepare_use('Data::Object::Export', 'data_tmpl')
   ]
 }
 
@@ -437,37 +421,10 @@ sub config_type {
   ]
 }
 
-sub config_yaml {
-  [
-    prepare_use('Data::Object::Export', 'data_yaml')
-  ]
-}
-
 sub config_undef {
   [
     prepare_use('Role::Tiny::With'),
     prepare_use('parent', 'Data::Object::Undef')
-  ]
-}
-
-sub config_class {
-  [
-    prepare_use('Data::Object::Class'),
-    prepare_use('Data::Object::Config::Class', { replace => 1 }, 'has')
-  ]
-}
-
-sub config_role {
-  [
-    prepare_use('Data::Object::Role'),
-    prepare_use('Data::Object::Config::Role', { replace => 1 }, 'has')
-  ]
-}
-
-sub config_rule {
-  [
-    prepare_use('Data::Object::Rule'),
-    prepare_use('Data::Object::Config::Role', { replace => 1 }, 'has')
   ]
 }
 

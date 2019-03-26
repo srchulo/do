@@ -218,23 +218,6 @@ L<Data::Object::Class> which extends L<Data::Object::Integer>.
 
 =cut
 
-=head2 config_json
-
-  config_json() : ArrayRef
-
-The config_json function returns plans for configuring the package to have a
-C<json> function that loads a L<Data::Object::Json> object.
-
-=over 4
-
-=item config_json example
-
-  my $plans = config_json;
-
-=back
-
-=cut
-
 =head2 config_kind
 
   config_kind() : ArrayRef
@@ -264,23 +247,6 @@ L<Data::Object::Class> which extends L<Data::Object::Number>.
 =item config_number example
 
   my $plans = config_number;
-
-=back
-
-=cut
-
-=head2 config_path
-
-  config_path() : ArrayRef
-
-The config_path function returns plans for configuring the package to have a
-C<path> function that loads a L<Data::Object::Path> object.
-
-=over 4
-
-=item config_path example
-
-  my $plans = config_path;
 
 =back
 
@@ -422,23 +388,6 @@ L<Data::Object::Class> which extends L<Data::Object::String>.
 
 =cut
 
-=head2 config_tmpl
-
-  config_tmpl() : ArrayRef
-
-The config_tmpl function returns plans for configuring the package to have a
-C<tmpl> function that loads a L<Data::Object::Template> object.
-
-=over 4
-
-=item config_tmpl example
-
-  my $plans = config_tmpl;
-
-=back
-
-=cut
-
 =head2 config_try
 
   config_try() : ArrayRef
@@ -485,23 +434,6 @@ L<Data::Object::Class> which extends L<Data::Object::Undef>.
 =item config_undef example
 
   my $plans = config_undef;
-
-=back
-
-=cut
-
-=head2 config_yaml
-
-  config_yaml() : ArrayRef
-
-The config_yaml function returns plans for configuring the package to have a
-C<yaml> function that loads a L<Data::Object::Yaml> object.
-
-=over 4
-
-=item config_yaml example
-
-  my $plans = config_yaml;
 
 =back
 

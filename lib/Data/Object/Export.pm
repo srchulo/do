@@ -36,16 +36,12 @@ our @DATA = (
   'data_float',
   'data_hash',
   'data_integer',
-  'data_json',
   'data_number',
-  'data_path',
   'data_regexp',
   'data_scalar',
   'data_space',
   'data_string',
-  'data_tmpl',
-  'data_undef',
-  'data_yaml'
+  'data_undef'
 );
 
 our @TYPE = (
@@ -120,36 +116,6 @@ sub do {
   }
 
   goto $point;
-}
-
-# TINIES
-
-sub data_json {
-  my $class = 'Data::Object::Json';
-  my $point = load($class)->can('from');
-
-  unshift @_, $class and goto $point;
-}
-
-sub data_path {
-  my $class = 'Data::Object::Path';
-  my $point = load($class)->can('new');
-
-  unshift @_, $class and goto $point;
-}
-
-sub data_tmpl {
-  my $class = 'Data::Object::Template';
-  my $point = load($class)->can('new');
-
-  unshift @_, $class and goto $point;
-}
-
-sub data_yaml {
-  my $class = 'Data::Object::Yaml';
-  my $point = load($class)->can('from');
-
-  unshift @_, $class and goto $point;
 }
 
 # JUMPERS
@@ -267,7 +233,7 @@ sub immutable {
 }
 
 sub library {
-  my $class = 'Data::Object::Config::Library';
+  my $class = 'Data::Object::Library';
   my $point = load($class)->can('meta');
 
   unshift @_, $class and goto $point;
@@ -622,16 +588,12 @@ sub path_name {
   *float = *data_float;
   *hash = *data_hash;
   *integer = *data_integer;
-  *json = *data_json;
   *number = *data_number;
-  *path = *data_path;
   *regexp = *data_regexp;
   *scalar = *data_scalar;
   *space = *data_space;
   *string = *data_string;
-  *tmpl = *data_tmpl;
   *undef = *data_undef;
-  *yaml = *data_yaml;
 
   # aliases (backwards compatibility)
   *type_any = *data_any;
