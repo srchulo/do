@@ -7,6 +7,8 @@ use Data::Object;
 
 use parent 'Moo::Role';
 
+# VERSION
+
 # BUILD
 # METHODS
 

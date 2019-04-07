@@ -5,7 +5,9 @@ use warnings;
 
 use Data::Object::Rule;
 
-#BUILD
+# VERSION
+
+# BUILD
 
 requires 'each';
 requires 'each_key';

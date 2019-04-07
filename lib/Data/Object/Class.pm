@@ -5,6 +5,8 @@ use warnings;
 
 use parent 'Moo';
 
+# VERSION
+
 # BUILD
 # METHODS
 

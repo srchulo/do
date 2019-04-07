@@ -4,6 +4,8 @@ use Data::Object 'Class';
 
 extends 'Data::Object::Func::Regexp';
 
+# VERSION
+
 # BUILD
 
 has arg1 => (
