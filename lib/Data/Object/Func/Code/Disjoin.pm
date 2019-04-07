@@ -4,8 +4,6 @@ use Data::Object 'Class';
 
 extends 'Data::Object::Func::Code';
 
-# VERSION
-
 # BUILD
 
 has arg1 => (

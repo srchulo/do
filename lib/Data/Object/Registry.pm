@@ -8,8 +8,6 @@ use Type::Registry;
 
 use parent 'Data::Object::Kind';
 
-# VERSION
-
 # BUILD
 # METHODS
 

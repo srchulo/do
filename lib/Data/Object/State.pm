@@ -5,8 +5,6 @@ use warnings;
 
 use parent 'Data::Object::Class';
 
-# VERSION
-
 # BUILD
 
 sub import {

@@ -4,8 +4,6 @@ use Data::Object 'Class';
 
 extends 'Data::Object::Func::Array';
 
-# VERSION
-
 # BUILD
 
 has arg1 => (
@@ -40,8 +38,6 @@ sub execute {
     my $value = $data->[$i];
 
     $found++ if $code->($value, @args);
-
-    last if $found;
   }
 
   return $found ? 1 : 0;

@@ -5,8 +5,6 @@ use warnings;
 
 use Data::Object::Rule;
 
-# VERSION
-
 # BUILD
 
 requires 'defined';

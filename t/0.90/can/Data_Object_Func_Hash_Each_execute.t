@@ -58,6 +58,7 @@ $func = Data::Object::Func::Hash::Each->new(
 
 my $result = $func->execute;
 
-is_deeply $result, [1,2,3,4];
+is_deeply $result, $data;
+is_deeply $result, { map { @$_ } @$sets };
 
 ok 1 and done_testing;

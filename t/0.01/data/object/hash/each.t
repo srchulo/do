@@ -14,15 +14,12 @@ subtest 'test the each method' => sub {
   my @argument = (sub { $data->{$_[0]} = $_[1]; });
   my $each     = $hash->each(@argument);
 
-  # deprecated
-  # is refaddr($hash), refaddr($each);
-
-  # updated: return value is a collection
-  is_deeply [sort @$each], [2, 4, 6, 8];
+  is refaddr($hash), refaddr($each);
+  is_deeply $each, $each;
   is_deeply $hash, $data;
 
   isa_ok $hash, 'Data::Object::Hash';
-  isa_ok $each, 'Data::Object::Array';
+  isa_ok $each, 'Data::Object::Hash';
 };
 
 ok 1 and done_testing;

@@ -18,6 +18,8 @@ install:
 
 jobs:
   include:
+    - stage: check
+      script: perl -Ilib -c $(find lib t -type f)
     - stage: critique
       script: perlcritic lib t
 

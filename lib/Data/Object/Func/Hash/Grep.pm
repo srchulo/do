@@ -4,8 +4,6 @@ use Data::Object 'Class';
 
 extends 'Data::Object::Func::Hash';
 
-# VERSION
-
 # BUILD
 
 has arg1 => (
@@ -31,18 +29,17 @@ has args => (
 sub execute {
   my ($self) = @_;
 
-  my $results = [];
-
   my ($data, $code, @args) = $self->unpack;
+
+  my @caught;
 
   for my $key (keys %$data) {
     my $value = $data->{$key};
     my $result = $code->($value, @args);
-
-    push @$results, $key, $value if $result;
+    push @caught, $key, $value if $result;
   }
 
-  return {@$results};
+  return {@caught};
 }
 
 sub mapping {

@@ -4,8 +4,6 @@ use Data::Object 'Class';
 
 extends 'Data::Object::Func::Array';
 
-# VERSION
-
 # BUILD
 
 has arg1 => (
@@ -37,8 +35,6 @@ has args => (
 sub execute {
   my ($self) = @_;
 
-  my $results = [];
-
   my ($data, $number, $code, @args) = $self->unpack;
 
   my @list = (0 .. $#{$data});
@@ -54,10 +50,10 @@ sub execute {
       push @values, $value;
     }
 
-    push @$results, $code->(@values, @args);
+    $code->(@values, @args);
   }
 
-  return $results;
+  return $data;
 }
 
 sub mapping {

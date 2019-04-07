@@ -5,8 +5,6 @@ use warnings;
 
 use parent 'Data::Object::Type';
 
-# VERSION
-
 # BUILD
 # METHODS
 

@@ -6,8 +6,6 @@ extends 'Data::Object::Kind';
 
 with 'Data::Object::Role::Throwable';
 
-# VERSION
-
 # BUILD
 
 sub BUILDARGS {

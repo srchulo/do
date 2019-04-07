@@ -5,8 +5,6 @@ use warnings;
 
 use Data::Object::Export 'reify';
 
-# VERSION
-
 # BUILD
 
 sub import {

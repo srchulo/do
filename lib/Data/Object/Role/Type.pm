@@ -7,8 +7,6 @@ use feature 'state';
 
 use Data::Object::Role;
 
-# VERSION
-
 # BUILD
 # METHODS
 

@@ -7,8 +7,6 @@ use Data::Object::Export;
 
 use parent 'Data::Object::Type';
 
-# VERSION
-
 # BUILD
 # METHODS
 

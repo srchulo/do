@@ -6,8 +6,6 @@ use Data::Object::Search;
 
 extends 'Data::Object::Func::Regexp';
 
-# VERSION
-
 # BUILD
 
 has arg1 => (

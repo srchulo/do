@@ -7,8 +7,6 @@ use Data::Object::Role;
 
 use Carp ();
 
-# VERSION
-
 # BUILD
 
 sub AUTOLOAD {

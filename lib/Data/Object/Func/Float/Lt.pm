@@ -4,8 +4,6 @@ use Data::Object 'Class';
 
 extends 'Data::Object::Func::Float';
 
-# VERSION
-
 # BUILD
 
 has arg1 => (

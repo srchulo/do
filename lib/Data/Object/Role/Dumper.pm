@@ -5,8 +5,6 @@ use warnings;
 
 use Data::Object::Role;
 
-# VERSION
-
 # BUILD
 # METHODS
 
