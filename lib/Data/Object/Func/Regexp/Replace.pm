@@ -6,6 +6,8 @@ use Data::Object::Replace;
 
 extends 'Data::Object::Func::Regexp';
 
+# VERSION
+
 # BUILD
 
 has arg1 => (

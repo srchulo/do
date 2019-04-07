@@ -62,6 +62,12 @@ sub mods {
   return (map type($_, 'pm'), files(@files));
 }
 
+sub pods {
+  my (@files) = @_;
+
+  return (map type($_, 'pod'), files(@files));
+}
+
 sub output_abstract {
   my ($data) = @_;
 
@@ -326,6 +332,10 @@ sub parse_pod {
 
 sub process {
   my (@list) = @_;
+
+  for my $pod (pods(@list)) {
+    unlink "lib/$pod.pod";
+  }
 
   for my $mod (mods(@list)) {
     my $output = output_pod_for_mod($mod);

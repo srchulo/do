@@ -8,6 +8,8 @@ use Scalar::Util;
 
 use parent 'Exporter';
 
+# VERSION
+
 # BUILD
 
 our @CORE = (

@@ -10,6 +10,8 @@ use overload (
   fallback => 1
 );
 
+# VERSION
+
 # BUILD
 
 sub BUILD {

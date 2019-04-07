@@ -3,6 +3,8 @@ package Data::Object::Kind;
 use strict;
 use warnings;
 
+# VERSION
+
 # BUILD
 # METHODS
 

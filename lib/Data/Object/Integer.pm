@@ -30,6 +30,8 @@ use overload (
 
 use parent 'Data::Object::Kind';
 
+# VERSION
+
 # BUILD
 
 sub new {

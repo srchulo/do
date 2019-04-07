@@ -11,6 +11,8 @@ use overload (
   fallback => 1
 );
 
+# VERSION
+
 # BUILD
 # METHODS
 

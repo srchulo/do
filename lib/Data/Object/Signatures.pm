@@ -7,6 +7,8 @@ use Function::Parameters;
 
 use Data::Object::Export 'namespace', 'reify';
 
+# VERSION
+
 # BUILD
 
 sub import {

@@ -4,6 +4,8 @@ use Carp;
 
 use Data::Object::Class;
 
+# VERSION
+
 # BUILD
 
 sub BUILD {
