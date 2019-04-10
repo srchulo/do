@@ -1,0 +1,59 @@
+
+=encoding utf8
+
+=head1 NAME
+
+Data::Object::Base::Scalar
+
+=cut
+
+=head1 ABSTRACT
+
+Data-Object Abstract Scalar Class
+
+=cut
+
+=head1 SYNOPSIS
+
+  package My::Scalar;
+
+  use parent 'Data::Object::Base::Scalar';
+
+  my $scalar = My::Scalar->new(\*main);
+
+=cut
+
+=head1 DESCRIPTION
+
+Data::Object::Base::Scalar provides routines for operating on Perl 5 scalar
+objects.
+
+=cut
+
+=head1 METHODS
+
+This package implements the following methods.
+
+=cut
+
+=head2 new
+
+  new(ScalarRef $arg1) : Object
+
+The new method expects a scalar reference and returns a new class instance.
+
+=over 4
+
+=item new example
+
+  # given \*main
+
+  package My::Scalar;
+
+  use parent 'Data::Object::Base::Scalar';
+
+  my $scalar = My::Scalar->new(\*main);
+
+=back
+
+=cut

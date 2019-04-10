@@ -21,7 +21,7 @@ The type method returns object type string.
 
 =signature
 
-type() : StrObject
+type() : Str
 
 =type
 
@@ -31,9 +31,9 @@ method
 
 # TESTING
 
-use_ok 'Data::Object::Role::Type';
+use_ok 'Data::Object::Base';
 
-my $data = 'Data::Object::Role::Type';
+my $data = 'Data::Object::Base';
 
 can_ok $data, 'type';
 

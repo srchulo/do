@@ -2,7 +2,7 @@ package Data::Object::Exception;
 
 use Data::Object::Class;
 
-use parent 'Data::Object::Kind';
+use parent 'Data::Object::Base';
 
 use overload (
   '""'     => 'data',

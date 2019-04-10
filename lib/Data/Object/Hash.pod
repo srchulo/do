@@ -688,26 +688,6 @@ This method will throw an exception if called.
 
 =cut
 
-=head2 new
-
-  new(HashRef $arg1) : HashObject
-
-The new method expects a list or hash reference and returns a new class
-instance.
-
-=over 4
-
-=item new example
-
-  # given 1..4
-
-  my $hash = Data::Object::Hash->new(1..4);
-  my $hash = Data::Object::Hash->new({1..4});
-
-=back
-
-=cut
-
 =head2 pairs
 
   pairs() : ArrayObject
@@ -967,10 +947,6 @@ L<Data::Object::Role::Output>
 =item *
 
 L<Data::Object::Role::Throwable>
-
-=item *
-
-L<Data::Object::Role::Type>
 
 =back
 

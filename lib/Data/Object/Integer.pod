@@ -195,24 +195,6 @@ L<Data::Object::Number> object representing a boolean.
 
 =cut
 
-=head2 new
-
-  new(Int $arg1) : IntObject
-
-The new method expects a number and returns a new class instance.
-
-=over 4
-
-=item new example
-
-  # given 9
-
-  my $integer = Data::Object::Integer->new(9);
-
-=back
-
-=cut
-
 =head2 roles
 
   roles() : ArrayRef
@@ -313,10 +295,6 @@ L<Data::Object::Role::Output>
 =item *
 
 L<Data::Object::Role::Throwable>
-
-=item *
-
-L<Data::Object::Role::Type>
 
 =back
 

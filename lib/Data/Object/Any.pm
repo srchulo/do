@@ -1,8 +1,8 @@
 package Data::Object::Any;
 
 use Try::Tiny;
+use Role::Tiny::With;
 
-use Data::Object::Class;
 use Data::Object::Export qw(
   cast
   croak
@@ -14,7 +14,6 @@ map with($_), my @roles = qw(
   Data::Object::Role::Dumper
   Data::Object::Role::Output
   Data::Object::Role::Throwable
-  Data::Object::Role::Type
 );
 
 map with($_), my @rules = qw(
@@ -28,27 +27,11 @@ use overload (
   fallback => 1
 );
 
-use parent 'Data::Object::Kind';
+use parent 'Data::Object::Base::Any';
 
 # VERSION
 
 # BUILD
-
-sub new {
-  my ($class, $arg) = @_;
-
-  my $role = 'Data::Object::Role::Type';
-
-  if (Scalar::Util::blessed($arg)) {
-    $arg = $arg->data if $arg->can('does') && $arg->does($role);
-  }
-  if (Scalar::Util::blessed($arg) && $arg->isa('Regexp') && $^V <= v5.12.0) {
-    $arg = do { \(my $q = qr/$arg/) };
-  }
-
-  return bless ref($arg) ? $arg : \$arg, $class;
-}
-
 # METHODS
 
 sub roles {

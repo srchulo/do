@@ -35,8 +35,8 @@ method
 
 # TESTING
 
-use Data::Object::Kind;
+use Data::Object::Base;
 
-can_ok 'Data::Object::Kind', 'class';
+can_ok 'Data::Object::Base', 'class';
 
 ok 1 and done_testing;

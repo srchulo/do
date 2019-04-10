@@ -449,24 +449,6 @@ represented by the object. This method returns a number value.
 
 =cut
 
-=head2 new
-
-  new(Str $arg1) : StrObject
-
-The new method expects a string and returns a new class instance.
-
-=over 4
-
-=item new example
-
-  # given abcedfghi
-
-  my $string = Data::Object::String->new('abcedfghi');
-
-=back
-
-=cut
-
 =head2 replace
 
   replace(Str $arg1, Str $arg2) : StrObject
@@ -787,10 +769,6 @@ L<Data::Object::Role::Output>
 =item *
 
 L<Data::Object::Role::Throwable>
-
-=item *
-
-L<Data::Object::Role::Type>
 
 =back
 

@@ -420,24 +420,6 @@ L<Data::Object::Integer> object.
 
 =cut
 
-=head2 new
-
-  new(Int $arg1) : NumObject
-
-The new method expects a number and returns a new class instance.
-
-=over 4
-
-=item new example
-
-  # given 1_000_000
-
-  my $number = Data::Object::Number->new(1_000_000);
-
-=back
-
-=cut
-
 =head2 pow
 
   pow() : NumObject
@@ -596,10 +578,6 @@ L<Data::Object::Role::Output>
 =item *
 
 L<Data::Object::Role::Throwable>
-
-=item *
-
-L<Data::Object::Role::Type>
 
 =back
 

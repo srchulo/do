@@ -774,26 +774,6 @@ This method will throw an exception if called.
 
 =cut
 
-=head2 new
-
-  new(ArrayRef $arg1) : ArrayObject
-
-The new method expects a list or array reference and returns a new class
-instance.
-
-=over 4
-
-=item new example
-
-  # given 1..9
-
-  my $array = Data::Object::Array->new(1..9);
-  my $array = Data::Object::Array->new([1..9]);
-
-=back
-
-=cut
-
 =head2 none
 
   none(CodeRef $arg1, Any $arg2) : NumObject
@@ -1361,10 +1341,6 @@ L<Data::Object::Role::Output>
 =item *
 
 L<Data::Object::Role::Throwable>
-
-=item *
-
-L<Data::Object::Role::Type>
 
 =back
 

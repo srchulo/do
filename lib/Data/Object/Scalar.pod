@@ -168,24 +168,6 @@ This method will throw an exception if called.
 
 =cut
 
-=head2 new
-
-  new(ScalarRef $arg1) : ScalarObject
-
-The new method expects a scalar reference and returns a new class instance.
-
-=over 4
-
-=item new example
-
-  # given \*main
-
-  my $scalar = Data::Object::Scalar->new(\*main);
-
-=back
-
-=cut
-
 =head2 roles
 
   roles() : ArrayRef
@@ -244,10 +226,6 @@ L<Data::Object::Role::Output>
 =item *
 
 L<Data::Object::Role::Throwable>
-
-=item *
-
-L<Data::Object::Role::Type>
 
 =back
 

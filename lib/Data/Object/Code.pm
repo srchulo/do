@@ -1,8 +1,8 @@
 package Data::Object::Code;
 
 use Try::Tiny;
+use Role::Tiny::With;
 
-use Data::Object::Class;
 use Data::Object::Export qw(
   cast
   croak
@@ -13,7 +13,6 @@ map with($_), my @roles = qw(
   Data::Object::Role::Detract
   Data::Object::Role::Dumper
   Data::Object::Role::Throwable
-  Data::Object::Role::Type
 );
 
 map with($_), my @rules = qw(
@@ -27,28 +26,11 @@ use overload (
   fallback => 1
 );
 
-use parent 'Data::Object::Kind';
+use parent 'Data::Object::Base::Code';
 
 # VERSION
 
 # BUILD
-
-sub new {
-  my ($class, $arg) = @_;
-
-  my $role = 'Data::Object::Role::Type';
-
-  if (Scalar::Util::blessed($arg)) {
-    $arg = $arg->data if $arg->can('does') && $arg->does($role);
-  }
-
-  unless (ref($arg) eq 'CODE') {
-    croak('Instantiation Error: Not a CodeRef');
-  }
-
-  return bless $arg, $class;
-}
-
 # METHODS
 
 sub self {

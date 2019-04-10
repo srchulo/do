@@ -145,22 +145,6 @@ The ne method returns truthy if argument and object data are not equal.
 
 =cut
 
-=head2 new
-
-  new(Any $arg1) : AnyObject
-
-Construct a new object.
-
-=over 4
-
-=item new example
-
-  my $any = Data::Object::Any->new(\*main);
-
-=back
-
-=cut
-
 =head2 roles
 
   roles() : ArrayRef
@@ -216,10 +200,6 @@ L<Data::Object::Role::Output>
 =item *
 
 L<Data::Object::Role::Throwable>
-
-=item *
-
-L<Data::Object::Role::Type>
 
 =back
 

@@ -19,7 +19,7 @@ sub import {
   no strict 'refs';
 
   *{"${target}::BUILD"} = $class->can('BUILD');
-  *{"${target}::RENEW"} = $class->can('RENEW');
+  *{"${target}::renew"} = $class->can('renew');
 
   return;
 }
@@ -40,7 +40,7 @@ sub BUILD {
 
 # METHODS
 
-sub RENEW {
+sub renew {
   my ($self, @args) = @_;
 
   my $class = ref($self) || $self;

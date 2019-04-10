@@ -37,15 +37,15 @@ This package implements the following methods.
 
 =head2 renew
 
-  RENEW(Any @args) : Object
+  renew(Any @args) : Object
 
-The RENEW method resets the state and returns a new singleton.
+The renew method resets the state and returns a new singleton.
 
 =over 4
 
-=item RENEW example
+=item renew example
 
-  my $RENEW = $self->RENEW(@args);
+  my $renew = $self->renew(@args);
 
 =back
 

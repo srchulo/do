@@ -84,9 +84,9 @@ sub choose {
     return 'config_integer';
   }
 
-  # config kind
-  if (subject($type, 'kind')) {
-    return 'config_kind';
+  # config base
+  if (subject($type, 'base')) {
+    return 'config_base';
   }
 
   # config number
@@ -340,10 +340,10 @@ sub config_integer {
   ]
 }
 
-sub config_kind {
+sub config_base {
   [
     prepare_use('Role::Tiny::With'),
-    prepare_use('parent', 'Data::Object::Kind')
+    prepare_use('parent', 'Data::Object::Base')
   ]
 }
 
@@ -419,7 +419,7 @@ sub config_try {
 sub config_type {
   [
     @{config_class()},
-    prepare_call('extends', 'Data::Object::Kind')
+    prepare_call('extends', 'Data::Object::Base')
   ]
 }
 

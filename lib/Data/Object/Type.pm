@@ -7,7 +7,7 @@ use Type::Tiny;
 use Type::Coercion;
 use Types::TypeTiny;
 
-use parent 'Data::Object::Kind';
+use parent 'Data::Object::Base';
 
 # VERSION
 

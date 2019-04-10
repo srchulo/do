@@ -55,25 +55,6 @@ L<Data::Object::Number> object.
 
 =cut
 
-=head2 new
-
-  new(RegexpRef $arg1) : RegexpObject
-
-The new method expects a regular-expression object and returns a new class
-instance.
-
-=over 4
-
-=item new example
-
-  # given qr(something to match against)
-
-  my $re = Data::Object::Regexp->new(qr(something to match against));
-
-=back
-
-=cut
-
 =head2 replace
 
   replace(Str $arg1, Str $arg2) : StrObject
@@ -177,10 +158,6 @@ L<Data::Object::Role::Output>
 =item *
 
 L<Data::Object::Role::Throwable>
-
-=item *
-
-L<Data::Object::Role::Type>
 
 =back
 

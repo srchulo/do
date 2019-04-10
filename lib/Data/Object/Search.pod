@@ -264,10 +264,6 @@ L<Data::Object::Role::Output>
 
 L<Data::Object::Role::Throwable>
 
-=item *
-
-L<Data::Object::Role::Type>
-
 =back
 
 =head1 RULES

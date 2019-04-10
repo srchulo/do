@@ -1,8 +1,8 @@
 package Data::Object::Integer;
 
 use Try::Tiny;
+use Role::Tiny::With;
 
-use Data::Object::Class;
 use Data::Object::Export qw(
   cast
   croak
@@ -14,7 +14,6 @@ map with($_), my @roles = qw(
   Data::Object::Role::Dumper
   Data::Object::Role::Output
   Data::Object::Role::Throwable
-  Data::Object::Role::Type
 );
 
 map with($_), my @rules = qw(
@@ -28,40 +27,11 @@ use overload (
   fallback => 1
 );
 
-use parent 'Data::Object::Kind';
+use parent 'Data::Object::Base::Integer';
 
 # VERSION
 
 # BUILD
-
-sub new {
-  my ($class, $arg) = @_;
-
-  my $role = 'Data::Object::Role::Type';
-
-  if (Scalar::Util::blessed($arg)) {
-    $arg = $arg->data if $arg->can('does') && $arg->does($role);
-  }
-
-  $arg = "$arg" if $arg;
-
-  if (defined $arg) {
-    $arg =~ s/^\+//; # not keen on this but ...
-  }
-
-  if (!defined($arg) || ref($arg)) {
-    croak('Instantiation Error: Not an Integer');
-  }
-
-  if (!Scalar::Util::looks_like_number($arg)) {
-    croak('Instantiation Error: Not an Integer');
-  }
-
-  $arg += 0 unless $arg =~ /[a-zA-Z]/;
-
-  return bless \$arg, $class;
-}
-
 # METHODS
 
 sub roles {

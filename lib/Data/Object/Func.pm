@@ -2,7 +2,7 @@ package Data::Object::Func;
 
 use Data::Object::Class;
 
-extends 'Data::Object::Kind';
+extends 'Data::Object::Base';
 
 with 'Data::Object::Role::Throwable';
 

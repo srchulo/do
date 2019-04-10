@@ -6,7 +6,7 @@ use warnings;
 use Data::Object::State;
 use Type::Registry;
 
-use parent 'Data::Object::Kind';
+use parent 'Data::Object::Base';
 
 # VERSION
 

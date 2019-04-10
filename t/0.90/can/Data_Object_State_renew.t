@@ -9,19 +9,19 @@ use Test::More;
 
 =name
 
-RENEW
+renew
 
 =usage
 
-  my $RENEW = $self->RENEW(@args);
+  my $renew = $self->renew(@args);
 
 =description
 
-The RENEW method resets the state and returns a new singleton.
+The renew method resets the state and returns a new singleton.
 
 =signature
 
-RENEW(Any @args) : Object
+renew(Any @args) : Object
 
 =type
 
@@ -35,6 +35,6 @@ use_ok 'Data::Object::State';
 
 my $data = 'Data::Object::State';
 
-can_ok $data, 'RENEW';
+can_ok $data, 'renew';
 
 ok 1 and done_testing;

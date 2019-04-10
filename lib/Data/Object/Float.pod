@@ -196,24 +196,6 @@ L<Data::Object::Number> object representing a boolean.
 
 =cut
 
-=head2 new
-
-  new(Num $arg1) : FloatObject
-
-The new method expects a floating-point number and returns a new class instance.
-
-=over 4
-
-=item new example
-
-  # given 9.9999
-
-  my $float = Data::Object::Float->new(9.9999);
-
-=back
-
-=cut
-
 =head2 roles
 
   roles() : ArrayRef
@@ -314,10 +296,6 @@ L<Data::Object::Role::Output>
 =item *
 
 L<Data::Object::Role::Throwable>
-
-=item *
-
-L<Data::Object::Role::Type>
 
 =back
 
