@@ -129,6 +129,11 @@ sub choose {
     return 'config_type';
   }
 
+  # config library
+  if (subject($type, 'library')) {
+    return 'config_library';
+  }
+
   # config undef
   if (subject($type, 'undef')) {
     return 'config_undef';
@@ -185,7 +190,7 @@ sub process {
     }
   }
 
-  # experimental! auto-register type
+  # experimental auto-register type
   _process_meta($target, $type, $meta) if $meta;
 
   return;
@@ -423,6 +428,14 @@ sub config_type {
   ]
 }
 
+sub config_library {
+  [
+    prepare_use('Type::Library', '-base'),
+    prepare_use('Type::Utils', '-all'),
+    prepare_call('extends', 'Data::Object::Library')
+  ]
+}
+
 sub config_undef {
   [
     prepare_use('Role::Tiny::With'),
@@ -430,7 +443,7 @@ sub config_undef {
   ]
 }
 
-# experimental!
+# experimental
 sub _process_meta {
   my ($target, $type, $meta) = @_;
 
@@ -465,7 +478,7 @@ sub _process_meta {
   return;
 }
 
-# experimental!
+# experimental
 sub _process_typelib {
   my ($target, $meta) = @_;
 
@@ -473,7 +486,7 @@ sub _process_typelib {
   return namespace($target, ref($meta) ? join('-', @$meta) : $meta);
 }
 
-# experimental!
+# experimental
 sub _process_typereg {
   my ($namespace, $constraint) = @_;
 
@@ -481,7 +494,7 @@ sub _process_typereg {
   return $namespace->get_type($constraint->name) || $namespace->add_type($constraint);
 }
 
-# experimental!
+# experimental
 sub _process_typetiny {
   my ($registry, $target, $reference) = @_;
 
