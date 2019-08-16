@@ -185,6 +185,9 @@ sub process {
     if ($plan->[0] eq 'call') {
       process_call($target, $plan);
     }
+    if ($plan->[0] eq 'let') {
+      process_let($target, $plan);
+    }
     if ($plan->[0] eq 'use') {
       process_use($target, $plan);
     }
@@ -226,6 +229,22 @@ sub process_call {
   my ($action, $name, @args) = @$plan;
 
   $target->can($name)->(@args);
+
+  return;
+}
+
+sub prepare_let {
+  my (@args) = @_;
+
+  return ['let', @args];
+}
+
+sub process_let {
+  my ($target, $plan) = @_;
+
+  my ($action, @args) = @$plan;
+
+  eval join ' ', "package $target;", @args;
 
   return;
 }
@@ -432,7 +451,7 @@ sub config_library {
   [
     prepare_use('Type::Library', '-base'),
     prepare_use('Type::Utils', '-all'),
-    prepare_call('extends', 'Data::Object::Library')
+    prepare_let('BEGIN { extends("Data::Object::Library"); }')
   ]
 }
 
