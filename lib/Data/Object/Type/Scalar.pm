@@ -3,8 +3,6 @@ package Data::Object::Type::Scalar;
 use strict;
 use warnings;
 
-use Data::Object::Export;
-
 use parent 'Data::Object::Type';
 
 # VERSION
@@ -21,7 +19,10 @@ sub aliases {
 }
 
 sub coercions {
-  return ['ScalarRef', sub { do('scalar', $_[0]) }];
+  return ['ScalarRef', sub {
+      require Data::Object::Scalar;
+      Data::Object::Scalar->new($_[0]);
+  }];
 }
 
 sub validation {

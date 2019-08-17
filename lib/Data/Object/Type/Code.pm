@@ -3,8 +3,6 @@ package Data::Object::Type::Code;
 use strict;
 use warnings;
 
-use Data::Object::Export;
-
 use parent 'Data::Object::Type';
 
 # VERSION
@@ -21,7 +19,10 @@ sub aliases {
 }
 
 sub coercions {
-  return ['CodeRef', sub { do('code', $_[0]) }];
+  return ['CodeRef', sub {
+    require Data::Object::Code;
+    Data::Object::Code->new($_[0]);
+  }];
 }
 
 sub validation {

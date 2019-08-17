@@ -3,8 +3,6 @@ package Data::Object::Type::Regexp;
 use strict;
 use warnings;
 
-use Data::Object::Export;
-
 use parent 'Data::Object::Type';
 
 # VERSION
@@ -21,7 +19,10 @@ sub aliases {
 }
 
 sub coercions {
-  return ['RegexpRef', sub { do('regexp', $_[0]) }];
+  return ['RegexpRef', sub {
+      require Data::Object::Regexp;
+      Data::Object::Regexp->new($_[0]);
+  }];
 }
 
 sub validation {

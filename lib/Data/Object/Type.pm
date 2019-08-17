@@ -36,7 +36,7 @@ sub parent {
 }
 
 sub library {
-  return shift->namespace->meta;
+  return 'Data::Object::Library'->meta;
 }
 
 sub namespace {

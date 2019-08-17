@@ -3,8 +3,6 @@ package Data::Object::Type::Json;
 use strict;
 use warnings;
 
-use Data::Object::Export;
-
 use parent 'Data::Object::Type';
 
 # VERSION

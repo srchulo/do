@@ -3,8 +3,6 @@ package Data::Object::Type::Integer;
 use strict;
 use warnings;
 
-use Data::Object::Export;
-
 use parent 'Data::Object::Type';
 
 # VERSION
@@ -23,11 +21,26 @@ sub aliases {
 sub coercions {
   my $coercions = [];
 
-  push @$coercions, 'Str', sub { do('integer', $_[0]) };
-  push @$coercions, 'Num', sub { do('integer', $_[0]) };
-  push @$coercions, 'LaxNum', sub { do('integer', $_[0]) };
-  push @$coercions, 'StrictNum', sub { do('integer', $_[0]) };
-  push @$coercions, 'Int', sub { do('integer', $_[0]) };
+  push @$coercions, 'Str', sub {
+    require Data::Object::Integer;
+    Data::Object::Integer->new($_[0]);
+  };
+  push @$coercions, 'Num', sub {
+    require Data::Object::Integer;
+    Data::Object::Integer->new($_[0]);
+  };
+  push @$coercions, 'LaxNum', sub {
+    require Data::Object::Integer;
+    Data::Object::Integer->new($_[0]);
+  };
+  push @$coercions, 'StrictNum', sub {
+    require Data::Object::Integer;
+    Data::Object::Integer->new($_[0]);
+  };
+  push @$coercions, 'Int', sub {
+    require Data::Object::Integer;
+    Data::Object::Integer->new($_[0]);
+  };
 
   return $coercions;
 }

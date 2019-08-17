@@ -3,8 +3,6 @@ package Data::Object::Type::Number;
 use strict;
 use warnings;
 
-use Data::Object::Export;
-
 use parent 'Data::Object::Type';
 
 # VERSION
@@ -23,10 +21,22 @@ sub aliases {
 sub coercions {
   my $coercions = [];
 
-  push @$coercions, 'Str', sub { do('number', $_[0]) };
-  push @$coercions, 'Num', sub { do('number', $_[0]) };
-  push @$coercions, 'LaxNum', sub { do('number', $_[0]) };
-  push @$coercions, 'StrictNum', sub { do('number', $_[0]) };
+  push @$coercions, 'Str', sub {
+    require Data::Object::Number;
+    Data::Object::Number->new($_[0]);
+  };
+  push @$coercions, 'Num', sub {
+    require Data::Object::Number;
+    Data::Object::Number->new($_[0]);
+  };
+  push @$coercions, 'LaxNum', sub {
+    require Data::Object::Number;
+    Data::Object::Number->new($_[0]);
+  };
+  push @$coercions, 'StrictNum', sub {
+    require Data::Object::Number;
+    Data::Object::Number->new($_[0]);
+  };
 
   return $coercions;
 }

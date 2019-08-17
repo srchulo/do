@@ -34,22 +34,6 @@ This package implements the following methods.
 
 =cut
 
-=head2 def
-
-  def() : Str
-
-Returns the default type library.
-
-=over 4
-
-=item def example
-
-  my $def = $registry->def();
-
-=back
-
-=cut
-
 =head2 get
 
   get(Str $arg1) : Any

@@ -3,8 +3,6 @@ package Data::Object::Type::Undef;
 use strict;
 use warnings;
 
-use Data::Object::Export;
-
 use parent 'Data::Object::Type';
 
 # VERSION
@@ -21,7 +19,10 @@ sub aliases {
 }
 
 sub coercions {
-  return ['Undef', sub { do('undef', $_[0]) }];
+  return ['Undef', sub {
+      require Data::Object::Undef;
+      Data::Object::Undef->new($_[0]);
+  }];
 }
 
 sub validation {
