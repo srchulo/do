@@ -68,6 +68,7 @@ sub subroutines {
   my %ignore = map +($_, 1), qw(
     BUILD
     BUILDARGS
+    BUILDPROXY
     import
   );
 

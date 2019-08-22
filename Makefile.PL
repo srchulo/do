@@ -12,27 +12,31 @@ my %WriteMakefileArgs = (
   "CONFIGURE_REQUIRES" => {
     "ExtUtils::MakeMaker" => 0
   },
-  "DISTNAME" => "Data-Object",
+  "DISTNAME" => "Do",
   "LICENSE" => "perl",
   "MIN_PERL_VERSION" => "5.014000",
-  "NAME" => "Data::Object",
+  "NAME" => "Do",
   "PREREQ_PM" => {
     "Function::Parameters" => "2.001003",
     "Import::Into" => "1.002005",
     "Moo" => "2.000001",
+    "Readonly" => "2.00",
     "Role::Tiny" => "2.000006",
     "Try::Tiny" => "0.30",
-    "Type::Tiny" => "1.000005"
+    "Type::Tiny" => "1.000005",
+    "autobox" => "2.82"
   },
   "TEST_REQUIRES" => {
     "Function::Parameters" => "2.001003",
     "Import::Into" => "1.002005",
     "Moo" => "2.000001",
+    "Readonly" => "2.00",
     "Role::Tiny" => "2.000006",
     "Try::Tiny" => "0.30",
-    "Type::Tiny" => "1.000005"
+    "Type::Tiny" => "1.000005",
+    "autobox" => "2.82"
   },
-  "VERSION" => "0.99",
+  "VERSION" => "1.00",
   "test" => {
     "TESTS" => "t/0.01/data/*.t t/0.01/data/object/*.t t/0.01/data/object/any/*.t t/0.01/data/object/array/*.t t/0.01/data/object/code/*.t t/0.01/data/object/float/*.t t/0.01/data/object/hash/*.t t/0.01/data/object/integer/*.t t/0.01/data/object/library/*.t t/0.01/data/object/number/*.t t/0.01/data/object/regexp/*.t t/0.01/data/object/scalar/*.t t/0.01/data/object/signatures/*.t t/0.01/data/object/string/*.t t/0.01/data/object/undef/*.t t/0.50/data/*.t t/0.50/data/object/*.t t/0.50/data/object/class/*.t t/0.50/data/object/func/*.t t/0.50/data/object/regexp/*.t t/0.90/*.t t/0.90/can/*.t t/0.90/use/*.t"
   }
@@ -43,9 +47,11 @@ my %FallbackPrereqs = (
   "Function::Parameters" => "2.001003",
   "Import::Into" => "1.002005",
   "Moo" => "2.000001",
+  "Readonly" => "2.00",
   "Role::Tiny" => "2.000006",
   "Try::Tiny" => "0.30",
-  "Type::Tiny" => "1.000005"
+  "Type::Tiny" => "1.000005",
+  "autobox" => "2.82"
 );
 
 

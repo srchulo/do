@@ -1,0 +1,49 @@
+
+=encoding utf8
+
+=head1 NAME
+
+Data::Object::Autobox::Scalar
+
+=cut
+
+=head1 ABSTRACT
+
+Data-Object Autoboxing for Scalar Objects
+
+=cut
+
+=head1 SYNOPSIS
+
+  use Data::Object::Autobox::Scalar;
+
+=cut
+
+=head1 DESCRIPTION
+
+This package implements autoboxing via L<Data::Object::Autobox> for
+L<Data::Object::Scalar> objects.
+
+=cut
+
+=head1 METHODS
+
+This package implements the following methods.
+
+=cut
+
+=head2 new
+
+  new(Any $arg1) : ScalarObject
+
+Construct a new object.
+
+=over 4
+
+=item new example
+
+  my $scalar = Data::Object::Autobox::Scalar->new(\*main);
+
+=back
+
+=cut

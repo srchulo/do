@@ -1,11 +1,11 @@
-package do;
+package Do;
 
 use 5.014;
 
 use strict;
 use warnings;
 
-use parent 'Data::Object::Config';
+use parent 'Data::Object';
 
 # VERSION
 

@@ -1,0 +1,49 @@
+
+=encoding utf8
+
+=head1 NAME
+
+Data::Object::Autobox::Array
+
+=cut
+
+=head1 ABSTRACT
+
+Data-Object Autoboxing for Array Objects
+
+=cut
+
+=head1 SYNOPSIS
+
+  use Data::Object::Autobox::Array;
+
+=cut
+
+=head1 DESCRIPTION
+
+This package implements autoboxing via L<Data::Object::Autobox> for
+L<Data::Object::Array> objects.
+
+=cut
+
+=head1 METHODS
+
+This package implements the following methods.
+
+=cut
+
+=head2 new
+
+  new(ArrayRef $arg1) : ArrayObject
+
+Construct a new object.
+
+=over 4
+
+=item new example
+
+  my $array = Data::Object::Autobox::Array->new([]);
+
+=back
+
+=cut

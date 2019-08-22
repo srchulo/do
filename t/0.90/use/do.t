@@ -25,7 +25,7 @@ Minimalist Perl Development Framework
 
 =description
 
-The "do" module is focused on simplicity and productivity. It encapsulates the
+The "do" package is focused on simplicity and productivity. It encapsulates the
 L<Data::Object> framework features, is minimalist, and is designed for
 scripting.
 

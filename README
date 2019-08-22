@@ -1,30 +1,32 @@
 NAME
 
-    Data::Object
+    Do
 
 ABSTRACT
 
-    Modern Perl Development Framework and Standard Library
+    Modern Perl Development Framework
 
 SYNOPSIS
 
       package User;
     
-      use Data::Object 'Class';
+      use Do 'Class';
     
       extends 'Identity';
     
-      has 'fname';
-      has 'lname';
+      has 'name';
+    
+      method hello(Str $name) {
+        say join ", ", "Hi", $name, "I'm " . $self->name;
+      }
     
       1;
 
 DESCRIPTION
 
-    Data-Object is a robust development framework for modern Perl
-    development, embracing Perl's multi-paradigm programming nature,
-    flexibility and vast ecosystem that many of engineers already know and
-    love.
+    Do is a robust development framework for modern Perl development,
+    embracing Perl's multi-paradigm programming nature, flexibility and
+    vast ecosystem that many of engineers already know and love.
 
     This framework aims to provide a standardized and cohesive set of
     classes, types, objects, functions, patterns, and tools for
@@ -37,19 +39,22 @@ DESCRIPTION
     and method modifiers). We also provide classes which wrap Perl 5 native
     data types and provides methods for operating on the data.
 
-    Contrary to popular opinion, modern Perl programming can be extremely
-    well-structured and beautiful, leveraging many advanced concepts found
-    on other languages, and some which aren't. Abilities like method
-    modification also referred to as augmenting, reflection, advanced
-    object-orientation, type-constrainable object attributes,
+    Contrary to the opinion of some, modern Perl programming can be
+    extremely well-structured and beautiful, leveraging many advanced
+    concepts found on other languages, and some which aren't. Abilities
+    like method modification also referred to as augmenting, reflection,
+    advanced object-orientation, type-constrainable object attributes,
     type-constrainable subroutine signatures (with named and positional
     arguments), as well roles (similar to mixins or interfaces in other
     languages).
 
-      use Data::Object;
+      use Do;
 
-    This is what's enabled whenever you import the Data::Object application
-    development framework.
+    The "Do" package is an alias and subclass of the Data::Object package.
+    It encapsulates all of the framework's features, is minimalist, and is
+    meant to be the first import in a new class or module. This is what's
+    enabled whenever you import the "Do" or "Data::Object" package into
+    your namespace.
 
       # basics
       use strict;
@@ -70,7 +75,7 @@ DESCRIPTION
 
       package User;
     
-      use Data::Object 'Class', 'App';
+      use Do 'Class', 'App';
     
       has name => (
         is  => 'ro',
@@ -91,7 +96,7 @@ DESCRIPTION
     
       use User;
     
-      use Data::Object 'Core', 'App';
+      use Do 'Core', 'App';
     
       fun greetings(User $u1, User $u2) {
         return $u1->hello($u2);
@@ -118,7 +123,7 @@ DESCRIPTION
 
       package App;
     
-      use Data::Object 'Library';
+      use Do 'Library';
     
       1;
 
@@ -140,16 +145,16 @@ INSTALLATION
 
     If you have cpanm, you only need one line:
 
-      $ cpanm -qn Data::Object
+      $ cpanm -qn Do
 
     If you don't have cpanm, get it! It takes less than a minute,
     otherwise:
 
-      $ curl -L https://cpanmin.us | perl - -qn Data::Object
+      $ curl -L https://cpanmin.us | perl - -qn Do
 
-    Add Data::Object to the list of dependencies in cpanfile:
+    Add Do to the list of dependencies in cpanfile:
 
-      requires "Data::Object" => "0.97"; # 0.97 or newer
+      requires "Do" => "1.00"; # 1.00 or newer
 
     If cpanm doesn't have permission to install modules in the current Perl
     installation, it will automatically set up and install to a local::lib
@@ -159,183 +164,4 @@ INSTALLATION
     <https://github.com/tokuhirom/plenv> environment. These tools will help
     you manage multiple Perl installations in your $HOME directory. They
     are completely isolated Perl installations.
-
-FUNCTIONS
-
-    This package implements the following functions.
-
- any
-
-      any(Any $arg) : Object
-
-    The any constructor function returns a Data::Object::Any object for
-    given argument.
-
-    any example
-
-        # given \*main
-      
-        my $object = Data::Object->any(\*main);
-
- array
-
-      array(ArrayRef $arg) : Object
-
-    The array constructor function returns a Data::Object::Array object for
-    given argument.
-
-    array example
-
-        # given [1..4]
-      
-        my $object = Data::Object->array([1..4]);
-
- code
-
-      code(CodeRef $arg) : Object
-
-    The code constructor function returns a Data::Object::Code object for
-    given argument.
-
-    code example
-
-        # given sub { shift + 1 }
-      
-        my $object = Data::Object->code(sub { $_[0] + 1 });
-
- exception
-
-      exception(HashRef $arg) : Object
-
-    The exception constructor function returns a Data::Object::Exception
-    object for given argument.
-
-    exception example
-
-        # given { message => 'Oops' }
-      
-        my $object = Data::Object->exception({ message => 'Oops' });
-
- float
-
-      float(Num $arg) : Object
-
-    The float constructor function returns a Data::Object::Float object for
-    given argument.
-
-    float example
-
-        # given 1.23
-      
-        my $object = Data::Object->float(1.23);
-
- hash
-
-      hash(HashRef $arg) : Object
-
-    The hash constructor function returns a Data::Object::Hash object for
-    given argument.
-
-    hash example
-
-        # given {1..4}
-      
-        my $object = Data::Object->hash({1..4});
-
- integer
-
-      integer(Int $arg) : Object
-
-    The integer constructor function returns a Data::Object::Integer object
-    for given argument.
-
-    integer example
-
-        # given -123
-      
-        my $object = Data::Object->integer(-123);
-
- number
-
-      number(Num $arg) : Object
-
-    The number constructor function returns a Data::Object::Number object
-    for given argument.
-
-    number example
-
-        # given 123
-      
-        my $object = Data::Object->number(123);
-
- regexp
-
-      regexp(Regexp $arg) : Object
-
-    The regexp constructor function returns a Data::Object::Regexp object
-    for given argument.
-
-    regexp example
-
-        # given qr(\w+)
-      
-        my $object = Data::Object->regexp(qr(\w+));
-
- scalar
-
-      scalar(Any $arg) : Object
-
-    The scalar constructor function returns a Data::Object::Scalar object
-    for given argument.
-
-    scalar example
-
-        # given \*main
-      
-        my $object = Data::Object->scalar(\*main);
-
- string
-
-      string(Str $arg) : Object
-
-    The string constructor function returns a Data::Object::String object
-    for given argument.
-
-    string example
-
-        # given 'hello'
-      
-        my $object = Data::Object->string('hello');
-
- undef
-
-      undef(Undef $arg?) : Object
-
-    The undef constructor function returns a Data::Object::Undef object for
-    given argument.
-
-    undef example
-
-        # given undef
-      
-        my $object = Data::Object->undef(undef);
-
-METHODS
-
-    This package implements the following methods.
-
- new
-
-      new(Str $arg) : Object
-
-    The new method expects a string representing a class name under the
-    Data::Object namespace and returns a Data::Object::Space object.
-
-    new example
-
-        # given 'String'
-      
-        my $space = Data::Object->new('String');
-      
-        my $string = $space->build('hello world');
 

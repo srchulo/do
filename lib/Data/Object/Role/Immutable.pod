@@ -1,0 +1,68 @@
+
+=encoding utf8
+
+=head1 NAME
+
+Data::Object::Role::Immutable
+
+=cut
+
+=head1 ABSTRACT
+
+Data-Object Immutability Role
+
+=cut
+
+=head1 SYNOPSIS
+
+
+  package Entity;
+
+  use Data::Object 'Class';
+
+  with 'Data::Object::Role::Immutable';
+
+  has 'name';
+
+  method BUILD($args) {
+    $self->immutable;
+
+    return $args;
+  }
+
+  1;
+
+=cut
+
+=head1 DESCRIPTION
+
+This package provides a mechanism for making any L<Data::Object> data type
+object immutable. An immutable object is an object whose state cannot be
+modified after it is created; Immutable objects are often useful because they
+are inherently thread-safe, easier to reason about, and offer higher security
+than mutable objects.
+
+=cut
+
+=head1 METHODS
+
+This package implements the following methods.
+
+=cut
+
+=head2 immutable
+
+  immutable() : Object
+
+The immutable method returns the invocant but will throw an error if an attempt
+is made to modify the underlying value.
+
+=over 4
+
+=item immutable example
+
+  my $immutable = $self->immutable;
+
+=back
+
+=cut

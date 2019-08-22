@@ -45,7 +45,8 @@ is_deeply $config->[1], ['use', 'warnings'];
 is_deeply $config->[2], ['use', 'feature', ':5.14'];
 is_deeply $config->[3], ['use', 'Data::Object::Library'];
 is_deeply $config->[4], ['use', 'Data::Object::Signatures'];
-is_deeply $config->[5], ['use', 'Data::Object::Export'];
+is_deeply $config->[5], ['use', 'Data::Object::Autobox'];
+is_deeply $config->[6], ['use', 'Data::Object::Export'];
 
 ok 1 and done_testing;
 

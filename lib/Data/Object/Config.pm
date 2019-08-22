@@ -9,15 +9,10 @@ use Import::Into;
 
 # BUILD
 
-our %cache;
-
 sub import {
   my ($class, $type, $meta) = @_;
 
   my $target = caller;
-
-  # only configure once
-  return if $cache{$target}++;
 
   process($target, prepare($class, $type), $type, $meta);
 
@@ -29,12 +24,12 @@ sub import {
 sub choose {
   my ($type) = @_;
 
-  # * specail config pl
+  # * special config pl
   if (subject($type, 'pl')) {
     return 'config_cli';
   }
 
-  # * specail config pm
+  # * special config pm
   if (subject($type, 'pm')) {
     return 'config_class';
   }
@@ -44,7 +39,7 @@ sub choose {
     return 'config_cli';
   }
 
-  # * specail config core
+  # * special config core
   if (subject($type, 'core')) {
     return;
   }
@@ -289,6 +284,7 @@ sub config {
     # types and signatures
     prepare_use('Data::Object::Library'),
     prepare_use('Data::Object::Signatures'),
+    prepare_use('Data::Object::Autobox'),
 
     # contextual
     ($_[0] ? @{$_[0]} : ()),
