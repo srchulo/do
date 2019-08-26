@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use Data::Object::State;
+
 use Memoize;
 
 use parent 'Data::Object::Base';

@@ -1,4 +1,3 @@
-
 =encoding utf8
 
 =head1 NAME
@@ -23,13 +22,7 @@ Data-Object String Class
 
 =head1 DESCRIPTION
 
-Data::Object::String provides routines for operating on Perl 5 string
-data. String methods work on data that meets the criteria for being a string. A
-string holds and manipulates an arbitrary sequence of bytes, typically
-representing characters. Users of strings should be aware of the methods that
-modify the string itself as opposed to returning a new string. Unless stated, it
-may be safe to assume that the following methods copy, modify and return new
-strings based on their function.
+This package provides routines for operating on Perl 5 string data.
 
 =cut
 
@@ -746,46 +739,43 @@ array reference. This method returns an array value.
 
 =cut
 
-=head1 ROLES
+=head1 AUTHOR
 
-This package inherits all behavior from the folowing role(s):
+Al Newkirk, C<awncorp@cpan.org>
+
+=head1 LICENSE
+
+Copyright (C) 2011-2019, Al Newkirk, et al.
+
+This is free software; you can redistribute it and/or modify it under the same
+terms as the Perl 5 programming language system itself.
+
+=head1 STATUS
+
+=begin html
+
+<a href="https://travis-ci.org/iamalnewkirk/data-object" target="_blank">
+<img src="https://travis-ci.org/iamalnewkirk/data-object.svg?branch=master"/>
+</a>
+
+=end html
+
+=head1 SEE ALSO
+
+To get the most out of this distribution, consider reading the following:
+
+L<Data::Object::Class>
+
+L<Data::Object::Role>
+
+L<Data::Object::Rule>
+
+L<Data::Object::Library>
+
+L<Data::Object::Signatures>
+
+L<Contributing|https://github.com/iamalnewkirk/data-object/CONTRIBUTING.mkdn>
+
+L<GitHub|https://github.com/iamalnewkirk/data-object>
 
 =cut
-
-=over 4
-
-=item *
-
-L<Data::Object::Role::Detract>
-
-=item *
-
-L<Data::Object::Role::Dumper>
-
-=item *
-
-L<Data::Object::Role::Output>
-
-=item *
-
-L<Data::Object::Role::Throwable>
-
-=back
-
-=head1 RULES
-
-This package adheres to the requirements in the folowing rule(s):
-
-=cut
-
-=over 4
-
-=item *
-
-L<Data::Object::Rule::Comparison>
-
-=item *
-
-L<Data::Object::Rule::Defined>
-
-=back

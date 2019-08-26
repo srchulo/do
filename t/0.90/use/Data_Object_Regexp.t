@@ -21,9 +21,7 @@ Data-Object Regexp Class
 
 =description
 
-Data::Object::Regexp provides routines for operating on Perl 5 regular
-expressions. Data::Object::Regexp methods work on data that meets the criteria
-for being a regular expression.
+This package provides routines for operating on Perl 5 regular expressions.
 
 =cut
 

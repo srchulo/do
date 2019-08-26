@@ -11,15 +11,13 @@ use Data::Object::Role;
 # METHODS
 
 sub throw {
-  my ($self, @args) = @_;
+  my ($self, $message) = @_;
 
-  require Data::Object::Export;
+  require Data::Object::Exception;
 
-  my $class = Data::Object::Export::load('Data::Object::Exception');
+  my $class = 'Data::Object::Exception';
 
-  unshift @args, ref($args[0]) ? 'object' : 'message' if @args == 1;
-
-  @_ = ($class => (object => $self, @args));
+  @_ = ($class => ($message, $self));
 
   goto $class->can('throw');
 }

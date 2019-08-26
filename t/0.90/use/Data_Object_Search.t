@@ -11,7 +11,7 @@ Data::Object::Search
 
 =abstract
 
-Data-Object Regex Class
+Data-Object Search Class
 
 =synopsis
 
@@ -29,9 +29,8 @@ Data-Object Regex Class
 
 =description
 
-Data::Object::Search provides routines for introspecting the results of an
-operation involving a regular expressions. These methods work on data whose
-shape conforms to the tuple defined in the synopsis.
+This package provides routines for introspecting the results of a regexp search
+operation.
 
 =cut
 

@@ -29,9 +29,8 @@ Data-Object Replace Class
 
 =description
 
-Data::Object::Replace provides routines for introspecting the results of an
-operation involving a regular expressions. These methods work on data whose
-shape conforms to the tuple defined in the synopsis.
+This package provides routines for introspecting the results of a regexp
+replace operation.
 
 =cut
 

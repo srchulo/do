@@ -17,13 +17,15 @@ Data-Object Singleton Declaration
 
   package Registry;
 
-  use Data::Object 'State';
+  use Data::Object::State;
 
   extends 'Environment';
 
+  1;
+
 =description
 
-Data::Object::State modifies the consuming package makes it a singleton class.
+This package modifies the consuming package making it a singleton.
 
 =cut
 

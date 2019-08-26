@@ -24,11 +24,11 @@ argument.
 
 =signature
 
-undef(Undef $arg?) : Object
+undef(Maybe[Undef] $arg) : UndefObject
 
 =type
 
-function
+method
 
 =cut
 

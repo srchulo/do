@@ -21,8 +21,7 @@ Data-Object Throwable Role
 
 =description
 
-Data::Object::Role::Throwable provides routines for operating on Perl 5
-data objects which meet the criteria for being throwable.
+This package provides mechanisms for throwing the object as an exception.
 
 =cut
 

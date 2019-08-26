@@ -17,7 +17,7 @@ data
 
 =description
 
-data
+Render the exception message with optional context and stack trace.
 
 =signature
 

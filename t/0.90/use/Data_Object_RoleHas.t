@@ -27,10 +27,9 @@ Data-Object Role Configuration
 
 =description
 
-Data::Object::RoleHas modifies the consuming package with behaviors
-useful in defining roles. Specifically, this package wraps the C<has>
-attribute keyword functions and adds enhancements which as documented in
-L<Data::Object::Role>.
+This package modifies the consuming package with behaviors useful in defining
+classes. Specifically, this package wraps the C<has> attribute keyword
+functions and adds shortcuts and enhancements.
 
 =cut
 

@@ -24,11 +24,11 @@ argument.
 
 =signature
 
-hash(HashRef $arg) : Object
+hash(HashRef $arg) : HashObject
 
 =type
 
-function
+method
 
 =cut
 

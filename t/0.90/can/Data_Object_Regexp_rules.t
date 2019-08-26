@@ -13,7 +13,7 @@ rules
 
 =usage
 
-  my $rules = $regexp->rules();
+  my $rules = $re->rules;
 
 =description
 

@@ -21,12 +21,7 @@ Data-Object Array Class
 
 =description
 
-Data::Object::Array provides routines for operating on Perl 5 array
-references. Array methods work on array references. Users of these methods
-should be aware of the methods that modify the array reference itself as opposed
-to returning a new array reference. Unless stated, it may be safe to assume that
-the following methods copy, modify and return new array references based on
-their function.
+This package provides routines for operating on Perl 5 array references.
 
 =cut
 

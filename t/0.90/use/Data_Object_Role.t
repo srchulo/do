@@ -17,20 +17,15 @@ Data-Object Role Declaration
 
   package Persona;
 
-  use Data::Object 'Role';
+  use Data::Object::Role;
 
   with 'Relatable';
-
-  has handle => (
-    is => 'ro',
-    isa => 'Str'
-  );
 
   1;
 
 =description
 
-Data::Object::Role modifies the consuming package making it a role.
+This package modifies the consuming package making it a L<Moo> role.
 
 =cut
 

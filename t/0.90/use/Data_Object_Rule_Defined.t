@@ -21,8 +21,7 @@ Data-Object Defined Rules
 
 =description
 
-Data::Object::Rule::Defined provides routines for operating on Perl 5
-data objects which meet the criteria for being defined.
+This rule enforces the criteria for being defined.
 
 =cut
 

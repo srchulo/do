@@ -21,8 +21,7 @@ Data-Object Scalar Class
 
 =description
 
-Data::Object::Scalar provides routines for operating on Perl 5 scalar
-objects. Scalar methods work on data that meets the criteria for being a scalar.
+This package provides routines for operating on Perl 5 scalar objects.
 
 =cut
 

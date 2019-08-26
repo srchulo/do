@@ -43,8 +43,7 @@ Data-Object Type Constraint Builder
 
 =description
 
-Data::Object::Type is an abstract base class for type constraint builder
-classes.
+This package is an abstract base class for type constraint builder classes.
 
 =cut
 

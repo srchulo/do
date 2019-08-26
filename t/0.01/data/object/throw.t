@@ -7,7 +7,8 @@ use Data::Object::Export;
 can_ok 'Data::Object::Export', 'throw';
 subtest 'test the throw function' => sub {
   eval { Data::Object::Export::throw() };
-  like $@, qr{An exception was thrown.*};
+  # like $@, qr{An exception was thrown.*}; # deprecated
+  like $@, qr{Exception.*};
 
   eval { Data::Object::Export::throw('Sorry, Out-of-Order') };
   like $@, qr{Sorry, Out-of-Order.* };

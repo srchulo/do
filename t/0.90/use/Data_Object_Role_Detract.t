@@ -21,8 +21,8 @@ Data-Object Detract Role
 
 =description
 
-Data::Object::Role::Detract provides routines for operating on Perl 5
-data objects which meet the criteria for being detractable.
+This role provides functionality for accessing the underlying data type and
+value.
 
 =cut
 

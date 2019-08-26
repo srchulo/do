@@ -21,8 +21,7 @@ Data-Object Code Class
 
 =description
 
-Data::Object::Code provides routines for operating on Perl 5 code
-references. Code methods work on code references.
+This package provides routines for operating on Perl 5 code references.
 
 =cut
 

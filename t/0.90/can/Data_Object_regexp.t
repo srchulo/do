@@ -24,11 +24,11 @@ argument.
 
 =signature
 
-regexp(Regexp $arg) : Object
+regexp(Regexp $arg) : RegexpObject
 
 =type
 
-function
+method
 
 =cut
 

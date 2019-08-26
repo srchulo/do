@@ -15,7 +15,7 @@ defined
 
   # given $regexp
 
-  $regexp->defined; # 1
+  $re->defined; # 1
 
 =description
 

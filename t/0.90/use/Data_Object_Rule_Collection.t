@@ -21,8 +21,7 @@ Data-Object Collection Rules
 
 =description
 
-Data::Object::Rule::Collection provides routines for operating on Perl 5 data
-objects which meet the criteria for being a collection.
+This rule enforces the criteria for being a collection.
 
 =cut
 

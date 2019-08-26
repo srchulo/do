@@ -24,11 +24,11 @@ argument.
 
 =signature
 
-number(Num $arg) : Object
+number(Num $arg) : NumberObject
 
 =type
 
-function
+method
 
 =cut
 

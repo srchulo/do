@@ -24,11 +24,11 @@ given argument.
 
 =signature
 
-array(ArrayRef $arg) : Object
+array(ArrayRef $arg) : ArrayObject
 
 =type
 
-function
+method
 
 =cut
 

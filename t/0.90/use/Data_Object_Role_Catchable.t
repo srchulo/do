@@ -17,14 +17,13 @@ Data-Object Catchable Role
 
 =synopsis
 
-  use Data::Object 'Class';
+  use Data::Object::Class;
 
-  with Data::Object::Role::Catchable;
+  with 'Data::Object::Role::Catchable';
 
 =description
 
-Data::Object::Role::Catchable is a role which provides functionality for
-catching thrown exceptions.
+This role provides functionality for catching thrown exceptions.
 
 =cut
 

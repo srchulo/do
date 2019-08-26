@@ -1,4 +1,3 @@
-
 =encoding utf8
 
 =head1 NAME
@@ -23,24 +22,18 @@ Data-Object Exportable Functions
 
 =head1 DESCRIPTION
 
-Data::Object::Export is an exporter that provides various useful utility
-functions and function-bundles.
-
-=cut
+This package is an exporter that provides various useful utility functions and
+function-bundles.
 
 =head1 EXPORTS
 
 This package can export the following functions.
-
-=cut
 
 =head2 all
 
   use Data::Object::Export ':all';
 
 The all export tag will export all exportable functions.
-
-=cut
 
 =head2 core
 
@@ -51,9 +44,6 @@ C<deduce>, C<deduce_deep>, C<deduce_type>, C<detract>, C<detract_deep>,
 C<dispatch>, C<dump>, C<immutable>, C<load>, C<prototype>, and C<throw>
 exclusively.
 
-
-=cut
-
 =head2 data
 
   use Data::Object::Export ':data';
@@ -63,8 +53,6 @@ C<data_array>, C<data_code>, C<data_float>, C<data_hash>, C<data_integer>,
 C<data_number>, C<data_regexp>, C<data_scalar>, C<data_string>, and
 C<data_undef>.
 
-=cut
-
 =head2 plus
 
   use Data::Object::Export ':plus';
@@ -72,8 +60,6 @@ C<data_undef>.
 The plus export tag will export the exportable functions C<carp>, C<confess>
 C<cluck> C<croak>, C<class_file>, C<class_name>, C<class_path>, C<library>,
 C<namespace>, C<path_class>, C<path_name>, C<registry>, and C<reify>.
-
-=cut
 
 =head2 type
 
@@ -83,8 +69,6 @@ The type export tag will export the exportable functions C<type_any>,
 C<type_array>, C<type_code>, C<type_float>, C<type_hash>, C<type_integer>,
 C<type_number>, C<type_regexp>, C<type_scalar>, C<type_string>, and
 C<type_undef>.
-
-=cut
 
 =head2 vars
 
@@ -965,5 +949,46 @@ function takes all arguments accepted by the L<Data::Object::Exception> class.
   throw $message; # An exception (...) was thrown in -e at line 1
 
 =back
+
+=cut
+
+=head1 AUTHOR
+
+Al Newkirk, C<awncorp@cpan.org>
+
+=head1 LICENSE
+
+Copyright (C) 2011-2019, Al Newkirk, et al.
+
+This is free software; you can redistribute it and/or modify it under the same
+terms as the Perl 5 programming language system itself.
+
+=head1 STATUS
+
+=begin html
+
+<a href="https://travis-ci.org/iamalnewkirk/data-object" target="_blank">
+<img src="https://travis-ci.org/iamalnewkirk/data-object.svg?branch=master"/>
+</a>
+
+=end html
+
+=head1 SEE ALSO
+
+To get the most out of this distribution, consider reading the following:
+
+L<Data::Object::Class>
+
+L<Data::Object::Role>
+
+L<Data::Object::Rule>
+
+L<Data::Object::Library>
+
+L<Data::Object::Signatures>
+
+L<Contributing|https://github.com/iamalnewkirk/data-object/CONTRIBUTING.mkdn>
+
+L<GitHub|https://github.com/iamalnewkirk/data-object>
 
 =cut

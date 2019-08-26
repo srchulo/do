@@ -42,8 +42,7 @@ Data-Object Space Class
 
 =description
 
-Data::Object::Space provides methods for parsing and manipulating package
-namespaces.
+This package provides methods for parsing and manipulating package namespaces.
 
 =cut
 

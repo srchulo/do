@@ -1,4 +1,3 @@
-
 =encoding utf8
 
 =head1 NAME
@@ -19,14 +18,20 @@ Data-Object Exception Class
 
   my $exception = Data::Object::Exception->new;
 
-  $exception->throw('Something went wrong');
+  die $exception;
+
+  $exception->throw('Oops');
+
+  die $exception->new('Oops')->trace(0);
+
+  "$exception" # renders exception message
 
 =cut
 
 =head1 DESCRIPTION
 
-Data::Object::Exception provides functionality for creating, throwing,
-catching, and introspecting exception objects.
+This package provides functionality for creating, throwing, and introspecting
+exception objects.
 
 =cut
 
@@ -40,7 +45,7 @@ This package implements the following methods.
 
   data() : Any
 
-data
+Render the exception message with optional context and stack trace.
 
 =over 4
 
@@ -52,33 +57,22 @@ data
 
 =cut
 
-=head2 dump
+=head2 new
 
-  dump() : Str
+  new(HashRef $arg1) : ExceptionObject
 
-The dump method returns a string representation of the underlying data.
-
-=over 4
-
-=item dump example
-
-  my $dump = $exception->dump();
-
-=back
-
-=cut
-
-=head2 explain
-
-  explain() : Str
-
-Returns a complete stack trace if the exception was thrown.
+The new method expects a message, or named arguments, and returns a new class
+instance.
 
 =over 4
 
-=item explain example
+=item new example
 
-  my $explain = $exception->explain();
+  # Oops
+
+  my $exception = Data::Object::Exception->new(
+    message => 'Oops'
+  });
 
 =back
 
@@ -88,7 +82,7 @@ Returns a complete stack trace if the exception was thrown.
 
   throw(Str $arg1) : Object
 
-Throw error with object and message.
+Throw error with message and context.
 
 =over 4
 
@@ -97,5 +91,67 @@ Throw error with object and message.
   $exception->throw();
 
 =back
+
+=cut
+
+=head2 trace
+
+  trace(Int $offset, $Int $limit) : ExceptionObject
+
+The trace method compiles a stack trace and returns the object. By default it
+skips the first frame.
+
+=over 4
+
+=item trace example
+
+  # $exception
+
+  my $trace = $exception->trace;
+  my $trace = $exception->trace(0); # all frames
+  my $trace = $exception->trace(0, 5); # five frames, no skip
+
+=back
+
+=cut
+
+=head1 AUTHOR
+
+Al Newkirk, C<awncorp@cpan.org>
+
+=head1 LICENSE
+
+Copyright (C) 2011-2019, Al Newkirk, et al.
+
+This is free software; you can redistribute it and/or modify it under the same
+terms as the Perl 5 programming language system itself.
+
+=head1 STATUS
+
+=begin html
+
+<a href="https://travis-ci.org/iamalnewkirk/data-object" target="_blank">
+<img src="https://travis-ci.org/iamalnewkirk/data-object.svg?branch=master"/>
+</a>
+
+=end html
+
+=head1 SEE ALSO
+
+To get the most out of this distribution, consider reading the following:
+
+L<Data::Object::Class>
+
+L<Data::Object::Role>
+
+L<Data::Object::Rule>
+
+L<Data::Object::Library>
+
+L<Data::Object::Signatures>
+
+L<Contributing|https://github.com/iamalnewkirk/data-object/CONTRIBUTING.mkdn>
+
+L<GitHub|https://github.com/iamalnewkirk/data-object>
 
 =cut

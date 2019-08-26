@@ -7,6 +7,10 @@ use warnings;
 
 use Data::Object ();
 
+# VERSION
+
+# BUILD
+
 sub new {
   Data::Object->any(pop);
 }

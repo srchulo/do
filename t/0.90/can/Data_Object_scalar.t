@@ -24,11 +24,11 @@ argument.
 
 =signature
 
-scalar(Any $arg) : Object
+scalar(Any $arg) : ScalarObject
 
 =type
 
-function
+method
 
 =cut
 

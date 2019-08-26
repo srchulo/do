@@ -13,11 +13,12 @@ subject
 
 =usage
 
-  subject('-Role', 'Role');
+  subject('Role', 'Role');
 
 =description
 
-The subject function returns truthy if both arguments match alphanumerically (not case-sensitive).
+The subject function returns truthy if both arguments match alphanumerically
+(not case-sensitive).
 
 =signature
 

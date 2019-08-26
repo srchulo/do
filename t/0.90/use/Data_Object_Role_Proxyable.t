@@ -20,21 +20,17 @@ Data-Object Proxyable Role
   with 'Data::Object::Role::Proxyable';
 
   sub BUILDPROXY {
-
     my ($class, $method, @args) = @_;
 
     return if $method eq 'execute'; # die with method missing error
 
     return sub { time }; # process method call
-
   }
 
 =description
 
-Data::Object::Role::Proxyable provides a mechanism for operating on Perl 5
-data objects which meet the criteria for being proxyable. This role provides a
-wrapper around the AUTOLOAD routine which processes calls to routines which
-don't exist.
+This role provides a wrapper around the AUTOLOAD routine which processes calls
+to routines which don't exist.
 
 =cut
 

@@ -1,9 +1,16 @@
 #!/bin/bash
 
+# Ensure release version is explicit
+if [ ! -n "$1" ]; then
+  echo 'No release version!' && exit 0;
+fi
+
 # Check the repo is in ready-state
 if ! git diff-index --quiet HEAD --; then
   echo "Uncommitted changes!" && exit 0;
 fi
+
+dzil clean
 
 # Delete existing POD documents
 find lib -type f -name \*.pod -exec rm {} \;
@@ -17,4 +24,4 @@ if ! git diff-index --quiet HEAD --; then
 fi
 
 # Build, Tag, and Push Package Release
-dzil release
+V=$1 dzil release

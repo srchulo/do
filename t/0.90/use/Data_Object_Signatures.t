@@ -21,11 +21,20 @@ Data-Object Signatures Configuration
     return "Hello $name, how are you?";
   }
 
+  around created() {
+    # do something ...
+    return $self->$orig;
+  }
+
+  around updated() {
+    # do something ...
+    return $self->$orig;
+  }
+
 =description
 
-Data::Object::Signatures is a subclass of L<Type::Tiny::Signatures> providing
-method and function signatures supporting all the type constraints provided by
-L<Data::Object::Config::Type>.
+This package is provides method and function signatures supporting all the type
+constraints provided by L<Data::Object::Library>.
 
 =cut
 

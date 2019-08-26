@@ -16,13 +16,10 @@ Data-Object Immutability Role
 =synopsis
 
 
-  package Entity;
-
-  use Data::Object 'Class';
+  use Data::Object::Class;
+  use Data::Object::Signatures;
 
   with 'Data::Object::Role::Immutable';
-
-  has 'name';
 
   method BUILD($args) {
     $self->immutable;
@@ -30,15 +27,9 @@ Data-Object Immutability Role
     return $args;
   }
 
-  1;
-
 =description
 
-This package provides a mechanism for making any L<Data::Object> data type
-object immutable. An immutable object is an object whose state cannot be
-modified after it is created; Immutable objects are often useful because they
-are inherently thread-safe, easier to reason about, and offer higher security
-than mutable objects.
+This package provides a mechanism for making any derived object immutable.
 
 =cut
 

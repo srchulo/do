@@ -21,8 +21,8 @@ Data-Object Namespace Registry
 
 =description
 
-Data::Object::Registry is a singleton that holds mappings for namespaces and
-type libraries.
+This package is a singleton that holds mappings for namespaces and type
+libraries.
 
 =cut
 

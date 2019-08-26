@@ -119,6 +119,11 @@ sub choose {
     return 'config_string';
   }
 
+  # config struct
+  if (subject($type, 'struct')) {
+    return 'config_struct';
+  }
+
   # config type
   if (subject($type, 'type')) {
     return 'config_type';
@@ -147,11 +152,6 @@ sub choose {
   # config rule
   if (subject($type, 'rule')) {
     return 'config_rule';
-  }
-
-  # config try
-  if (subject($type, 'try')) {
-    return 'config_try';
   }
 
   return;
@@ -427,12 +427,6 @@ sub config_string {
   [
     prepare_use('Role::Tiny::With'),
     prepare_use('parent', 'Data::Object::String')
-  ]
-}
-
-sub config_try {
-  [
-    prepare_use('Try::Tiny')
   ]
 }
 

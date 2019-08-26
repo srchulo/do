@@ -24,11 +24,11 @@ argument.
 
 =signature
 
-any(Any $arg) : Object
+any(Any $arg) : AnyObject
 
 =type
 
-function
+method
 
 =cut
 

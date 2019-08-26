@@ -17,7 +17,7 @@ throw
 
 =description
 
-Throw error with object and message.
+Throw error with message and context.
 
 =signature
 

@@ -24,11 +24,11 @@ object for given argument.
 
 =signature
 
-exception(HashRef $arg) : Object
+exception(HashRef $arg) : ExceptionObject
 
 =type
 
-function
+method
 
 =cut
 

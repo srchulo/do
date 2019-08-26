@@ -17,7 +17,7 @@ Data-Object Class Requirements
 
   package Persona;
 
-  use Data::Object 'Rule';
+  use Data::Object::Rule;
 
   requires 'id';
   requires 'fname';
@@ -25,21 +25,12 @@ Data-Object Class Requirements
   requires 'created';
   requires 'updated';
 
-  around created() {
-    # do something ...
-    return $self->$orig;
-  }
-
-  around updated() {
-    # do something ...
-    return $self->$orig;
-  }
-
   1;
 
 =description
 
-Data::Object::Rule allows you to specify rules for the consuming class.
+This package modifies the consuming package making it a L<Moo> role, and is
+used to allows you to specify rules for the consuming class.
 
 =cut
 

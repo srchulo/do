@@ -21,8 +21,7 @@ Data-Object Output Role
 
 =description
 
-Data::Object::Role::Output provides routines for operating on Perl 5 data
-objects which meet the criteria for being outputable.
+This package provides mechanisms for printing the object.
 
 =cut
 

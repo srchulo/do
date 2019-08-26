@@ -26,7 +26,7 @@ Data::Object namespace and returns a L<Data::Object::Space> object.
 
 =signature
 
-new(Str $arg) : Object
+new(Str $arg) : SpaceObject
 
 =type
 

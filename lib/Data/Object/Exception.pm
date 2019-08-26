@@ -1,8 +1,9 @@
 package Data::Object::Exception;
 
-use Data::Object::Class;
+use 5.014;
 
-use parent 'Data::Object::Base';
+use strict;
+use warnings;
 
 use overload (
   '""'     => 'data',
@@ -14,30 +15,22 @@ use overload (
 
 # BUILD
 
-sub BUILD {
-  my ($self, $data) = @_;
+sub new {
+  my ($class, @args) = @_;
 
-  my @attrs = qw(
-    default
-    file
-    frames
-    line
-    message
-    object
-    package
-    subroutine
-  );
+  my %args;
+  my $data = {};
+  my $self = bless $data, $class;
 
-  for my $attr (@attrs) {
-    $self->{$attr} = $data->{$attr} if defined $data->{$attr};
-  }
+  %args = @args == 1
+    ? !ref($args[0])
+      # single non-ref argument
+      ? (message => $args[0])
+      : %{$args[0]}
+    : @args;
 
-  unless (defined $self->{default}) {
-    $self->{default} = 'An exception was thrown';
-  }
-
-  unless (defined $self->{frames}) {
-    $self->{frames} = undef;
+  for my $attr (qw(message context)) {
+    $self->{$attr} = $args{$attr} if exists $args{$attr};
   }
 
   return $self;
@@ -48,59 +41,58 @@ sub BUILD {
 sub data {
   my ($self) = @_;
 
-  my $file = $self->{file};
-  my $line = $self->{line};
-  my $default = $self->{default};
-  my $message = $self->{message};
-  my $object  = $self->{object};
+  $self->trace(1, 1) if !$self->{frames};
 
-  my @with = ("by", (ref($object) || $object)) if $object && !$message;
+  my $frames = $self->{frames};
 
-  return join(" ", $message || $default, @with, "in $file at line $line");
-}
+  my $file = $frames->[0][1];
+  my $line = $frames->[0][2];
+  my $pack = $frames->[0][0];
+  my $subr = $frames->[0][3];
 
-sub dump {
-  my ($self) = @_;
+  my $message = $self->{message} || 'Exception!';
 
-  require Data::Dumper;
+  my @stacktrace = ("$message in $file at line $line");
 
-  local $Data::Dumper::Terse = 1;
+  for (my $i = 1; $i < @$frames; $i++) {
+    my $file = $frames->[$i][1];
+    my $line = $frames->[$i][2];
+    my $pack = $frames->[$i][0];
+    my $subr = $frames->[$i][3];
 
-  return Data::Dumper::Dumper($self);
-}
-
-sub explain {
-  my ($self) = @_;
-
-  my @data = $self->data;
-
-  for my $frame (@{$self->{frames}}) {
-    push @data, "@{[$$frame[3]]} in @{[$$frame[1]]} at line @{[$$frame[2]]}";
+    push @stacktrace, "\t${pack}::${subr} in $file at line $line";
   }
 
-  return join("\n", @data);
+  return join "\n", @stacktrace, "";
 }
 
 sub throw {
-  my ($self, @args) = @_;
+  my ($self, $message, $context) = @_;
 
-  my $class = ref($self) || $self || __PACKAGE__;
+  if (ref $self) {
+    $message ||= $self->{message};
+    $context ||= $self->{context};
 
-  unshift @args, (ref($args[0]) ? 'object' : 'message') if @args == 1;
-
-  my $frames = [];
-
-  for (my $i = 0; my @caller = caller($i); $i++) {
-    push @$frames, [@caller];
+    $self = ref $self;
   }
 
-  die $class->new((ref($self) ? (object => $self) : ()), @args,
-    file       => $frames->[0][1],
-    line       => $frames->[0][2],
-    package    => $frames->[0][0],
-    subroutine => $frames->[0][3],
-    frames     => $frames
-  );
+  my $exception = $self->new(message => $message, context => $context);
+
+  die $exception->trace;
+}
+
+sub trace {
+  my ($self, $offset, $limit) = @_;
+
+  $self->{frames} = my $frames = [];
+
+  for (my $i = $offset // 1; my @caller = caller($i); $i++) {
+    push @$frames, [@caller];
+
+    last if defined $limit && $i + 1 == $offset + $limit;
+  }
+
+  return $self;
 }
 
 1;

@@ -19,9 +19,8 @@ Data-Object Base Class
 
 =description
 
-Data::Object::Base is an abstract base class that mostly provides identity and
-classification for L<Data::Object> classes, and common routines for operating
-on any type of Data-Object object.
+This package provides an abstract base class used for identity and
+classification of L<Data::Object> classes.
 
 =cut
 

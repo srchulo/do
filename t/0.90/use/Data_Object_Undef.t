@@ -17,12 +17,11 @@ Data-Object Undef Class
 
   use Data::Object::Undef;
 
-  my $undef = Data::Object::Undef->new(undef);
+  my $undef = Data::Object::Undef->new;
 
 =description
 
-Data::Object::Undef provides routines for operating on Perl 5 undefined
-data. Undef methods work on undefined values.
+This package provides routines for operating on Perl 5 undefined data.
 
 =cut
 

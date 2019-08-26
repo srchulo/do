@@ -21,20 +21,20 @@ Data-Object Exportable Functions
 
 =description
 
-Data::Object::Export is an exporter that provides various useful utility
-functions and function-bundles.
+This package is an exporter that provides various useful utility functions and
+function-bundles.
 
-=cut
++=head1 EXPORTS
 
-=export all
+This package can export the following functions.
+
++=head2 all
 
   use Data::Object::Export ':all';
 
 The all export tag will export all exportable functions.
 
-=cut
-
-=export core
++=head2 core
 
   use Data::Object::Export ':core';
 
@@ -43,10 +43,7 @@ C<deduce>, C<deduce_deep>, C<deduce_type>, C<detract>, C<detract_deep>,
 C<dispatch>, C<dump>, C<immutable>, C<load>, C<prototype>, and C<throw>
 exclusively.
 
-
-=cut
-
-=export data
++=head2 data
 
   use Data::Object::Export ':data';
 
@@ -55,9 +52,7 @@ C<data_array>, C<data_code>, C<data_float>, C<data_hash>, C<data_integer>,
 C<data_number>, C<data_regexp>, C<data_scalar>, C<data_string>, and
 C<data_undef>.
 
-=cut
-
-=export plus
++=head2 plus
 
   use Data::Object::Export ':plus';
 
@@ -65,9 +60,7 @@ The plus export tag will export the exportable functions C<carp>, C<confess>
 C<cluck> C<croak>, C<class_file>, C<class_name>, C<class_path>, C<library>,
 C<namespace>, C<path_class>, C<path_name>, C<registry>, and C<reify>.
 
-=cut
-
-=export type
++=head2 type
 
   use Data::Object::Export ':type';
 
@@ -76,9 +69,7 @@ C<type_array>, C<type_code>, C<type_float>, C<type_hash>, C<type_integer>,
 C<type_number>, C<type_regexp>, C<type_scalar>, C<type_string>, and
 C<type_undef>.
 
-=cut
-
-=export vars
++=head2 vars
 
   use Data::Object::Export ':vars';
 

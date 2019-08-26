@@ -21,8 +21,8 @@ Data-Object List Rules
 
 =description
 
-Data::Object::Rule::List provides routines for operating on Perl 5 data
-objects which meet the criteria for being considered lists.
+This rule enforces the criteria for being mapable (i.e. a list, capabile of
+being iterated over).
 
 =cut
 

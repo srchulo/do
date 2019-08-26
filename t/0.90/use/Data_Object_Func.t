@@ -19,7 +19,7 @@ Data-Object Function-Object Class
 
 =description
 
-Data::Object::Func is an abstract base class for function classes.
+This package is an abstract base class for function classes.
 
 =cut
 

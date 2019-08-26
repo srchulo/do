@@ -15,7 +15,7 @@ roles
 
   # given $regexp
 
-  $regexp->roles;
+  $re->roles;
 
 =description
 

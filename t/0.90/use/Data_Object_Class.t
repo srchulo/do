@@ -17,20 +17,15 @@ Data-Object Class Declaration
 
   package Person;
 
-  use Data::Object 'Class';
+  use Data::Object::Class;
 
   extends 'Identity';
-
-  has fullname => (
-    is => 'ro',
-    isa => 'Str'
-  );
 
   1;
 
 =description
 
-Data::Object::Class modifies the consuming package making it a class.
+This package modifies the consuming package making it a L<Moo> class.
 
 =cut
 

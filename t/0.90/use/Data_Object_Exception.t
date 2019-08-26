@@ -19,12 +19,18 @@ Data-Object Exception Class
 
   my $exception = Data::Object::Exception->new;
 
-  $exception->throw('Something went wrong');
+  die $exception;
+
+  $exception->throw('Oops');
+
+  die $exception->new('Oops')->trace(0);
+
+  "$exception" # renders exception message
 
 =description
 
-Data::Object::Exception provides functionality for creating, throwing,
-catching, and introspecting exception objects.
+This package provides functionality for creating, throwing, and introspecting
+exception objects.
 
 =cut
 

@@ -24,11 +24,11 @@ given argument.
 
 =signature
 
-code(CodeRef $arg) : Object
+code(CodeRef $arg) : CodeObject
 
 =type
 
-function
+method
 
 =cut
 
