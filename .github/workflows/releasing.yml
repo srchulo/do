@@ -1,10 +1,9 @@
 name: Releasing
 
 on:
-  pull_request:
+  push:
     branches:
     - release-*
-    - master
 
 jobs:
   Perl-5300:
