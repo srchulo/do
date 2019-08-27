@@ -11,6 +11,7 @@
 !MANIFEST.SKIP
 !README
 !README.mkdn
+!README-DEVEL.mkdn
 !build
 !cpanfile
 !dist.ini

@@ -1,3 +1,4 @@
+
 =encoding utf8
 
 =head1 NAME
@@ -84,6 +85,9 @@ you import the "Do" or "Data::Object" package into your namespace.
   # imports keywords and super "do" function, etc
   use Data::Object::Export;
 
+  # enables method calls on native data types
+  use Data::Object::Autobox;
+
 To explain by way of example: The following established a user-defined type
 library where user-defined classes, roles, etc, will be automatically
 registered.
@@ -117,7 +121,7 @@ as a type constraint.
 The following is a script which is type-library aware that creates a function
 that returns how one user greets another user.
 
-  #!/usr/bin/perl
+  package main;
 
   use App::User;
 
@@ -430,8 +434,8 @@ terms as the Perl 5 programming language system itself.
 
 =begin html
 
-<a href="https://travis-ci.org/iamalnewkirk/data-object" target="_blank">
-<img src="https://travis-ci.org/iamalnewkirk/data-object.svg?branch=master"/>
+<a href="https://travis-ci.org/iamalnewkirk/do" target="_blank">
+<img src="https://travis-ci.org/iamalnewkirk/do.svg?branch=master"/>
 </a>
 
 =end html
@@ -450,8 +454,8 @@ L<Data::Object::Library>
 
 L<Data::Object::Signatures>
 
-L<Contributing|https://github.com/iamalnewkirk/data-object/CONTRIBUTING.mkdn>
+L<Contributing|https://github.com/iamalnewkirk/do/README-DEVEL.mkdn>
 
-L<GitHub|https://github.com/iamalnewkirk/data-object>
+L<GitHub|https://github.com/iamalnewkirk/do>
 
 =cut

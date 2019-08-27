@@ -1,3 +1,4 @@
+
 =encoding utf8
 
 =head1 NAME
@@ -8,7 +9,7 @@ Data::Object::Rule
 
 =head1 ABSTRACT
 
-Data-Object Class Requirements
+Data-Object Rule Declaration
 
 =cut
 
@@ -31,7 +32,10 @@ Data-Object Class Requirements
 =head1 DESCRIPTION
 
 This package modifies the consuming package making it a L<Moo> role, and is
-used to allows you to specify rules for the consuming class.
+used to allow you to specify rules for the consuming class. There is
+functionally no difference between a role and a rule, so this concept only
+exists to differentiate between that which describes an interface (rules) and
+that which mixes-in behaviors.
 
 =cut
 
@@ -50,8 +54,8 @@ terms as the Perl 5 programming language system itself.
 
 =begin html
 
-<a href="https://travis-ci.org/iamalnewkirk/data-object" target="_blank">
-<img src="https://travis-ci.org/iamalnewkirk/data-object.svg?branch=master"/>
+<a href="https://travis-ci.org/iamalnewkirk/do" target="_blank">
+<img src="https://travis-ci.org/iamalnewkirk/do.svg?branch=master"/>
 </a>
 
 =end html
@@ -70,8 +74,8 @@ L<Data::Object::Library>
 
 L<Data::Object::Signatures>
 
-L<Contributing|https://github.com/iamalnewkirk/data-object/CONTRIBUTING.mkdn>
+L<Contributing|https://github.com/iamalnewkirk/do/README-DEVEL.mkdn>
 
-L<GitHub|https://github.com/iamalnewkirk/data-object>
+L<GitHub|https://github.com/iamalnewkirk/do>
 
 =cut

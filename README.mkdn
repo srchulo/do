@@ -345,8 +345,8 @@ terms as the Perl 5 programming language system itself.
 # STATUS
 
 <div>
-    <a href="https://travis-ci.org/iamalnewkirk/data-object" target="_blank">
-    <img src="https://travis-ci.org/iamalnewkirk/data-object.svg?branch=master"/>
+    <a href="https://travis-ci.org/iamalnewkirk/do" target="_blank">
+    <img src="https://travis-ci.org/iamalnewkirk/do.svg?branch=master"/>
     </a>
 </div>
 
@@ -364,6 +364,6 @@ To get the most out of this distribution, consider reading the following:
 
 [Data::Object::Signatures](https://metacpan.org/pod/Data::Object::Signatures)
 
-[Contributing](https://github.com/iamalnewkirk/data-object/CONTRIBUTING.mkdn)
+[Contributing](https://github.com/iamalnewkirk/do/README-DEVEL.mkdn)
 
-[GitHub](https://github.com/iamalnewkirk/data-object)
+[GitHub](https://github.com/iamalnewkirk/do)

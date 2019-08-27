@@ -1,3 +1,4 @@
+
 =encoding utf8
 
 =head1 NAME
@@ -280,8 +281,8 @@ terms as the Perl 5 programming language system itself.
 
 =begin html
 
-<a href="https://travis-ci.org/iamalnewkirk/data-object" target="_blank">
-<img src="https://travis-ci.org/iamalnewkirk/data-object.svg?branch=master"/>
+<a href="https://travis-ci.org/iamalnewkirk/do" target="_blank">
+<img src="https://travis-ci.org/iamalnewkirk/do.svg?branch=master"/>
 </a>
 
 =end html
@@ -300,8 +301,8 @@ L<Data::Object::Library>
 
 L<Data::Object::Signatures>
 
-L<Contributing|https://github.com/iamalnewkirk/data-object/CONTRIBUTING.mkdn>
+L<Contributing|https://github.com/iamalnewkirk/do/README-DEVEL.mkdn>
 
-L<GitHub|https://github.com/iamalnewkirk/data-object>
+L<GitHub|https://github.com/iamalnewkirk/do>
 
 =cut
