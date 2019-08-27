@@ -1,12 +1,9 @@
-name: Testing
+name: Building
 
 on:
-  push:
-    branches:
-    - build-*
   pull_request:
     branches:
-    - "!master"
+    - build-*
 
 jobs:
   Perl-0000:
