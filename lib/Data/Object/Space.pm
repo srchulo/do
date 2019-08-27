@@ -159,7 +159,7 @@ sub load {
     $loaded = !!$class->can('import') if !$loaded;
     $loaded = eval "require $class; 1" if !$loaded;
     $@;
-  };
+  } if !$failed;
 
   croak "Error attempting to load $class: $error"
     if $error

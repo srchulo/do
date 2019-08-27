@@ -1,6 +1,15 @@
 Changelog for Do
 
-1.03 2019-08-27T00:19:58
+1.05 2019-08-27T22:11:21
+ - Added release updates
+ - Fixed obscure Windows Space#load issue
+ - Fixed path issue failing on Windows
+ - Updated general project info
+ - Updated build and release flow
+ - Build 1.03 (#184)
+
+1.03 2019-08-27T00:20:42
+ - Built release version 1.03
  - Updated documentation
  - Update POD-writer to assist coalescing
  - Updated abstracts for PODs

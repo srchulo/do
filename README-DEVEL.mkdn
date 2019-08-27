@@ -6,11 +6,12 @@ the [README.md](./README.mkdn) file.
 
 # PROJECT RELEASING
 
-This project uses Dist::Zilla to manage its build and release processes. For
-ease and consistency there is also a _"release"_ bash script in the project
-root folder which executes the most common steps in releasing this software.
-The script must be executed with the release's version explicitly specified,
-and the following is an example of that:
+This project uses [Dist::Zilla](https://github.com/rjbs/Dist-Zilla) to manage
+its build and release processes. For ease and consistency there is also a
+_"release"_ bash script in the project root folder which executes the most
+common steps in releasing this software. The script must be executed with the
+release's version explicitly specified, and the following is an example of
+that:
 
 ```
   $ ./release 1.00
@@ -51,5 +52,5 @@ Thank you so much!
 
 # QUESTIONS, SUGGESTIONS, ISSUES/BUGS
 
-Please post any questions, suggestions, issues or bugs to the GitHub issue
-tracker.
+Please post any questions, suggestions, issues or bugs to the [issue
+tracker](../../issues) on GitHub.

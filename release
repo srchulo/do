@@ -1,7 +1,9 @@
 #!/bin/bash
 
+export V=$1
+
 # Ensure release version is explicit
-if [ ! -n "$1" ]; then
+if [ ! -n "$V" ]; then
   echo 'No release version!' && exit 0;
 fi
 
@@ -18,6 +20,12 @@ fi
 # Cleanup the mess
 dzil clean
 
+# Delete existing release tag (if exists)
+git tag -d $V 2> /dev/null
+
+# Persist Release VERSION
+echo $V > VERSION
+
 # Delete existing POD documents
 find lib -type f -name \*.pod -exec rm {} \;
 
@@ -26,8 +34,8 @@ perl -Ilib bin/pod
 
 # Push generated POD changes
 if ! git diff-index --quiet HEAD --; then
-  git add . && git commit -m 'Updated documentation'
+  git add . && git commit -m 'Added release updates'
 fi
 
 # Build, Tag, and Push Package Release
-V=$1 dzil release
+dzil release

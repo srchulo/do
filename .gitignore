@@ -1,5 +1,6 @@
 /*
 
+!/.github
 !/bin
 !/lib
 !/t
@@ -12,6 +13,7 @@
 !README
 !README.mkdn
 !README-DEVEL.mkdn
+!VERSION
 !build
 !cpanfile
 !dist.ini
