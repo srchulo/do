@@ -1,9 +1,10 @@
-name: Building
+name: Testing
 
 on:
   push:
     branches:
-    - build-*
+    - bugfix-*
+    - feature-*
 
 jobs:
   Perl-0000:
