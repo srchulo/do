@@ -1,0 +1,31 @@
+use 5.014;
+
+use strict;
+use warnings;
+
+use Test::More;
+
+=name
+
+{package}
+
+=abstract
+
+Data-Object Package
+
+=synopsis
+
+  use {package};
+
+  my $self = {package}->new;
+
+=description
+
+This package provides enim sed faucibus turpis in eu mi bibendum neque egestas
+congue quisque egestas
+
+=cut
+
+use_ok "{package}";
+
+ok 1 and done_testing;

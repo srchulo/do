@@ -1,13 +1,14 @@
 package Data::Object::Role::Catchable;
 
+use 5.014;
+
 use strict;
 use warnings;
 
-use Data::Object::Role;
+use Moo::Role;
 
 # VERSION
 
-# BUILD
 # METHODS
 
 sub catch {

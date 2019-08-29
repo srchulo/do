@@ -3,6 +3,8 @@ package Data::Object::Config;
 use strict;
 use warnings;
 
+use Carp ();
+
 use Import::Into;
 
 # VERSION
@@ -479,7 +481,7 @@ sub _process_meta {
   eval "require $namespace";
 
   # ensure that the type library is valid and operable
-  Data::Object::Export::croak("$namespace is not a valid type library")
+  Carp::confess("$namespace is not a valid type library")
     unless $namespace->isa('Type::Library');
 
   # build type-tiny constraint for target, then add constraint to typelib

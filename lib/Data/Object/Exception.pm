@@ -55,12 +55,12 @@ sub data {
   my @stacktrace = ("$message in $file at line $line");
 
   for (my $i = 1; $i < @$frames; $i++) {
+    my $pack = $frames->[$i][0];
     my $file = $frames->[$i][1];
     my $line = $frames->[$i][2];
-    my $pack = $frames->[$i][0];
     my $subr = $frames->[$i][3];
 
-    push @stacktrace, "\t${pack}::${subr} in $file at line $line";
+    push @stacktrace, "\t$subr in $file at line $line";
   }
 
   return join "\n", @stacktrace, "";

@@ -52,6 +52,44 @@ The class method returns the class name for the given class or object.
 
 =cut
 
+=head2 deduce
+
+  deduce(Maybe[Any] $arg) : Object
+
+The deduce method returns a data object for a given argument. A blessed
+argument will be ignored, less a RegexpRef.
+
+=over 4
+
+=item deduce example
+
+  # given $arrayref
+
+  my $array_object = $self->deduce($arrayref);
+
+=back
+
+=cut
+
+=head2 detract
+
+  detract(Maybe[Any] $arg) : Value
+
+The detract method returns a raw data value for a given argument which is a
+type of data object. If no argument is provided the invocant will be used.
+
+=over 4
+
+=item detract example
+
+  # given $array_object
+
+  my $arrayref = $self->detract($array_object);
+
+=back
+
+=cut
+
 =head2 space
 
   space(Str $arg1) : Object
@@ -106,9 +144,11 @@ terms as the Perl 5 programming language system itself.
 
 =head1 PROJECT
 
-L<GitHub|https://github.com/iamalnewkirk/do>
+L<On GitHub|https://github.com/iamalnewkirk/do>
 
-L<Contributing|https://github.com/iamalnewkirk/do/blob/master/README-DEVEL.mkdn>
+L<Initiatives|https://github.com/iamalnewkirk/do/projects>
+
+L<Contributing|https://github.com/iamalnewkirk/do/blob/master/CONTRIBUTE.mkdn>
 
 L<Reporting|https://github.com/iamalnewkirk/do/issues>
 

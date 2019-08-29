@@ -1,10 +1,11 @@
 package Data::Object::Role::Immutable;
 
+use 5.014;
+
 use strict;
 use warnings;
 
-use Data::Object::Role;
-
+use Moo::Role;
 use Readonly;
 
 # VERSION

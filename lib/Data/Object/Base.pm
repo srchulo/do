@@ -16,6 +16,22 @@ sub class {
   return $class;
 }
 
+sub deduce {
+  my ($item) = (pop);
+
+  require Data::Object::Utility;
+
+  return Data::Object::Utility::DeduceDeep($item);
+}
+
+sub detract {
+  my ($item) = (pop);
+
+  require Data::Object::Utility;
+
+  return Data::Object::Utility::DetractDeep($item);
+}
+
 sub space {
   my ($self) = (pop);
 
@@ -27,11 +43,11 @@ sub space {
 }
 
 sub type {
-  my ($self) = @_;
+  my ($item) = (pop);
 
-  require Data::Object::Export;
+  require Data::Object::Utility;
 
-  return Data::Object::Export::deduce_type($self);
+  return Data::Object::Utility::TypeName($item);
 }
 
 1;

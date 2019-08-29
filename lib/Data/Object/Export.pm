@@ -102,7 +102,7 @@ our %EXPORT_TAGS = (
 
 sub do {
   unless (grep length, grep defined, @_) {
-    Carp::croak("Null filename used");
+    Carp::confess("Null filename used");
   }
 
   return CORE::do($_[0]) if @_ < 2;
@@ -114,11 +114,11 @@ sub do {
 
   # it's fun to do bad things {0_0}
   unless ($package && $routine) {
-    Carp::croak("Can't make call without a package and function");
+    Carp::confess("Can't make call without a package and function");
   }
 
   unless ($point = $package->can($routine)) {
-    Carp::croak("Function ($routine) not callable on package ($package)");
+    Carp::confess("Function ($routine) not callable on package ($package)");
   }
 
   goto $point;
@@ -360,7 +360,7 @@ sub load {
   my $failed = !$class || $class !~ /^[\D](?:[\w:']*\w)?$/;
   my $loaded;
 
-  Carp::croak("Invalid package name ($class)") if $failed;
+  Carp::confess("Invalid package name ($class)") if $failed;
 
   my $error = do {
     local $@;
@@ -368,7 +368,7 @@ sub load {
     $@;
   };
 
-  Carp::croak("Error attempting to load $class: $error")
+  Carp::confess("Error attempting to load $class: $error")
     if $error
     or $failed
     or not $loaded;

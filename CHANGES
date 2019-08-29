@@ -1,6 +1,30 @@
 Changelog for Do
 
-1.05 2019-08-27T22:11:21
+1.07 2019-08-29T09:34:46
+ - Added release updates
+ - Miscellaneous housekeeping
+ - Implemented Better Autoboxing (#202)
+ -  Updated release workflow (#201)
+ - Updated test and release automation (#200)
+ - Updated releasing.yml
+ - Updated and renamed building.yml to testing.yml
+ - Updated issue.md
+ - Added issue template
+ - Build 1.07 (#192)
+ - Updated GitHub action workflows (#190)
+ - Updated GitHub action workflows (#189)
+ - Build 1.05 (#187)
+
+1.05 2019-08-27T22:11:58
+ - Built release version 1.05
+ - Added release updates
+ - Fixed obscure Windows Space#load issue
+ - Fixed path issue failing on Windows
+ - Updated general project info
+ - Updated build and release flow
+
+1.04 2019-08-27T21:08:54
+ - Built release version 1.04
  - Added release updates
  - Fixed obscure Windows Space#load issue
  - Fixed path issue failing on Windows

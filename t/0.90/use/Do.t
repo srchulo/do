@@ -11,7 +11,7 @@ Do
 
 =abstract
 
-Development Framework
+Modern Perl Development Framework
 
 =synopsis
 

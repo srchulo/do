@@ -73,13 +73,13 @@ sub call {
   my $class = $self->load;
 
   unless ($func) {
-    croak(qq(Attempt to call undefined object method in package "$class"));
+    confess(qq(Attempt to call undefined object method in package "$class"));
   }
 
   my $next = $class->can($func);
 
   unless ($next) {
-    croak(qq(Can't locate object method "$func" via package "$class"));
+    confess(qq(Can't locate object method "$func" via package "$class"));
   }
 
   @_ = @args; goto $next;
@@ -91,13 +91,13 @@ sub cop {
   my $class = $self->load;
 
   unless ($func) {
-    croak(qq(Attempt to cop undefined object method from package "$class"));
+    confess(qq(Attempt to cop undefined object method from package "$class"));
   }
 
   my $next = $class->can($func);
 
   unless ($next) {
-    croak(qq(Can't locate object method "$func" via package "$class"));
+    confess(qq(Can't locate object method "$func" via package "$class"));
   }
 
   my $code = sub { $next->(@args ? (@args, @_) : @_) };
@@ -161,7 +161,7 @@ sub load {
     $@;
   } if !$failed;
 
-  croak "Error attempting to load $class: $error"
+  confess "Error attempting to load $class: $error"
     if $error
     or $failed
     or not $loaded;

@@ -4,7 +4,9 @@ on:
   push:
     branches:
     - bugfix-*
+    - build-*
     - feature-*
+    - review-*
 
 jobs:
   Perl-0000:

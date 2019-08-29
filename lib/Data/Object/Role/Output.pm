@@ -1,9 +1,11 @@
 package Data::Object::Role::Output;
 
+use 5.014;
+
 use strict;
 use warnings;
 
-use Data::Object::Role;
+use Moo::Role;
 
 # VERSION
 

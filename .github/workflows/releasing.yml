@@ -185,7 +185,9 @@ jobs:
     - name: Setup Git Email
       run: git config --global user.email "awncorp@cpan.org"
     - name: Setup GitHub User
-      run: git config --global github.user iamalnewkirk
+      run: git config --global github.user ${{ secrets.GithubUser }}
+    - name: Setup GitHub Token
+      run: git config --global github.user ${{ secrets.GithubToken }}
     - name: Install CPANM
       run: sudo apt install -y cpanminus
     - name: Install Dist::Zilla
@@ -194,9 +196,9 @@ jobs:
       run: dzil authordeps | sudo cpanm -qn
     - name: Install Project Dependencies
       run: sudo cpanm -qn --reinstall --installdeps .
-    - name: Clean Build Environment
-      run: dzil clean
+    - name: Cleanup Build Environment
+      run: dzil build
     - name: Build Project Distribution
-      run: V=$(cat VERSION) DZIL_RELEASING=1 dzil build
+      run: V=$(cat VERSION) DZIL_RELEASE=1 dzil build
     - name: Upload to CPAN
       run: cpan-upload -u ${{ secrets.CpanUser }} -p ${{ secrets.CpanPass }} $(ls *.tar.gz)

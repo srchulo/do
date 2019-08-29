@@ -1,9 +1,11 @@
 package Data::Object::Role::Proxyable;
 
+use 5.014;
+
 use strict;
 use warnings;
 
-use Data::Object::Role;
+use Moo::Role;
 
 use Carp ();
 
@@ -22,11 +24,11 @@ sub AUTOLOAD {
 
   my $error = qq(Can't locate object method "$method" via package "$package");
 
-  Carp::croak($error) unless $build && ref($build) eq 'CODE';
+  Carp::confess($error) unless $build && ref($build) eq 'CODE';
 
   my $proxy = $build->($package, $method, @_);
 
-  Carp::croak($error) unless $proxy && ref($proxy) eq 'CODE';
+  Carp::confess($error) unless $proxy && ref($proxy) eq 'CODE';
 
   goto &$proxy;
 }

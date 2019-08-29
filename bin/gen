@@ -1,0 +1,52 @@
+#!/usr/bin/env perl
+
+use lib 't/lib';
+
+use Do;
+use Test::Dist;
+
+my $pod = Test::Dist->new;
+
+for my $file (map $pod->file("$_"), @{$pod->paths}) {
+
+  # generate test file stubs for missing use-tests
+  for my $name (@{$file->routines}) {
+    my $can_file = $file->can_file($name);
+
+    next if -f $can_file;
+
+    my $package = $file->package;
+
+    open my $rh, "<", "bin/can.txt" or die "Error reading bin/can.txt: $!";
+    my $lines = join "", <$rh>;
+    close $rh;
+
+    $lines =~ s/{package}/$package/gm;
+    $lines =~ s/{name}/$name/gm;
+
+    open my $wh, ">", "$can_file" or die "Error writing $can_file: $!";
+    print $wh $lines;
+    close $wh;
+
+    say "Created $can_file";
+  }
+
+  # generate test file stubs for missing use-tests
+  my $use_file = $file->use_file;
+
+  next if -f $use_file;
+
+  my $package = $file->package;
+
+  open my $rh, "<", "bin/use.txt" or die "Error reading bin/use.txt: $!";
+  my $lines = join "", <$rh>;
+  close $rh;
+
+  $lines =~ s/{package}/$package/gm;
+
+  open my $wh, ">", "$use_file" or die "Error writing $use_file: $!";
+  print $wh $lines;
+  close $wh;
+
+  say "Created $use_file";
+}

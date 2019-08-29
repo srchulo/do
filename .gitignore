@@ -6,13 +6,13 @@
 !/t
 
 !CHANGES
+!CONTRIBUTE.mkdn
 !INSTALL
 !LICENSE
 !Makefile.PL
 !MANIFEST.SKIP
 !README
 !README.mkdn
-!README-DEVEL.mkdn
 !VERSION
 !build
 !cpanfile

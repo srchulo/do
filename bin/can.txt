@@ -1,0 +1,41 @@
+use 5.014;
+
+use strict;
+use warnings;
+
+use Test::More;
+
+# POD
+
+=name
+
+{name}
+
+=usage
+
+  # given xyz
+
+  my $self = {package}->{name}(...);
+
+=description
+
+The {name} method tellus mauris a diam maecenas sed enim ut sem viverra aliquet
+eget sit amet tellus
+
+=signature
+
+{name}(...) : Object
+
+=type
+
+method
+
+=cut
+
+# TESTING
+
+use {package};
+
+can_ok "{package}", "{name}";
+
+ok 1 and done_testing;

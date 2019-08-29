@@ -19,7 +19,7 @@ L<On GitHub|https://github.com/iamalnewkirk/do>
 
 L<Initiatives|https://github.com/iamalnewkirk/do/projects>
 
-L<Contributing|https://github.com/iamalnewkirk/do/blob/master/README-DEVEL.mkdn>
+L<Contributing|https://github.com/iamalnewkirk/do/blob/master/CONTRIBUTE.mkdn>
 
 L<Reporting|https://github.com/iamalnewkirk/do/issues>
 
