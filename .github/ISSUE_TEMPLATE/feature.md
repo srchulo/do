@@ -1,7 +1,7 @@
 ---
-name: Issue
-about: Submit an issue, question, suggestion, or feedback.
-title: Consider Awesome
+name: Feature
+about: Submit a change or new feature pull request.
+title: Enable Awesome
 labels: ''
 assignees: ''
 
