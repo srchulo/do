@@ -1,5 +1,5 @@
 ---
-name: Feature
+name: Change
 about: Submit a change or new feature pull request.
 title: Enable Awesome
 labels: ''

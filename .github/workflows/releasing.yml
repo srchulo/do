@@ -197,7 +197,7 @@ jobs:
     - name: Install Project Dependencies
       run: sudo cpanm -qn --reinstall --installdeps .
     - name: Cleanup Build Environment
-      run: dzil build
+      run: dzil clean
     - name: Build Project Distribution
       run: V=$(cat VERSION) DZIL_RELEASE=1 dzil build
     - name: Upload to CPAN

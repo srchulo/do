@@ -1,6 +1,7 @@
 #!/bin/bash
 
 export V=$1
+export DZIL_RELEASE=1
 
 # Ensure release version is explicit
 if [ ! -n "$V" ]; then

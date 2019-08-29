@@ -1,5 +1,5 @@
 ---
-name: Issue
+name: Feedback
 about: Submit an issue, question, suggestion, or feedback.
 title: Consider Awesome
 labels: ''
