@@ -187,7 +187,7 @@ jobs:
     - name: Setup GitHub User
       run: git config --global github.user ${{ secrets.GithubUser }}
     - name: Setup GitHub Token
-      run: git config --global github.user ${{ secrets.GithubToken }}
+      run: git config --global github.token ${{ secrets.GithubToken }}
     - name: Install CPANM
       run: sudo apt install -y cpanminus
     - name: Install Dist::Zilla
