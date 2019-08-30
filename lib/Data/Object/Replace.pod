@@ -32,7 +32,8 @@ Data-Object Replace Class
 =head1 DESCRIPTION
 
 This package provides routines for introspecting the results of a regexp
-replace operation.
+replace operation. This package inherits all behavior from
+L<Data::Object::Array>.
 
 =cut
 

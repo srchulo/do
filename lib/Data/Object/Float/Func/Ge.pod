@@ -26,6 +26,7 @@ Data-Object Float Function (Ge) Class
 =head1 DESCRIPTION
 
 Data::Object::Float::Func::Ge is a function object for Data::Object::Float.
+This package inherits all behavior from L<Data::Object::Float::Func>.
 
 =cut
 

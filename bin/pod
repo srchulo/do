@@ -3,8 +3,8 @@
 use lib 't/lib';
 
 use Do;
-use Test::Dist;
+use Test::This;
 
-Test::Dist->new->render;
+Test::This->new->render;
 
 say "generated POD documents";

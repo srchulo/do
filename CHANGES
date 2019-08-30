@@ -1,6 +1,16 @@
 Changelog for Do
 
-1.07 2019-08-29T09:34:46
+1.09 2019-08-30T12:03:22
+ - Added release updates
+ - Fixed leaked token in release workflow
+ - Documented inheritance in POD (#219)
+ - Fixed failed POD generation for routines (#218)
+ - Miscellaneous Housekeeping (#204)
+ - Updated issue templates
+ - Updated GitHub actions and issue template (#196)
+
+1.07 2019-08-29T09:35:16
+ - Built release version 1.07
  - Added release updates
  - Miscellaneous housekeeping
  - Implemented Better Autoboxing (#202)
