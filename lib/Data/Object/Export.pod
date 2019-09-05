@@ -178,27 +178,6 @@ arguments and whose result(s) are deterministic.
 
 =cut
 
-=head2 data_any
-
-  data_any(Any $arg1) : Object
-
-The data_any function returns a L<Data::Object::Any> instance which
-wraps the provided data type and can be used to perform operations on the data.
-The C<type_any> function is an alias to this function.
-
-=over 4
-
-=item data_any example
-
-  # given 0;
-
-  $object = data_any 0;
-  $object->isa('Data::Object::Any');
-
-=back
-
-=cut
-
 =head2 data_array
 
   data_array(ArrayRef $arg1) : ArrayObject
@@ -338,27 +317,6 @@ C<type_hash> function is an alias to this function.
 
   $object = data_hash {1..4};
   $object->isa('Data::Object::Hash');
-
-=back
-
-=cut
-
-=head2 data_integer
-
-  data_integer(Int $arg1) : IntObject
-
-The data_integer function returns a L<Data::Object::Object> instance which wraps
-the provided data type and can be used to perform operations on the data. The
-C<type_integer> function is an alias to this function.
-
-=over 4
-
-=item data_integer example
-
-  # given -100;
-
-  $object = data_integer -100;
-  $object->isa('Data::Object::Integer');
 
 =back
 
@@ -738,7 +696,7 @@ exists to dispatch to exportable Data-Object functions and other dispatchers.
 
   # given func-args syntax
 
-  do('any', [1..4]); # Data::Object::Any
+  do('array', [1..4]); # Data::Object::Array
 
 =back
 

@@ -1,13 +1,13 @@
 package Data::Object::RoleHas;
 
+use 5.014;
+
 use strict;
 use warnings;
 
 use Data::Object::Export 'reify';
 
 # VERSION
-
-# BUILD
 
 sub import {
   my ($class, @args) = @_;
@@ -173,7 +173,5 @@ sub _formulate_wrt {
 
   return (%opts);
 }
-
-# METHODS
 
 1;

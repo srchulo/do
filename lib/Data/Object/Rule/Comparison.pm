@@ -1,13 +1,13 @@
 package Data::Object::Rule::Comparison;
 
+use 5.014;
+
 use strict;
 use warnings;
 
-use Data::Object::Rule;
+use Moo::Role;
 
 # VERSION
-
-# BUILD
 
 requires 'eq';
 requires 'gt';
@@ -15,7 +15,5 @@ requires 'ge';
 requires 'lt';
 requires 'le';
 requires 'ne';
-
-# METHODS
 
 1;

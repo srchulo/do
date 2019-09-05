@@ -1,5 +1,10 @@
 package Data::Object::Scalar::Func::Ne;
 
+use 5.014;
+
+use strict;
+use warnings;
+
 use Data::Object 'Class';
 
 extends 'Data::Object::Scalar::Func';
@@ -25,9 +30,9 @@ has arg2 => (
 sub execute {
   my ($self) = @_;
 
-  my ($data) = $self->unpack;
+  $self->throw("Not equal-to is not supported");
 
-  $self->throw("The ne() comparison operation is not supported");
+  return;
 }
 
 sub mapping {

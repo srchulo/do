@@ -1,12 +1,14 @@
 package Data::Object::Scalar::Func;
 
-use Data::Object 'Class';
+use 5.014;
+
+use strict;
+use warnings;
+
+use Moo;
 
 extends 'Data::Object::Func';
 
 # VERSION
-
-# BUILD
-# METHODS
 
 1;

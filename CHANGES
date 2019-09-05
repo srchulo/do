@@ -1,6 +1,11 @@
 Changelog for Do
 
-1.09 2019-08-30T12:03:22
+1.50 2019-09-05T04:17:00
+ - Added release updates
+ - Consolidate Types (#226)
+
+1.09 2019-08-30T12:03:59
+ - Built release version 1.09
  - Added release updates
  - Fixed leaked token in release workflow
  - Documented inheritance in POD (#219)

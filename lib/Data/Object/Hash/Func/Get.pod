@@ -25,8 +25,15 @@ Data-Object Hash Function (Get) Class
 
 =head1 DESCRIPTION
 
-Data::Object::Hash::Func::Get is a function object for Data::Object::Hash. This
-package inherits all behavior from L<Data::Object::Hash::Func>.
+Data::Object::Hash::Func::Get is a function object for Data::Object::Hash.
+
+=cut
+
+=head1 INHERITS
+
+This package inherits behaviors from:
+
+L<Data::Object::Hash::Func>
 
 =cut
 

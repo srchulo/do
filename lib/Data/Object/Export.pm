@@ -1,5 +1,7 @@
 package Data::Object::Export;
 
+use 5.014;
+
 use strict;
 use warnings;
 
@@ -30,7 +32,6 @@ our @CORE = (
 );
 
 our @DATA = (
-  'data_any',
   'data_array',
   'data_code',
   'data_data',
@@ -38,7 +39,6 @@ our @DATA = (
   'data_exception',
   'data_float',
   'data_hash',
-  'data_integer',
   'data_number',
   'data_regexp',
   'data_scalar',
@@ -48,7 +48,6 @@ our @DATA = (
 );
 
 our @TYPE = (
-  'type_any',
   'type_array',
   'type_code',
   'type_data',
@@ -56,7 +55,6 @@ our @TYPE = (
   'type_exception',
   'type_float',
   'type_hash',
-  'type_integer',
   'type_number',
   'type_regexp',
   'type_scalar',
@@ -126,13 +124,6 @@ sub do {
 
 # JUMPERS
 
-sub data_any {
-  my $class = 'Data::Object::Any';
-  my $point = load($class)->can('new');
-
-  unshift @_, $class and goto $point;
-}
-
 sub data_array {
   my $class = 'Data::Object::Array';
   my $point = load($class)->can('new');
@@ -177,13 +168,6 @@ sub data_float {
 
 sub data_hash {
   my $class = 'Data::Object::Hash';
-  my $point = load($class)->can('new');
-
-  unshift @_, $class and goto $point;
-}
-
-sub data_integer {
-  my $class = 'Data::Object::Integer';
   my $point = load($class)->can('new');
 
   unshift @_, $class and goto $point;
@@ -430,8 +414,7 @@ sub deduce_numberlike {
   my ($data) = @_;
 
   return data_float($data) if $data =~ /\./;
-  return data_number($data) if $data =~ /^\d[_\d]*$/;
-  return data_integer($data);
+  return data_number($data)
 }
 
 sub deduce_stringlike {
@@ -466,7 +449,6 @@ sub deduce_deep {
 sub deduce_type {
   my ($data) = (deduce $_[0]);
 
-  return "ANY" if $data->isa("Data::Object::Any");
   return "ARRAY" if $data->isa("Data::Object::Array");
   return "HASH" if $data->isa("Data::Object::Hash");
   return "CODE" if $data->isa("Data::Object::Code");
@@ -591,7 +573,6 @@ sub path_name {
   no warnings 'once';
 
   # aliases
-  *any = *data_any;
   *array = *data_array;
   *code = *data_code;
   *data = *data_data;
@@ -599,7 +580,6 @@ sub path_name {
   *exception = *data_exception;
   *float = *data_float;
   *hash = *data_hash;
-  *integer = *data_integer;
   *number = *data_number;
   *regexp = *data_regexp;
   *scalar = *data_scalar;
@@ -608,7 +588,6 @@ sub path_name {
   *undef = *data_undef;
 
   # aliases (backwards compatibility)
-  *type_any = *data_any;
   *type_array = *data_array;
   *type_code = *data_code;
   *type_data = *data_data;
@@ -616,7 +595,6 @@ sub path_name {
   *type_exception = *data_exception;
   *type_float = *data_float;
   *type_hash = *data_hash;
-  *type_integer = *data_integer;
   *type_number = *data_number;
   *type_regexp = *data_regexp;
   *type_scalar = *data_scalar;

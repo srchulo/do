@@ -9,7 +9,7 @@ Data::Object::Array::Autobox
 
 =head1 ABSTRACT
 
-Data-Object Autoboxing for Array Objects
+Data-Object Array Class Autoboxing
 
 =cut
 

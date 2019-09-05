@@ -1,5 +1,7 @@
 package Data::Object::Signatures;
 
+use 5.014;
+
 use strict;
 use warnings;
 
@@ -133,7 +135,5 @@ sub arnd_settings {
     types                => 1,
   });
 }
-
-# METHODS
 
 1;

@@ -1,16 +1,14 @@
 package Data::Object::Rule::Defined;
 
+use 5.014;
+
 use strict;
 use warnings;
 
-use Data::Object::Rule;
+use Moo::Role;
 
 # VERSION
 
-# BUILD
-
 requires 'defined';
-
-# METHODS
 
 1;

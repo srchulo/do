@@ -9,7 +9,7 @@ Data::Object::RoleHas
 
 =head1 ABSTRACT
 
-Data-Object Role Configuration
+Data-Object Role Attribute Builder
 
 =cut
 

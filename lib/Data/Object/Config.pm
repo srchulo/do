@@ -1,5 +1,7 @@
 package Data::Object::Config;
 
+use 5.014;
+
 use strict;
 use warnings;
 

@@ -1,13 +1,13 @@
 package Data::Object::Rule::List;
 
+use 5.014;
+
 use strict;
 use warnings;
 
-use Data::Object::Rule;
+use Moo::Role;
 
 # VERSION
-
-# BUILD
 
 requires 'grep';
 requires 'head';
@@ -19,7 +19,5 @@ requires 'reverse';
 requires 'sort';
 requires 'tail';
 requires 'values';
-
-# METHODS
 
 1;

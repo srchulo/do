@@ -9,7 +9,7 @@ Data::Object::Float::Autobox
 
 =head1 ABSTRACT
 
-Data-Object Autoboxing for Float Objects
+Data-Object Float Class Autoboxing
 
 =cut
 

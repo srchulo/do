@@ -205,25 +205,6 @@ Note: Blessed objects are not traversed.
 
 =cut
 
-=head2 typeany
-
-  TypeAny(Any $arg1) : Object
-
-The C<TypeAny> function returns a L<Data::Object::Any> instance which wraps the
-provided data type and can be used to perform operations on the data.
-
-=over 4
-
-=item TypeAny example
-
-  # given ...
-
-  Data::Object::Utility::TypeAny(...);
-
-=back
-
-=cut
-
 =head2 typearray
 
   TypeArray(ArrayRef $arg1) : ArrayObject
@@ -352,25 +333,6 @@ the provided data type and can be used to perform operations on the data.
   # given ...
 
   Data::Object::Utility::TypeHash(...);
-
-=back
-
-=cut
-
-=head2 typeinteger
-
-  TypeInteger(Int $arg1) : IntObject
-
-The C<TypeInteger> function returns a L<Data::Object::Object> instance which
-wraps the provided data type and can be used to perform operations on the data.
-
-=over 4
-
-=item TypeInteger example
-
-  # given ...
-
-  Data::Object::Utility::TypeInteger(...);
 
 =back
 

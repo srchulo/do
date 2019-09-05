@@ -1,5 +1,10 @@
 package Data::Object::Code::Func::Rcurry;
 
+use 5.014;
+
+use strict;
+use warnings;
+
 use Data::Object 'Class';
 
 extends 'Data::Object::Code::Func';

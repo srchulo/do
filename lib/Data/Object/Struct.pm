@@ -1,9 +1,11 @@
 package Data::Object::Struct;
 
+use 5.014;
+
 use strict;
 use warnings;
 
-use Data::Object::Class;
+use Moo;
 
 with 'Data::Object::Role::Immutable';
 

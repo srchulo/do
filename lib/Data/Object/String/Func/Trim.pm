@@ -1,5 +1,10 @@
 package Data::Object::String::Func::Trim;
 
+use 5.014;
+
+use strict;
+use warnings;
+
 use Data::Object 'Class';
 
 extends 'Data::Object::String::Func';

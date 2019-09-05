@@ -1,6 +1,11 @@
 package Data::Object::Func;
 
-use Data::Object::Class;
+use 5.014;
+
+use strict;
+use warnings;
+
+use Moo;
 
 extends 'Data::Object::Base';
 

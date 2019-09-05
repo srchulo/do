@@ -27,8 +27,15 @@ Data-Object Singleton Declaration
 
 =head1 DESCRIPTION
 
-This package modifies the consuming package making it a singleton. This package
-inherits all behavior from L<Data::Object::Class>.
+This package modifies the consuming package making it a singleton.
+
+=cut
+
+=head1 INHERITS
+
+This package inherits behaviors from:
+
+L<Data::Object::Class>
 
 =cut
 

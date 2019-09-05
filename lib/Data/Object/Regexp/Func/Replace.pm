@@ -1,5 +1,10 @@
 package Data::Object::Regexp::Func::Replace;
 
+use 5.014;
+
+use strict;
+use warnings;
+
 use Data::Object 'Class';
 
 use Data::Object::Replace;

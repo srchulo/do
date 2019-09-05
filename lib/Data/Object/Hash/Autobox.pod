@@ -9,7 +9,7 @@ Data::Object::Hash::Autobox
 
 =head1 ABSTRACT
 
-Data-Object Autoboxing for Hash Objects
+Data-Object Hash Class Autoboxing
 
 =cut
 

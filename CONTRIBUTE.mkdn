@@ -37,7 +37,7 @@ that:
 
 Important! Before you checkout the code and start making contributions you need
 to understand the project structure and reasoning. This will help ensure you
-piut code changes in the right place so they won't get overwritten.
+put code changes in the right place so they won't get overwritten.
 
 The `lib` directory is where the packages (modules, classes, etc) are. Feel
 free to create, delete and/or update as you see fit. All POD (documentation)

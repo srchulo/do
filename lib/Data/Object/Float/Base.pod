@@ -25,9 +25,15 @@ Data-Object Abstract Float Class
 
 =head1 DESCRIPTION
 
-Data::Object::Float::Base provides routines for operating on Perl 5
-floating-point data. This package inherits all behavior from
-L<Data::Object::Base>.
+This package provides routines for operating on Perl 5 floating-point data.
+
+=cut
+
+=head1 INHERITS
+
+This package inherits behaviors from:
+
+L<Data::Object::Base>
 
 =cut
 

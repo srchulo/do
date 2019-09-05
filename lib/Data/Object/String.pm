@@ -1,5 +1,10 @@
 package Data::Object::String;
 
+use 5.014;
+
+use strict;
+use warnings;
+
 use Role::Tiny::With;
 
 use overload (
@@ -19,7 +24,5 @@ with qw(
 use parent 'Data::Object::String::Base';
 
 # VERSION
-
-# METHODS
 
 1;

@@ -9,7 +9,7 @@ Data::Object::Code::Autobox
 
 =head1 ABSTRACT
 
-Data-Object Autoboxing for Code Objects
+Data-Object Code Class Autoboxing
 
 =cut
 

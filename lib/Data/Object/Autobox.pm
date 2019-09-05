@@ -7,12 +7,10 @@ use warnings;
 
 use base 'autobox';
 
-require Data::Object::Any::Autobox;
 require Data::Object::Array::Autobox;
 require Data::Object::Code::Autobox;
 require Data::Object::Float::Autobox;
 require Data::Object::Hash::Autobox;
-require Data::Object::Integer::Autobox;
 require Data::Object::Number::Autobox;
 require Data::Object::Scalar::Autobox;
 require Data::Object::String::Autobox;
@@ -28,12 +26,12 @@ sub import {
     CODE      => 'Data::Object::Code::Autobox',
     FLOAT     => 'Data::Object::Float::Autobox',
     HASH      => 'Data::Object::Hash::Autobox',
-    INTEGER   => 'Data::Object::Integer::Autobox',
+    INTEGER   => 'Data::Object::Number::Autobox',
     NUMBER    => 'Data::Object::Number::Autobox',
     SCALAR    => 'Data::Object::Scalar::Autobox',
     STRING    => 'Data::Object::String::Autobox',
     UNDEF     => 'Data::Object::Undef::Autobox',
-    UNIVERSAL => 'Data::Object::Any::Autobox'
+    UNIVERSAL => 'Data::Object::Scalar::Autobox'
   );
 
   return $class;

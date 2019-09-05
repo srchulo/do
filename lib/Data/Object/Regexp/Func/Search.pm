@@ -1,5 +1,10 @@
 package Data::Object::Regexp::Func::Search;
 
+use 5.014;
+
+use strict;
+use warnings;
+
 use Data::Object 'Class';
 
 use Data::Object::Search;

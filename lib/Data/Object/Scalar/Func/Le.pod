@@ -26,7 +26,14 @@ Data-Object Scalar Function (Le) Class
 =head1 DESCRIPTION
 
 Data::Object::Scalar::Func::Le is a function object for Data::Object::Scalar.
-This package inherits all behavior from L<Data::Object::Scalar::Func>.
+
+=cut
+
+=head1 INHERITS
+
+This package inherits behaviors from:
+
+L<Data::Object::Scalar::Func>
 
 =cut
 

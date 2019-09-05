@@ -1,9 +1,11 @@
 package Data::Object::State;
 
+use 5.014;
+
 use strict;
 use warnings;
 
-use parent 'Data::Object::Class';
+use parent 'Moo';
 
 # VERSION
 
@@ -14,7 +16,7 @@ sub import {
 
   my $target = caller;
 
-  eval "package $target; use Data::Object::Class; 1;";
+  eval "package $target; use Moo; 1;";
 
   no strict 'refs';
 

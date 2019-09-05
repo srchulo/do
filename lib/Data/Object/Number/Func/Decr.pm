@@ -1,5 +1,10 @@
 package Data::Object::Number::Func::Decr;
 
+use 5.014;
+
+use strict;
+use warnings;
+
 use Data::Object 'Class';
 
 extends 'Data::Object::Number::Func';

@@ -1,8 +1,14 @@
 package Data::Object::Space;
 
-use Carp;
+use 5.014;
 
-use Data::Object::Class;
+use strict;
+use warnings;
+
+use Moo;
+
+use Carp 'confess';
+
 
 # VERSION
 

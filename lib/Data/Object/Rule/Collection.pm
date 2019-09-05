@@ -1,13 +1,13 @@
 package Data::Object::Rule::Collection;
 
+use 5.014;
+
 use strict;
 use warnings;
 
 use Data::Object::Rule;
 
 # VERSION
-
-# BUILD
 
 requires 'each';
 requires 'each_key';
@@ -22,7 +22,5 @@ requires 'get';
 requires 'set';
 requires 'slice';
 requires 'values';
-
-# METHODS
 
 1;

@@ -1,17 +1,19 @@
 package Data::Object::Registry;
 
+use 5.014;
+
 use strict;
 use warnings;
 
-use Data::Object::State;
-
 use Memoize;
-
-use parent 'Data::Object::Base';
 
 # VERSION
 
-# METHODS
+my $map = {};
+
+sub new {
+  return bless $map, shift;
+}
 
 sub get {
   my ($self, $key) = @_;

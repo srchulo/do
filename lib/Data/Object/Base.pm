@@ -1,11 +1,12 @@
 package Data::Object::Base;
 
+use 5.014;
+
 use strict;
 use warnings;
 
 # VERSION
 
-# BUILD
 # METHODS
 
 sub class {

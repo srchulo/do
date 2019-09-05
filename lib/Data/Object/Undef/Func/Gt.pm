@@ -1,5 +1,10 @@
 package Data::Object::Undef::Func::Gt;
 
+use 5.014;
+
+use strict;
+use warnings;
+
 use Data::Object 'Class';
 
 extends 'Data::Object::Undef::Func';

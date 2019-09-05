@@ -1,5 +1,10 @@
 package Data::Object::Float::Func::Gt;
 
+use 5.014;
+
+use strict;
+use warnings;
+
 use Data::Object 'Class';
 
 extends 'Data::Object::Float::Func';

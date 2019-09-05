@@ -11,15 +11,6 @@ use Scalar::Util ();
 
 # FUNCTIONS
 
-sub TypeAny {
-  require Data::Object::Any;
-
-  my $class = 'Data::Object::Any';
-  my $point = $class->can('new');
-
-  unshift @_, $class and goto $point;
-}
-
 sub TypeArray {
   require Data::Object::Array;
 
@@ -78,15 +69,6 @@ sub TypeHash {
   require Data::Object::Hash;
 
   my $class = 'Data::Object::Hash';
-  my $point = $class->can('new');
-
-  unshift @_, $class and goto $point;
-}
-
-sub TypeInteger {
-  require Data::Object::Integer;
-
-  my $class = 'Data::Object::Integer';
   my $point = $class->can('new');
 
   unshift @_, $class and goto $point;
@@ -184,8 +166,7 @@ sub DeduceNumberlike {
   my ($data) = @_;
 
   return TypeFloat($data) if $data =~ /\./;
-  return TypeNumber($data) if $data =~ /^\d[_\d]*$/;
-  return TypeInteger($data);
+  return TypeNumber($data);
 }
 
 sub DeduceStringLike {
@@ -220,13 +201,11 @@ sub DeduceDeep {
 sub TypeName {
   my ($data) = (Deduce($_[0]));
 
-  return "ANY" if $data->isa("Data::Object::Any");
   return "ARRAY" if $data->isa("Data::Object::Array");
   return "HASH" if $data->isa("Data::Object::Hash");
   return "CODE" if $data->isa("Data::Object::Code");
   return "FLOAT" if $data->isa("Data::Object::Float");
   return "NUMBER" if $data->isa("Data::Object::Number");
-  return "INTEGER" if $data->isa("Data::Object::Integer");
   return "STRING" if $data->isa("Data::Object::String");
   return "SCALAR" if $data->isa("Data::Object::Scalar");
   return "REGEXP" if $data->isa("Data::Object::Regexp");

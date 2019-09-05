@@ -14,17 +14,11 @@ use parent 'Data::Object::Config';
 sub new {
   my ($class, $name) = @_;
 
-  die "Invalid argument" unless ($name || '') =~ /^[a-zA-Z]\w*/;
+  die "Invalid argument" unless ("$name" || "") =~ /^[a-zA-Z]\w*/;
 
   require Data::Object::Space;
 
   return Data::Object::Space->new(join '::', __PACKAGE__, $name);
-}
-
-sub any {
-  my ($class, $data) = @_;
-
-  return $class->new('Any')->build($data);
 }
 
 sub array {
@@ -55,12 +49,6 @@ sub hash {
   my ($class, $data) = @_;
 
   return $class->new('Hash')->build($data);
-}
-
-sub integer {
-  my ($class, $data) = @_;
-
-  return $class->new('Integer')->build($data);
 }
 
 sub number {

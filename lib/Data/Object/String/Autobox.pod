@@ -9,7 +9,7 @@ Data::Object::String::Autobox
 
 =head1 ABSTRACT
 
-Data-Object Autoboxing for String Objects
+Data-Object String Class Autoboxing
 
 =cut
 
