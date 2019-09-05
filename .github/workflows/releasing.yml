@@ -11,7 +11,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    # build
     - name: Install Perlbrew
       run: sudo apt install -y perlbrew
     - name: Initial Perlbrew
@@ -26,7 +25,6 @@ jobs:
       run: sudo perlbrew exec --with perl-5.30.0 cpanm -qn Perl::Critic
     - name: Install Perl Dependencies
       run: sudo perlbrew exec --with perl-5.30.0 cpanm -qn --reinstall --installdeps .
-    # test
     - name: Critiquing Project
       run: sudo perlbrew exec --with perl-5.30.0 perlcritic lib t
     - name: Testing Project
@@ -39,7 +37,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    # build
     - name: Install Perlbrew
       run: sudo apt install -y perlbrew
     - name: Initial Perlbrew
@@ -54,7 +51,6 @@ jobs:
       run: sudo perlbrew exec --with perl-5.28.0 cpanm -qn Perl::Critic
     - name: Install Perl Dependencies
       run: sudo perlbrew exec --with perl-5.28.0 cpanm -qn --reinstall --installdeps .
-    # test
     - name: Critiquing Project
       run: sudo perlbrew exec --with perl-5.28.0 perlcritic lib t
     - name: Testing Project
@@ -67,7 +63,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    # build
     - name: Install Perlbrew
       run: sudo apt install -y perlbrew
     - name: Initial Perlbrew
@@ -82,7 +77,6 @@ jobs:
       run: sudo perlbrew exec --with perl-5.26.0 cpanm -qn Perl::Critic
     - name: Install Perl Dependencies
       run: sudo perlbrew exec --with perl-5.26.0 cpanm -qn --reinstall --installdeps .
-    # test
     - name: Critiquing Project
       run: sudo perlbrew exec --with perl-5.26.0 perlcritic lib t
     - name: Testing Project
@@ -95,7 +89,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    # build
     - name: Install Perlbrew
       run: sudo apt install -y perlbrew
     - name: Initial Perlbrew
@@ -110,7 +103,6 @@ jobs:
       run: sudo perlbrew exec --with perl-5.24.0 cpanm -qn Perl::Critic
     - name: Install Perl Dependencies
       run: sudo perlbrew exec --with perl-5.24.0 cpanm -qn --reinstall --installdeps .
-    # test
     - name: Critiquing Project
       run: sudo perlbrew exec --with perl-5.24.0 perlcritic lib t
     - name: Testing Project
@@ -123,7 +115,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    # build
     - name: Install Perlbrew
       run: sudo apt install -y perlbrew
     - name: Initial Perlbrew
@@ -138,7 +129,6 @@ jobs:
       run: sudo perlbrew exec --with perl-5.22.0 cpanm -qn Perl::Critic
     - name: Install Perl Dependencies
       run: sudo perlbrew exec --with perl-5.22.0 cpanm -qn --reinstall --installdeps .
-    # test
     - name: Critiquing Project
       run: sudo perlbrew exec --with perl-5.22.0 perlcritic lib t
     - name: Testing Project
@@ -151,7 +141,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    # build
     - name: Install Perlbrew
       run: sudo apt install -y perlbrew
     - name: Initial Perlbrew
@@ -166,7 +155,6 @@ jobs:
       run: sudo perlbrew exec --with perl-5.18.2 cpanm -qn Perl::Critic
     - name: Install Perl Dependencies
       run: sudo perlbrew exec --with perl-5.18.2 cpanm -qn --reinstall --installdeps .
-    # test
     - name: Critiquing Project
       run: sudo perlbrew exec --with perl-5.18.2 perlcritic lib t
     - name: Testing Project

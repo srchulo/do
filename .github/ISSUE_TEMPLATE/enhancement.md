@@ -1,8 +1,8 @@
 ---
-name: Issue
-about: Report an issue.
-title: New Issue
-labels: 'feedback'
+name: Enhancement
+about: Suggest an enhancement.
+title: New Enhancement
+labels: 'enhancement'
 assignees: ''
 
 ---
@@ -10,7 +10,7 @@ assignees: ''
 
 consectetur adipiscing elit pellentesque habitant morbi tristique senectus et
 
-## Issue
+## Enhancement
 
 sem viverra aliquet eget sit amet tellus cras adipiscing enim eu turpis egestas pretium aenean pharetra magna ac placerat vestibulum lectus mauris ultrices eros in
 

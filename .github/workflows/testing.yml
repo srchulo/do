@@ -3,10 +3,9 @@ name: Testing
 on:
   push:
     branches:
-    - bugfix-*
-    - change-*
-    - feature-*
-    - review-*
+    - issue-*
+    - milestone-*
+    - project-*
 
 jobs:
   Perl-0000:
@@ -19,7 +18,9 @@ jobs:
     - name: Setup Git Email
       run: git config --global user.email "awncorp@cpan.org"
     - name: Setup GitHub User
-      run: git config --global github.user iamalnewkirk
+      run: git config --global github.user ${{ secrets.GithubUser }}
+    - name: Setup GitHub Token
+      run: git config --global github.user ${{ secrets.GithubToken }}
     - name: Install CPANM
       run: sudo apt install -y cpanminus
     - name: Install Perl::Critic

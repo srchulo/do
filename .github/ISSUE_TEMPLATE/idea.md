@@ -1,16 +1,16 @@
 ---
-name: Issue
-about: Report an issue.
-title: New Issue
-labels: 'feedback'
+name: Idea
+about: Share an idea.
+title: New Idea
+labels: 'idea'
 assignees: ''
 
 ---
 ## Context
 
-consectetur adipiscing elit pellentesque habitant morbi tristique senectus et
+sem viverra aliquet eget sit amet tellus cras adipiscing enim eu turpis egestas pretium aenean pharetra magna ac placerat vestibulum lectus mauris ultrices eros in
 
-## Issue
+## Idea
 
 sem viverra aliquet eget sit amet tellus cras adipiscing enim eu turpis egestas pretium aenean pharetra magna ac placerat vestibulum lectus mauris ultrices eros in
 
