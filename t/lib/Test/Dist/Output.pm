@@ -159,7 +159,7 @@ method construct_typelibrary() {
   my @content;
 
   push @content, $self->markup_head1('libraries', [
-    "This package use type constraints defined by:",
+    "This package uses type constraints defined by:",
     "", join "\n\n", map "L<$_>", @$libraries
   ]);
 

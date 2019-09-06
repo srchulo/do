@@ -38,4 +38,4 @@ sub output {
 
 output;
 
-say "generated CREDITS document";
+say "generated credits";
