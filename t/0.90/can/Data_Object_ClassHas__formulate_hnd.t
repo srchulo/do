@@ -9,19 +9,19 @@ use Test::More;
 
 =name
 
-_formulate_hld
+_formulate_hnd
 
 =usage
 
-  my $_formulate_hld = $self->_formulate_hld();
+  my $_formulate_hnd = $self->_formulate_hnd();
 
 =description
 
-The _formulate_hld function returns settings for the handler directive.
+The _formulate_hnd function returns settings for the handler directive.
 
 =signature
 
-_formulate_hld(HashRef $arg1, Str $arg2, Any $arg3) : Any
+_formulate_hnd(HashRef $arg1, Str $arg2, Any $arg3) : Any
 
 =type
 
@@ -35,6 +35,6 @@ use_ok 'Data::Object::ClassHas';
 
 my $data = 'Data::Object::ClassHas';
 
-can_ok $data, '_formulate_hld';
+can_ok $data, '_formulate_hnd';
 
 ok 1 and done_testing;

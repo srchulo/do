@@ -88,7 +88,7 @@ sub render {
   }
 
   # return new version
-  say sprintf '%d.%d%d',  @parts;
+  say sprintf('%d.%d%d',  @parts);
 }
 
 sub commands {
@@ -110,7 +110,7 @@ sub parts {
   my ($version) = @_;
 
   # return version parts
-  return ($version =~ /^(\d+)\.(\d)(\d)$/);
+  return (sprintf('%.2f', $version) =~ /^(\d+)\.(\d)(\d)$/);
 }
 
 # return version based on args
