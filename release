@@ -30,6 +30,9 @@ echo $V > VERSION
 # Delete existing POD documents
 find lib -type f -name \*.pod -exec rm {} \;
 
+# Generate project credtis
+perl -Ilib bin/ack
+
 # Regenerate all necessary POD documents
 perl -Ilib bin/pod
 

@@ -42,7 +42,7 @@ sub _formulate_opts {
   %opts = (%opts, _formulate_clr($info, $name, %opts)) if $opts{clr};
   %opts = (%opts, _formulate_crc($info, $name, %opts)) if $opts{crc};
   %opts = (%opts, _formulate_def($info, $name, %opts)) if $opts{def};
-  %opts = (%opts, _formulate_hld($info, $name, %opts)) if $opts{hld};
+  %opts = (%opts, _formulate_hnd($info, $name, %opts)) if $opts{hnd};
   %opts = (%opts, _formulate_isa($info, $name, %opts)) if $opts{isa};
   %opts = (%opts, _formulate_lzy($info, $name, %opts)) if $opts{lzy};
   %opts = (%opts, _formulate_opt($info, $name, %opts)) if $opts{opt};
@@ -90,10 +90,10 @@ sub _formulate_def {
   return (%opts);
 }
 
-sub _formulate_hld {
+sub _formulate_hnd {
   my ($info, $name, %opts) = @_;
 
-  $opts{handles} = delete $opts{hld};
+  $opts{handles} = delete $opts{hnd};
 
   return (%opts);
 }

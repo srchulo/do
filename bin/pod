@@ -7,4 +7,4 @@ use Test::This;
 
 Test::This->new->render;
 
-say "generated POD documents";
+say "generated documentation";

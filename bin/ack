@@ -1,0 +1,41 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+
+use feature 'say';
+
+sub commits {
+  my @credits = ();
+  my @commits = qx(git shortlog -sne | head -n 10);
+
+  @commits = map { chomp; s/^\s*|\s*$//g; $_ } @commits;
+
+  return () if !@commits;
+
+  for my $commit (@commits) {
+    chomp $commit;
+
+    $commit =~ s/^\s*|\s*$//g;
+
+    push @credits, [$commit =~ /(\d+)\t(.*)\s<(.*)>/];
+  }
+
+  return (@credits);
+}
+
+sub output {
+  my @commits = commits();
+
+  return () if !@commits;
+
+  open my $fh, '>', '.credits' or die "Error creating credits: $!";
+
+  say $fh join ', ', @$_ for @commits;
+
+  close $fh;
+}
+
+output;
+
+say "generated credits";
