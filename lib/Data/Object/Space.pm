@@ -167,7 +167,9 @@ sub load {
     $@;
   } if !$failed;
 
-  confess "Error attempting to load $class: $error"
+  my $unknown = "Cause unknown";
+
+  confess "Error attempting to load $class: " . ($error || $unknown)
     if $error
     or $failed
     or not $loaded;

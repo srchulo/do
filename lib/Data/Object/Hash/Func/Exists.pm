@@ -21,7 +21,7 @@ has arg1 => (
 
 has arg2 => (
   is => 'ro',
-  isa => 'Num',
+  isa => 'Str',
   req => 1
 );
 
