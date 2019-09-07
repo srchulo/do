@@ -17,12 +17,14 @@ use parent 'Data::Object::Base';
 sub new {
   my ($class, $data) = @_;
 
+  $data //= '0.0';
+
   if (Scalar::Util::blessed($data) && $data->can('detract')) {
     $data = $data->detract;
   }
 
   if (defined($data)) {
-    $data =~ s/^\+//; # not keen on this but ...
+    $data =~ s/^\+//;
   }
 
   if (!defined($data) || ref($data)) {
