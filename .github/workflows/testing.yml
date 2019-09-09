@@ -6,7 +6,6 @@ on:
     - issue-*
     - milestone-*
     - project-*
-    - release-*
 
 jobs:
   Perl-0000:

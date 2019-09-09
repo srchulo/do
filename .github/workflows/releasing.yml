@@ -3,7 +3,7 @@ name: Releasing
 on:
   pull_request:
     branches:
-    - master
+    - release-*
 
 jobs:
   Perl-5300:

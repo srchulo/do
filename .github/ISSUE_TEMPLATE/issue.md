@@ -1,5 +1,5 @@
 ---
-name: Issue
+name: Other
 about: Report an issue.
 title: New Issue
 labels: 'feedback'
