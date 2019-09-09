@@ -17,26 +17,31 @@ Data-Object Environment Variables
 
   use Data::Object::Vars;
 
-  my $vars = Data::Object::Vars->new;
+  my $vars = Data::Object::Vars->new(
+    named => { iam => 'USER', root => 'HOME' }
+  );
 
-  my $home = $vars->get('HOME');
-  my $user = $vars->get('USER');
+  $vars->root; # $ENV{HOME}
+  $vars->home; # $ENV{HOME}
+  $vars->get('home'); # $ENV{HOME}
+  $vars->get('HOME'); # $ENV{HOME}
 
-  my $paths = $vars->get('PATH')->split(qr/:/);
-
-  say $paths->count;
-
-=inherits
-
-Data::Object::Hash
+  $vars->iam; # $ENV{USER}
+  $vars->user; # $ENV{USER}
+  $vars->get('user'); # $ENV{USER}
+  $vars->get('USER'); # $ENV{USER}
 
 =libraries
 
 Data::Object::Library
 
+=attributes
+
+named(HashRef, opt, ro)
+
 =description
 
-This package provides an object-oriented interface to the processes environment
+This package provides an object-oriented interface to the process' environment
 variables.
 
 =cut

@@ -255,6 +255,21 @@ The framework's struct configuration configures the calling package as a class
 whose state becomes immutable after instantiation. Read more at
 L<Data::Object::Struct>.
 
++=head2 args
+
+  package App::Args;
+
+  use Do 'Args';
+
+  method validate() {
+    # ...
+  }
+
+  1;
+
+The framework's args configuration configures the calling package as a class
+representation of the C<@ARGV> variable. Read more at L<Data::Object::Args>.
+
 +=head2 array
 
   package App::Args;
@@ -287,6 +302,37 @@ which extends the Array class. Read more at L<Data::Object::Array>.
 The framework's code configuration configures the calling package as a class
 which extends the Code class. Read more at L<Data::Object::Code>.
 
++=head2 cli
+
+  package App::Cli;
+
+  use Do 'Cli';
+
+  method main(%args) {
+    # ...
+  }
+
+  1;
+
+The framework's cli configuration configures the calling package as a class
+capable of acting as a command-line interface. Read more at
+L<Data::Object::Cli>.
+
++=head2 data
+
+  package App::Data;
+
+  use Do 'Data';
+
+  method generate() {
+    # ...
+  }
+
+  1;
+
+The framework's data configuration configures the calling package as a class
+capable of parsing POD. Read more at L<Data::Object::Data>.
+
 +=head2 float
 
   package App::Amount;
@@ -317,21 +363,6 @@ which extends the Float class. Read more at L<Data::Object::Float>.
 The framework's hash configuration configures the calling package as a class
 which extends the Hash class. Read more at L<Data::Object::Hash>.
 
-+=head2 integer
-
-  package App::Phone;
-
-  use Do 'Integer';
-
-  method format(Str $code) {
-    # ...
-  }
-
-  1;
-
-The framework's integer configuration configures the calling package as a class
-which extends the Integer class. Read more at L<Data::Object::Integer>.
-
 +=head2 number
 
   package App::ID;
@@ -346,6 +377,22 @@ which extends the Integer class. Read more at L<Data::Object::Integer>.
 
 The framework's number configuration configures the calling package as a class
 which extends the Number class. Read more at L<Data::Object::Number>.
+
++=head2 opts
+
+  package App::Opts;
+
+  use Do 'Opts';
+
+  method validate() {
+    # ...
+  }
+
+  1;
+
+The framework's opts configuration configures the calling package as a class
+representation of the command-line arguments. Read more at
+L<Data::Object::Opts>.
 
 +=head2 regexp
 
@@ -406,6 +453,21 @@ which extends the String class. Read more at L<Data::Object::String>.
 
 The framework's undef configuration configures the calling package as a class
 which extends the Undef class. Read more at L<Data::Object::Undef>.
+
++=head2 vars
+
+  package App::Vars;
+
+  use Do 'Vars';
+
+  method config() {
+    # ...
+  }
+
+  1;
+
+The framework's vars configuration configures the calling package as a class
+representation of the C<%ENV> variable. Read more at L<Data::Object::Vars>.
 
 =cut
 

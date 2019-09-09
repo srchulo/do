@@ -1,4 +1,4 @@
-package Data::Object::Vars;
+package Data::Object::Opts;
 
 use 5.014;
 
@@ -7,10 +7,20 @@ use warnings;
 
 use Moo;
 
+use Getopt::Long ();
+
 with 'Data::Object::Role::Proxyable';
 with 'Data::Object::Role::Stashable';
 
 # VERSION
+
+has args => (
+  is => 'ro'
+);
+
+has spec => (
+  is => 'ro'
+);
 
 has named => (
   is => 'ro'
@@ -23,9 +33,21 @@ sub BUILD {
 
   $self->{named} = {} if !$args->{named};
 
-  my $envv = { map +($_, $ENV{$_}), keys %ENV };
+  $self->{args} = [] if !$args->{args};
+  $self->{spec} = [] if !$args->{spec};
 
-  $self->stash(envv => $envv);
+  $self->{args} = [@ARGV] if !@{$self->{args}};
+
+  my $warn = [];
+
+  local $SIG{__WARN__} = sub {
+    push @$warn, [@_];
+
+    return;
+  };
+
+  $self->stash(opts => $self->parse($args->{opts}));
+  $self->stash(warn => $warn) if $warn;
 
   return $self;
 }
@@ -93,17 +115,49 @@ sub name {
     return $key;
   }
 
-  if (defined $self->stashed->{uc($key)}) {
-    return uc($key);
-  }
-
   return undef;
+}
+
+sub parse {
+  my ($self, $extras) = @_;
+
+  my $args = $self->args;
+  my $spec = $self->spec;
+
+  my $options = {};
+  my @configs = qw(default no_auto_abbrev no_ignore_case);
+
+  $extras = [] if !$extras;
+
+  # configure parser
+  Getopt::Long::Configure(Getopt::Long::Configure(@configs, @$extras));
+
+  # parse args using spec
+  Getopt::Long::GetOptionsFromArray([@$args], $options, @$spec);
+
+  return $options;
 }
 
 sub stashed {
   my ($self) = @_;
 
-  my $data = $self->stash('envv');
+  my $data = $self->stash('opts');
+
+  return $data;
+}
+
+sub warned {
+  my ($self) = @_;
+
+  my $data = $self->stash('warn');
+
+  return @$data;
+}
+
+sub warnings {
+  my ($self) = @_;
+
+  my $data = $self->stash('warn');
 
   return $data;
 }

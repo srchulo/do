@@ -21,23 +21,44 @@ Type::Utils::extends('Types::Common::String');
 
 # TYPES
 
+RegisterAll(DoArgs());
+RegisterAll(DoData());
 RegisterAll(DoArray());
+RegisterAll(DoCli());
 RegisterAll(DoCode());
 RegisterAll(DoException());
 RegisterAll(DoFloat());
 RegisterAll(DoFunc());
 RegisterAll(DoHash());
 RegisterAll(DoNumber());
+RegisterAll(DoOpts());
 RegisterAll(DoRegexp());
 RegisterAll(DoReplace());
 RegisterAll(DoScalar());
 RegisterAll(DoSearch());
 RegisterAll(DoSpace());
+RegisterAll(DoState());
 RegisterAll(DoString());
+RegisterAll(DoStruct());
 RegisterAll(DoUndef());
-
+RegisterAll(DoVars());
 
 # FUNCTIONS
+
+sub DoArgs {
+  {
+    name => 'DoArgs',
+    aliases => [
+      'ArgsObj',
+      'ArgsObject'
+    ],
+    validation => sub {
+      return 0 if !$_[0]->isa('Data::Object::Args');
+      return 1;
+    },
+    parent => 'Object'
+  }
+}
 
 sub DoArray {
   {
@@ -103,6 +124,21 @@ sub DoArray {
   }
 }
 
+sub DoCli {
+  {
+    name => 'DoCli',
+    aliases => [
+      'CliObj',
+      'CliObject'
+    ],
+    validation => sub {
+      return 0 if !$_[0]->isa('Data::Object::Cli');
+      return 1;
+    },
+    parent => 'Object'
+  }
+}
+
 sub DoCode {
   {
     name => 'DoCode',
@@ -118,6 +154,21 @@ sub DoCode {
     ],
     validation => sub {
       return 0 if !$_[0]->isa('Data::Object::Code');
+      return 1;
+    },
+    parent => 'Object'
+  }
+}
+
+sub DoData {
+  {
+    name => 'DoData',
+    aliases => [
+      'DataObj',
+      'DataObject'
+    ],
+    validation => sub {
+      return 0 if !$_[0]->isa('Data::Object::Data');
       return 1;
     },
     parent => 'Object'
@@ -286,6 +337,21 @@ sub DoNumber {
   }
 }
 
+sub DoOpts {
+  {
+    name => 'DoOpts',
+    aliases => [
+      'OptsObj',
+      'OptsObject'
+    ],
+    validation => sub {
+      return 0 if !$_[0]->isa('Data::Object::Opts');
+      return 1;
+    },
+    parent => 'Object'
+  }
+}
+
 sub DoRegexp {
   {
     name => 'DoRegexp',
@@ -379,6 +445,21 @@ sub DoSpace {
   }
 }
 
+sub DoState {
+  {
+    name => 'DoState',
+    aliases => [
+      'StateObj',
+      'StateObject'
+    ],
+    validation => sub {
+      return 0 if !$_[0]->isa('Data::Object::State');
+      return 1;
+    },
+    parent => 'Object'
+  }
+}
+
 sub DoString {
   {
     name => 'DoStr',
@@ -402,6 +483,21 @@ sub DoString {
   }
 }
 
+sub DoStruct {
+  {
+    name => 'DoStruct',
+    aliases => [
+      'StructObj',
+      'StructObject'
+    ],
+    validation => sub {
+      return 0 if !$_[0]->isa('Data::Object::Struct');
+      return 1;
+    },
+    parent => 'Object'
+  }
+}
+
 sub DoUndef {
   {
     name => 'DoUndef',
@@ -417,6 +513,21 @@ sub DoUndef {
     ],
     validation => sub {
       return 0 if !$_[0]->isa('Data::Object::Undef');
+      return 1;
+    },
+    parent => 'Object'
+  }
+}
+
+sub DoVars {
+  {
+    name => 'DoVars',
+    aliases => [
+      'VarsObj',
+      'VarsObject'
+    ],
+    validation => sub {
+      return 0 if !$_[0]->isa('Data::Object::Vars');
       return 1;
     },
     parent => 'Object'

@@ -1,4 +1,4 @@
-package Data::Object::Vars;
+package Data::Object::Args;
 
 use 5.014;
 
@@ -23,9 +23,9 @@ sub BUILD {
 
   $self->{named} = {} if !$args->{named};
 
-  my $envv = { map +($_, $ENV{$_}), keys %ENV };
+  my $argv = { map +($_, $ARGV[$_]), 0..$#ARGV };
 
-  $self->stash(envv => $envv);
+  $self->stash(argv => $argv);
 
   return $self;
 }
@@ -93,17 +93,13 @@ sub name {
     return $key;
   }
 
-  if (defined $self->stashed->{uc($key)}) {
-    return uc($key);
-  }
-
   return undef;
 }
 
 sub stashed {
   my ($self) = @_;
 
-  my $data = $self->stash('envv');
+  my $data = $self->stash('argv');
 
   return $data;
 }
