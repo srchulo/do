@@ -301,6 +301,13 @@ sub config {
   ]
 }
 
+sub config_args {
+  [
+    @{config_class()},
+    prepare_call('extends', 'Data::Object::Args')
+  ]
+}
+
 sub config_array {
   [
     prepare_use('Role::Tiny::With'),
@@ -326,6 +333,13 @@ sub config_code {
   [
     prepare_use('Role::Tiny::With'),
     prepare_use('parent', 'Data::Object::Code')
+  ]
+}
+
+sub config_data {
+  [
+    @{config_class()},
+    prepare_call('extends', 'Data::Object::Data')
   ]
 }
 
@@ -357,13 +371,6 @@ sub config_hash {
   ]
 }
 
-sub config_integer {
-  [
-    prepare_use('Role::Tiny::With'),
-    prepare_use('parent', 'Data::Object::Integer')
-  ]
-}
-
 sub config_base {
   [
     prepare_use('Role::Tiny::With'),
@@ -375,6 +382,13 @@ sub config_number {
   [
     prepare_use('Role::Tiny::With'),
     prepare_use('parent', 'Data::Object::Number')
+  ]
+}
+
+sub config_opts {
+  [
+    @{config_class()},
+    prepare_call('extends', 'Data::Object::Opts')
   ]
 }
 
@@ -420,6 +434,13 @@ sub config_search {
   ]
 }
 
+sub config_space {
+  [
+    @{config_class()},
+    prepare_call('extends', 'Data::Object::Space')
+  ]
+}
+
 sub config_state {
   [
     prepare_use('Data::Object::State'),
@@ -431,6 +452,13 @@ sub config_string {
   [
     prepare_use('Role::Tiny::With'),
     prepare_use('parent', 'Data::Object::String')
+  ]
+}
+
+sub config_struct {
+  [
+    @{config_class()},
+    prepare_call('extends', 'Data::Object::Struct')
   ]
 }
 
@@ -453,6 +481,13 @@ sub config_undef {
   [
     prepare_use('Role::Tiny::With'),
     prepare_use('parent', 'Data::Object::Undef')
+  ]
+}
+
+sub config_vars {
+  [
+    @{config_class()},
+    prepare_call('extends', 'Data::Object::Vars')
   ]
 }
 

@@ -17,6 +17,8 @@ use parent 'Data::Object::Base';
 sub new {
   my ($class, $data) = @_;
 
+  $data //= 0;
+
   if (Scalar::Util::blessed($data) && $data->can('detract')) {
     $data = $data->detract;
   }

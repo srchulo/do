@@ -47,7 +47,7 @@ sub functor {
 
   return if !$name;
 
-  return eval { $self->space(join('::', ref($self), 'Func', $name))->load };
+  return eval { $self->space->child(join('::', 'Func', $name))->load };
 }
 
 1;

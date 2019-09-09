@@ -23,6 +23,7 @@ dzil clean
 
 # Delete existing release tag (if exists)
 git tag -d $V 2> /dev/null
+git push origin :refs/tags/$V 2> /dev/null
 
 # Persist Release VERSION
 echo $V > VERSION
@@ -43,3 +44,6 @@ fi
 
 # Build, Tag, and Push Package Release
 dzil release
+
+# Re-push all tags (just in case)
+git push --tags 2> /dev/null

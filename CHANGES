@@ -1,6 +1,14 @@
 Changelog for Do
 
-1.60 2019-09-06T20:07:40
+1.70 2019-09-09T00:37:33
+ - Added release updates
+ - Implemented D/O/Args, Opts, Vars, and Cli (#246)
+ - Added defaults for data objects (#242)
+ - Update main module POD (#240)
+ - Implemented D/O/Vars (#238)
+
+1.60 2019-09-06T20:08:10
+ - Built release version 1.60
  - Added release updates
  - Fixed release process and testing workflow (#234)
  - Framework Housekeeping (#233)

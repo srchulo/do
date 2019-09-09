@@ -76,7 +76,10 @@ sub data {
 
   my $handle = do { no strict 'refs'; \*{"${class}::DATA"} };
 
-  fileno $handle or die "Error with $class: DATA not accessible";
+  fileno $handle or return [];
+
+  # (no longer errors if DATA is missing)
+  # fileno $handle or die "Error with $class: DATA not accessible";
 
   seek $handle, 0, 0;
 
