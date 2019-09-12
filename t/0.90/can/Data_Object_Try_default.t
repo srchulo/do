@@ -19,8 +19,8 @@ default
 
 =description
 
-The default method takes a method name or coderef is triggered if no C<catch>
-conditions match the exception thrown.
+The default method takes a method name or coderef and is triggered if no
+C<catch> conditions match the exception thrown.
 
 =signature
 

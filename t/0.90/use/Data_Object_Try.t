@@ -43,6 +43,19 @@ Data-Object Try/Catch Class
 
   my $result = $try->result(@args);
 
+=library
+
+Data::Object::Library
+
+=attributes
+
+invocant(Object, opt, ro)
+arguments(ArrayRef, opt, ro)
+on_try(CodeRef, opt, rw)
+on_catch(ArrayRef[CodeRef], opt, rw)
+on_default(CodeRef, opt, rw)
+on_finally(CodeRef, opt, rw)
+
 =description
 
 This package provides an object-oriented interface for performing complex
