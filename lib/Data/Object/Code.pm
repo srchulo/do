@@ -15,8 +15,7 @@ use overload (
 );
 
 with qw(
-  Data::Object::Role::Detract
-  Data::Object::Role::Dumper
+  Data::Object::Role::Dumpable
   Data::Object::Role::Functable
   Data::Object::Role::Throwable
 );

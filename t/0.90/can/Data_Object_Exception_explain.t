@@ -9,11 +9,11 @@ use Test::More;
 
 =name
 
-data
+e
 
 =usage
 
-  my $data = $exception->data();
+  my $e = $exception->explain();
 
 =description
 
@@ -21,7 +21,7 @@ Render the exception message with optional context and stack trace.
 
 =signature
 
-data() : Any
+e() : Any
 
 =type
 
@@ -33,8 +33,8 @@ method
 
 use_ok 'Data::Object::Exception';
 
-my $data = 'Data::Object::Exception';
+my $e = 'Data::Object::Exception';
 
-can_ok $data, 'data';
+can_ok $e, 'explain';
 
 ok 1 and done_testing;

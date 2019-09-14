@@ -7,17 +7,17 @@ use Test::More;
 
 =name
 
-Data::Object::Role::Dumper
+Data::Object::Role::Dumpable
 
 =abstract
 
-Data-Object Dumper Role
+Data-Object Dumpable Role
 
 =synopsis
 
   use Data::Object::Class;
 
-  with 'Data::Object::Role::Dumper';
+  with 'Data::Object::Role::Dumpable';
 
 =libraries
 
@@ -29,6 +29,6 @@ This role provides functionality for dumping the object and underlying value.
 
 =cut
 
-use_ok "Data::Object::Role::Dumper";
+use_ok "Data::Object::Role::Dumpable";
 
 ok 1 and done_testing;

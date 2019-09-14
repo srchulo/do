@@ -31,9 +31,9 @@ method
 
 # TESTING
 
-use_ok 'Data::Object::Role::Dumper';
+use_ok 'Data::Object::Role::Dumpable';
 
-my $data = 'Data::Object::Role::Dumper';
+my $data = 'Data::Object::Role::Dumpable';
 
 can_ok $data, 'dump';
 

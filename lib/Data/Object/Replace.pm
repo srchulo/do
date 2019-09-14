@@ -6,9 +6,9 @@ use strict;
 use warnings;
 
 use overload (
-  '""'     => 'data',
-  '~~'     => 'data',
-  'bool'   => 'data',
+  '""'     => 'detract',
+  '~~'     => 'detract',
+  'bool'   => 'detract',
   'qr'     => 'regexp',
   '@{}'    => 'self',
   fallback => 1

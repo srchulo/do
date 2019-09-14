@@ -1,4 +1,4 @@
-package Data::Object::Role::Dumper;
+package Data::Object::Role::Dumpable;
 
 use 5.014;
 
@@ -9,14 +9,13 @@ use Moo::Role;
 
 # VERSION
 
-# BUILD
 # METHODS
 
 sub dump {
   my ($data) = @_;
 
   require Data::Dumper;
-  require Data::Object::Export;
+  require Data::Object::Utility;
 
   no warnings 'once';
 
@@ -29,11 +28,23 @@ sub dump {
   local $Data::Dumper::Terse = 1;
   local $Data::Dumper::Useqq = 1;
 
-  $data = Data::Object::Export::detract_deep($_[0]);
+  $data = Data::Object::Utility::DetractDeep($_[0]);
   $data = Data::Dumper::Dumper($data);
   $data =~ s/^"|"$//g;
 
   return $data;
+}
+
+sub print {
+  my ($self, @args) = @_;
+
+  return CORE::print(map &dump($_), @args, $self);
+}
+
+sub say {
+  my ($self, @args) = @_;
+
+  return CORE::print(map +(&dump($_), "\n"), @args, $self);
 }
 
 1;

@@ -30,148 +30,176 @@ sub choose {
 
   # * special config pl
   if (subject($type, 'pl')) {
-    return 'config_cli';
+    return ['config_cli', 1];
   }
 
   # * special config pm
   if (subject($type, 'pm')) {
-    return 'config_class';
+    return ['config_class', 1];
   }
 
   # config cli
   if (subject($type, 'cli')) {
-    return 'config_cli';
+    return ['config_cli', 1];
   }
 
   # * special config core
   if (subject($type, 'core')) {
-    return;
+    return ['config_core', 1];
   }
 
   # config array
   if (subject($type, 'array')) {
-    return 'config_array';
+    return ['config_array', 1];
   }
 
   # config code
   if (subject($type, 'code')) {
-    return 'config_code';
+    return ['config_code', 1];
   }
 
   # config dispatch
   if (subject($type, 'dispatch')) {
-    return 'config_dispatch';
+    return ['config_dispatch', 1];
   }
 
   # config exception
   if (subject($type, 'exception')) {
-    return 'config_exception';
+    return ['config_exception', 1];
   }
 
   # config float
   if (subject($type, 'float')) {
-    return 'config_float';
+    return ['config_float', 1];
   }
 
   # config hash
   if (subject($type, 'hash')) {
-    return 'config_hash';
+    return ['config_hash', 1];
   }
 
   # config integer
   if (subject($type, 'integer')) {
-    return 'config_integer';
+    return ['config_integer', 1];
   }
 
   # config base
   if (subject($type, 'base')) {
-    return 'config_base';
+    return ['config_base', 1];
   }
 
   # config number
   if (subject($type, 'number')) {
-    return 'config_number';
+    return ['config_number', 1];
   }
 
   # config regexp
   if (subject($type, 'regexp')) {
-    return 'config_regexp';
+    return ['config_regexp', 1];
   }
 
   # config replace
   if (subject($type, 'replace')) {
-    return 'config_replace';
+    return ['config_replace', 1];
   }
 
   # config scalar
   if (subject($type, 'scalar')) {
-    return 'config_scalar';
+    return ['config_scalar', 1];
   }
 
   # config search
   if (subject($type, 'search')) {
-    return 'config_search';
+    return ['config_search', 1];
   }
 
   # config state
   if (subject($type, 'state')) {
-    return 'config_state';
+    return ['config_state', 1];
   }
 
   # config string
   if (subject($type, 'string')) {
-    return 'config_string';
+    return ['config_string', 1];
   }
 
   # config struct
   if (subject($type, 'struct')) {
-    return 'config_struct';
+    return ['config_struct', 1];
   }
 
   # config type
   if (subject($type, 'type')) {
-    return 'config_type';
+    return ['config_type', 1];
   }
 
   # config library
   if (subject($type, 'library')) {
-    return 'config_library';
+    return ['config_library', 1];
   }
 
   # config undef
   if (subject($type, 'undef')) {
-    return 'config_undef';
+    return ['config_undef', 1];
   }
 
   # config class
   if (subject($type, 'class')) {
-    return 'config_class';
+    return ['config_class', 1];
   }
 
   # config role
   if (subject($type, 'role')) {
-    return 'config_role';
+    return ['config_role', 1];
   }
 
   # config rule
   if (subject($type, 'rule')) {
-    return 'config_rule';
+    return ['config_rule', 1];
   }
 
-  return;
+  # config dumpable
+  if (subject($type, 'withdumpable')) {
+    return ['config_withdumpable', 0];
+  }
+
+  # config immutable
+  if (subject($type, 'withimmutable')) {
+    return ['config_withimmutable', 0];
+  }
+
+  # config proxyable
+  if (subject($type, 'withproxyable')) {
+    return ['config_withproxyable', 0];
+  }
+
+  # config stashable
+  if (subject($type, 'withstashable')) {
+    return ['config_withstashable', 0];
+  }
+
+  # config throwable
+  if (subject($type, 'withthrowable')) {
+    return ['config_withthrowable', 0];
+  }
+
+  return ['config_core', 1];
 }
 
 sub prepare {
   my ($class, $type) = @_;
 
   my $plans;
-  my $config = choose($type);
+  my $choice = choose($type);
+
+  my $config = $choice->[0];
+  my $wrapped = $choice->[1];
 
   no strict 'refs';
 
-  $plans = &$config() if $config;
+  $plans = &{$config}();
 
-  return config($plans);
+  return $wrapped ? config($plans) : $plans;
 }
 
 sub process {
@@ -336,6 +364,10 @@ sub config_code {
   ]
 }
 
+sub config_core {
+  []
+}
+
 sub config_data {
   [
     @{config_class()},
@@ -491,6 +523,36 @@ sub config_vars {
   ]
 }
 
+sub config_withdumpable {
+  [
+    prepare_call('with', 'Data::Object::Role::Dumpable')
+  ]
+}
+
+sub config_withimmutable {
+  [
+    prepare_call('with', 'Data::Object::Role::Immutable')
+  ]
+}
+
+sub config_withproxyable {
+  [
+    prepare_call('with', 'Data::Object::Role::Proxyable')
+  ]
+}
+
+sub config_withstashable {
+  [
+    prepare_call('with', 'Data::Object::Role::Stashable')
+  ]
+}
+
+sub config_withthrowable {
+  [
+    prepare_call('with', 'Data::Object::Role::Throwable')
+  ]
+}
+
 # experimental
 sub _process_meta {
   my ($target, $type, $meta) = @_;
@@ -501,10 +563,10 @@ sub _process_meta {
   my $config = choose($type) || '';
 
   # set the parent type
-  if (!$parent && $config eq 'config_role') {
+  if (!$parent && $config->[0] eq 'config_role') {
     $parent = 'ConsumerOf';
   }
-  if (!$parent && $config eq 'config_rule') {
+  if (!$parent && $config->[0] eq 'config_rule') {
     $parent = 'ConsumerOf';
   }
   if (!$parent) {
