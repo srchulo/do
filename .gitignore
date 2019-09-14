@@ -18,7 +18,6 @@
 !cpanfile
 !dist.ini
 !release
-!weaver.ini
 
 !.editorconfig
 !.gitattributes
