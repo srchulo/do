@@ -67,9 +67,11 @@ is made to modify the underlying value.
 
 =head1 CREDITS
 
-Al Newkirk, C<+287>
+Al Newkirk, C<+289>
 
 Anthony Brummett, C<+10>
+
+José Joaquín Atria, C<+1>
 
 =cut
 

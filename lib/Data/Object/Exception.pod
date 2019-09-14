@@ -50,17 +50,17 @@ This package implements the following methods.
 
 =cut
 
-=head2 data
+=head2 e
 
-  data() : Any
+  e() : Any
 
 Render the exception message with optional context and stack trace.
 
 =over 4
 
-=item data example
+=item e example
 
-  my $data = $exception->data();
+  my $e = $exception->explain();
 
 =back
 
@@ -126,9 +126,11 @@ skips the first frame.
 
 =head1 CREDITS
 
-Al Newkirk, C<+287>
+Al Newkirk, C<+289>
 
 Anthony Brummett, C<+10>
+
+José Joaquín Atria, C<+1>
 
 =cut
 
