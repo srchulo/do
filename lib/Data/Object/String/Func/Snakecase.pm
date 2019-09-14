@@ -26,10 +26,11 @@ sub execute {
 
   my ($data) = $self->unpack;
 
-  my $result = lc("$data");
+  my $result = "$data";
 
-  $result =~ s/[^a-zA-Z0-9]+([a-z])/\U$1/g;
-  $result =~ s/[^a-zA-Z0-9]+//g;
+  my $re = qr/[\W_]+/;
+  $result =~ s/$re/_/g;
+  $result =~ s/^$re|$re$//g;
 
   return $result;
 }
