@@ -352,6 +352,20 @@ the Undef class. Read more at L<Data::Object::Undef>.
 The vars configuration configures the calling package as a class representation
 of the C<%ENV> variable. Read more at L<Data::Object::Vars>.
 
+=head2 with
+
+  package App::Error;
+
+  use Data::Object::Config 'Class';
+  use Data::Object::Config 'WithStashable';
+
+  1;
+
+The with configuration configures the calling package to consume the core role
+denoted in the name, e.g. the name C<WithStashable> configures the package to
+consume the core role L<Data::Object::Role::Stashable>. Using roles requires
+that the package have previously been declared a class or role itself.
+
 =cut
 
 =head1 LIBRARIES
@@ -959,6 +973,23 @@ L<Data::Object::Class> which extends L<Data::Object::Args>.
 
 =cut
 
+=head2 config_core
+
+  config_core() : ArrayRef
+
+The config_core function returns plans for configuring the package to have the
+L<Data::Object> framework default configuration.
+
+=over 4
+
+=item config_core example
+
+  my $plans = config_core;
+
+=back
+
+=cut
+
 =head2 config_data
 
   config_data() : ArrayRef
@@ -1044,11 +1075,98 @@ L<Data::Object::Class> which extends L<Data::Object::Vars>.
 
 =cut
 
+=head2 config_withdumpable
+
+  config_withdumpable() : ArrayRef
+
+The config_withdumpable function returns plans for configuring the package to
+consume the L<Data::Object::Role::Dumbable> role.
+
+=over 4
+
+=item config_withdumpable example
+
+  my $plans = config_withdumpable;
+
+=back
+
+=cut
+
+=head2 config_withimmutable
+
+  config_withimmutable() : ArrayRef
+
+The config_withimmutable function returns plans for configuring the package to
+consume the L<Data::Object::Role::Immutable> role.
+
+=over 4
+
+=item config_withimmutable example
+
+  my $plans = config_withimmutable;
+
+=back
+
+=cut
+
+=head2 config_withproxyable
+
+  config_withproxyable() : ArrayRef
+
+The config_withproxyable function returns plans for configuring the package to
+consume the L<Data::Object::Role::Proxyable> role.
+
+=over 4
+
+=item config_withproxyable example
+
+  my $plans = config_withproxyable;
+
+=back
+
+=cut
+
+=head2 config_withstashable
+
+  config_withstashable() : ArrayRef
+
+The config_withstashable function returns plans for configuring the package to
+consume the L<Data::Object::Role::Stashable> role.
+
+=over 4
+
+=item config_withstashable example
+
+  my $plans = config_withstashable;
+
+=back
+
+=cut
+
+=head2 config_withthrowable
+
+  config_withthrowable() : ArrayRef
+
+The config_withthrowable function returns plans for configuring the package to
+consume the L<Data::Object::Role::Throwable> role.
+
+=over 4
+
+=item config_withthrowable example
+
+  my $plans = config_withthrowable;
+
+=back
+
+=cut
+
 =head1 CREDITS
 
-Al Newkirk, C<+287>
+Al Newkirk, C<+289>
 
 Anthony Brummett, C<+10>
+
+José Joaquín Atria, C<+1>
 
 =cut
 
