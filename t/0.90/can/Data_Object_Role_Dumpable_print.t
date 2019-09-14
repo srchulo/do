@@ -31,9 +31,9 @@ method
 
 # TESTING
 
-use_ok 'Data::Object::Role::Output';
+use_ok 'Data::Object::Role::Dumpable';
 
-my $data = 'Data::Object::Role::Output';
+my $data = 'Data::Object::Role::Dumpable';
 
 can_ok $data, 'print';
 

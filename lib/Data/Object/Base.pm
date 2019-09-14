@@ -18,25 +18,35 @@ sub class {
 }
 
 sub deduce {
-  my ($item) = (pop);
+  # 1-arg: called by user
+  # 2-arg: called by user
+  # 3-arg: called by overload
+  my $data;
+
+  $data = $#_ < 2 ? pop : shift;
 
   require Data::Object::Utility;
 
-  return Data::Object::Utility::DeduceDeep($item);
+  return Data::Object::Utility::DeduceDeep($data);
 }
 
 sub detract {
-  my ($item) = (pop);
+  # 1-arg: called by user
+  # 2-arg: called by user
+  # 3-arg: called by overload
+  my $data;
+
+  $data = $#_ < 2 ? pop : shift;
 
   require Data::Object::Utility;
 
-  return Data::Object::Utility::DetractDeep($item);
+  return Data::Object::Utility::DetractDeep($data);
 }
 
 sub space {
-  my ($self) = (pop);
+  my ($data) = (pop);
 
-  my $class = ref $self || $self;
+  my $class = ref $data || $data;
 
   require Data::Object::Space;
 
@@ -44,11 +54,11 @@ sub space {
 }
 
 sub type {
-  my ($item) = (pop);
+  my ($data) = (pop);
 
   require Data::Object::Utility;
 
-  return Data::Object::Utility::TypeName($item);
+  return Data::Object::Utility::TypeName($data);
 }
 
 1;
