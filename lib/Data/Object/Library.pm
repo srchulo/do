@@ -7,6 +7,7 @@ use warnings;
 
 use base 'Type::Library';
 
+use Scalar::Util ();
 use Type::Tiny ();
 use Type::Utils ();
 use Type::Coercion ();
@@ -727,5 +728,11 @@ sub GenerateExplanation {
 
   return $type->{explaination}->($_[2], $_[1], $_[3]);
 }
+
+# ONE-OFFS
+
+Type::Utils::declare('NumberLike', Type::Utils::as(StringLike(), Type::Utils::where(sub {
+  return Scalar::Util::looks_like_number("$_[0]");
+})));
 
 1;
