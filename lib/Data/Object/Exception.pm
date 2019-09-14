@@ -6,8 +6,8 @@ use strict;
 use warnings;
 
 use overload (
-  '""'     => 'data',
-  '~~'     => 'data',
+  '""'     => 'explain',
+  '~~'     => 'explain',
   fallback => 1
 );
 
@@ -38,7 +38,7 @@ sub new {
 
 # METHODS
 
-sub data {
+sub explain {
   my ($self) = @_;
 
   $self->trace(1, 1) if !$self->{frames};
