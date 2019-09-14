@@ -18,7 +18,6 @@ sub new {
 
   $data //= [];
 
-  $DB::single=1;
   if (Scalar::Util::blessed($data) && $data->can('detract')) {
     $data = $data->detract;
   }
