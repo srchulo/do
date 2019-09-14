@@ -23,6 +23,7 @@ Type::Utils::extends('Types::Common::String');
 
 RegisterAll(DoArgs());
 RegisterAll(DoData());
+RegisterAll(DoDumpable());
 RegisterAll(DoArray());
 RegisterAll(DoCli());
 RegisterAll(DoCode());
@@ -30,6 +31,7 @@ RegisterAll(DoException());
 RegisterAll(DoFloat());
 RegisterAll(DoFunc());
 RegisterAll(DoHash());
+RegisterAll(DoImmutable());
 RegisterAll(DoNumber());
 RegisterAll(DoOpts());
 RegisterAll(DoRegexp());
@@ -37,9 +39,11 @@ RegisterAll(DoReplace());
 RegisterAll(DoScalar());
 RegisterAll(DoSearch());
 RegisterAll(DoSpace());
+RegisterAll(DoStashable());
 RegisterAll(DoState());
 RegisterAll(DoString());
 RegisterAll(DoStruct());
+RegisterAll(DoThrowable());
 RegisterAll(DoUndef());
 RegisterAll(DoVars());
 
@@ -175,6 +179,20 @@ sub DoData {
   }
 }
 
+sub DoDumpable {
+  {
+    name => 'DoDumpable',
+    aliases => [
+      'Dumpable'
+    ],
+    validation => sub {
+      return 0 if !$_[0]->does('Data::Object::Role::Dumpable');
+      return 1;
+    },
+    parent => 'Object'
+  }
+}
+
 sub DoException {
   {
     name => 'DoException',
@@ -293,6 +311,20 @@ sub DoHash {
       };
 
       return $coercions;
+    },
+    parent => 'Object'
+  }
+}
+
+sub DoImmutable {
+  {
+    name => 'DoImmutable',
+    aliases => [
+      'Immutable'
+    ],
+    validation => sub {
+      return 0 if !$_[0]->does('Data::Object::Role::Immutable');
+      return 1;
     },
     parent => 'Object'
   }
@@ -445,6 +477,20 @@ sub DoSpace {
   }
 }
 
+sub DoStashable {
+  {
+    name => 'DoStashable',
+    aliases => [
+      'Stashable'
+    ],
+    validation => sub {
+      return 0 if !$_[0]->does('Data::Object::Role::Stashable');
+      return 1;
+    },
+    parent => 'Object'
+  }
+}
+
 sub DoState {
   {
     name => 'DoState',
@@ -492,6 +538,20 @@ sub DoStruct {
     ],
     validation => sub {
       return 0 if !$_[0]->isa('Data::Object::Struct');
+      return 1;
+    },
+    parent => 'Object'
+  }
+}
+
+sub DoThrowable {
+  {
+    name => 'DoThrowable',
+    aliases => [
+      'Throwable'
+    ],
+    validation => sub {
+      return 0 if !$_[0]->does('Data::Object::Role::Throwable');
       return 1;
     },
     parent => 'Object'
