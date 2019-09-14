@@ -600,6 +600,17 @@ used to throw an exception if the argument can not be validated. The C<is_Num>
 function can be used to return true or false if the argument can not be
 validated.
 
++=head2 numberlike
+
+  # NumberLike
+
+The C<NumberLike> type constraint is provided by the this library and accepts
+any value that looks like a number, or object that overloads stringification
+and looks like a number stringified. Please see that documentation for more
+information. The C<assert_NumberLike> function can be used to throw an
+exception if the argument can not be validated. The C<is_NumberLike> function
+can be used to return true or false if the argument can not be validated.
+
 +=head2 numobj
 
   # NumObj
