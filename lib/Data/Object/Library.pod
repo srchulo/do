@@ -56,9 +56,7 @@ object.
 
 =item DoArgs example
 
-  # given xyz
-
-  my $self = Data::Object::Library->DoArgs(...);
+  Data::Object::Library::DoArgs();
 
 =back
 
@@ -132,6 +130,23 @@ object.
 
 =cut
 
+=head2 dodumpable
+
+  DoDumpable() : HashRef
+
+This function returns the type configuration for an object with the
+L<Data::Object::Role::Dumpable> role.
+
+=over 4
+
+=item DoDumpable example
+
+  Data::Object::Library::DoDumpable();
+
+=back
+
+=cut
+
 =head2 doexception
 
   DoException() : HashRef
@@ -195,6 +210,23 @@ object.
 =item DoHash example
 
   Data::Object::Library::DoHash();
+
+=back
+
+=cut
+
+=head2 doimmutable
+
+  DoImmutable() : HashRef
+
+This function returns the type configuration for an object with the
+L<Data::Object::Role::Immutable> role.
+
+=over 4
+
+=item DoImmutable example
+
+  Data::Object::Library::DoImmutable();
 
 =back
 
@@ -319,6 +351,23 @@ object.
 
 =cut
 
+=head2 dostashable
+
+  DoStashable() : HashRef
+
+This function returns the type configuration for an object with the
+L<Data::Object::Role::Stashable> role.
+
+=over 4
+
+=item DoStashable example
+
+  Data::Object::Library::DoStashable();
+
+=back
+
+=cut
+
 =head2 dostate
 
   DoState() : HashRef
@@ -365,6 +414,23 @@ object.
 =item DoStruct example
 
   Data::Object::Library::DoStruct();
+
+=back
+
+=cut
+
+=head2 dothrowable
+
+  DoThrowable() : HashRef
+
+This function returns the type configuration for an object with the
+L<Data::Object::Role::Throwable> role.
+
+=over 4
+
+=item DoThrowable example
+
+  Data::Object::Library::DoThrowable();
 
 =back
 
@@ -728,6 +794,16 @@ used to throw an exception if the argument can not be validated. The C<is_Dict>
 function can be used to return true or false if the argument can not be
 validated.
 
+=head2 dumpable
+
+  # Dumpable
+
+The C<Dumpable> type constraint is provided by this library and accepts any
+object that is a consumer of the L<Data::Object::Role::Dumpable> role. The
+C<assert_Dumpable> function can be used to throw an exception if the argument
+can not be validated. The C<is_Dumpable> function can be used to return true or
+false if the argument can not be validated.
+
 =head2 enum
 
   # Enum[qw(A B C)]
@@ -867,6 +943,16 @@ Please see that documentation for more information. The C<assert_HashRef> functi
 can be used to throw an exception if the argument can not be validated. The
 C<is_HashRef> function can be used to return true or false if the argument can not
 be validated.
+
+=head2 immutable
+
+  # Immutable
+
+The C<Immutable> type constraint is provided by this library and accepts any
+object that is a consumer of the L<Data::Object::Role::Immutable> role. The
+C<assert_Immutable> function can be used to throw an exception if the argument
+can not be validated. The C<is_Immutable> function can be used to return true or
+false if the argument can not be validated.
 
 =head2 instanceof
 
@@ -1394,6 +1480,16 @@ C<assert_SpaceObject> function can be used to throw an exception if the
 argument can not be validated. The C<is_SpaceObject> function can be used to
 return true or false if the argument can not be validated.
 
+=head2 stashable
+
+  # Stashable
+
+The C<Stashable> type constraint is provided by this library and accepts any
+object that is a consumer of the L<Data::Object::Role::Stashable> role. The
+C<assert_Stashable> function can be used to throw an exception if the argument
+can not be validated. The C<is_Stashable> function can be used to return true or
+false if the argument can not be validated.
+
 =head2 stateobj
 
   # StateObj
@@ -1524,6 +1620,16 @@ C<assert_StructObject> function can be used to throw an exception if the
 argument can not be validated. The C<is_StructObject> function can be used to
 return true or false if the argument can not be validated.
 
+=head2 throwable
+
+  # Throwable
+
+The C<Throwable> type constraint is provided by this library and accepts any
+object that is a consumer of the L<Data::Object::Role::Throwable> role. The
+C<assert_Throwable> function can be used to throw an exception if the argument
+can not be validated. The C<is_Throwable> function can be used to return true or
+false if the argument can not be validated.
+
 =head2 tied
 
   # Tied["MyClass"]
@@ -1637,9 +1743,11 @@ can not be validated. The C<is_VarsObject> function can be used to return true
 
 =head1 CREDITS
 
-Al Newkirk, C<+287>
+Al Newkirk, C<+289>
 
 Anthony Brummett, C<+10>
+
+José Joaquín Atria, C<+1>
 
 =cut
 
