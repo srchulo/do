@@ -15,19 +15,19 @@ extends 'Data::Object::String::Func';
 
 has arg1 => (
   is => 'ro',
-  isa => 'Object',
+  isa => 'StringLike',
   req => 1
 );
 
 has arg2 => (
   is => 'ro',
-  isa => 'Str',
+  isa => 'StringLike',
   req => 1
 );
 
 has arg3 => (
   is => 'ro',
-  isa => 'Num',
+  isa => 'NumberLike',
   def => 0,
   opt => 1
 );

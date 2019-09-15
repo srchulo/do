@@ -15,13 +15,13 @@ extends 'Data::Object::Hash::Func';
 
 has arg1 => (
   is => 'ro',
-  isa => 'Object',
+  isa => 'HashLike',
   req => 1
 );
 
 has arg2 => (
   is => 'ro',
-  isa => 'Num',
+  isa => 'NumberLike',
   req => 1
 );
 

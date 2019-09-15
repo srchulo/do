@@ -15,7 +15,7 @@ extends 'Data::Object::Code::Func';
 
 has arg1 => (
   is => 'ro',
-  isa => 'Object',
+  isa => 'CodeLike',
   req => 1
 );
 

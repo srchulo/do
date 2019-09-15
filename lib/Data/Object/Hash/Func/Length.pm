@@ -15,7 +15,7 @@ extends 'Data::Object::Hash::Func';
 
 has arg1 => (
   is => 'ro',
-  isa => 'Object',
+  isa => 'HashLike',
   req => 1
 );
 

@@ -17,13 +17,13 @@ extends 'Data::Object::Regexp::Func';
 
 has arg1 => (
   is => 'ro',
-  isa => 'Object',
+  isa => 'RegexpLike',
   req => 1
 );
 
 has arg2 => (
   is => 'ro',
-  isa => 'Str',
+  isa => 'StringLike',
   req => 1
 );
 

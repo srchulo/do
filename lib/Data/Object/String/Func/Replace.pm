@@ -15,25 +15,25 @@ extends 'Data::Object::String::Func';
 
 has arg1 => (
   is => 'ro',
-  isa => 'Object',
+  isa => 'StringLike',
   req => 1
 );
 
 has arg2 => (
   is => 'ro',
-  isa => 'RegexpRef | Str',
+  isa => 'RegexpLike | StringLike',
   req => 1
 );
 
 has arg3 => (
   is => 'ro',
-  isa => 'Str',
+  isa => 'StringLike',
   req => 1
 );
 
 has arg4 => (
   is => 'ro',
-  isa => 'Str',
+  isa => 'StringLike',
   opt => 1
 );
 

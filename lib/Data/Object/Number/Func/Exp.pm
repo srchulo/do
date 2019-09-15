@@ -15,7 +15,7 @@ extends 'Data::Object::Number::Func';
 
 has arg1 => (
   is => 'ro',
-  isa => 'Object',
+  isa => 'NumberLike',
   req => 1
 );
 
