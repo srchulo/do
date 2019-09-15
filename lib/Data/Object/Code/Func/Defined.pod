@@ -53,9 +53,9 @@ This package has the following attributes.
 
 =head2 arg1
 
-  arg1(Object)
+  arg1(CodeLike)
 
-The attribute is read-only, accepts C<(Object)> values, and is optional.
+The attribute is read-only, accepts C<(CodeLike)> values, and is optional.
 
 =cut
 
@@ -105,7 +105,7 @@ Returns the ordered list of named function object arguments.
 
 =head1 CREDITS
 
-Al Newkirk, C<+289>
+Al Newkirk, C<+294>
 
 Anthony Brummett, C<+10>
 

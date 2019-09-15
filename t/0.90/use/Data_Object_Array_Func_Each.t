@@ -30,7 +30,7 @@ Data::Object::Array::Func
 =attributes
 
 arg1(ArrayLike, req, ro)
-arg2(StringLikeingLike | CodeLike, req, ro)
+arg2(StringLike | CodeLike, req, ro)
 args(ArrayRef[Any], opt, ro)
 
 =libraries

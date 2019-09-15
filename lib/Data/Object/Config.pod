@@ -1162,7 +1162,7 @@ consume the L<Data::Object::Role::Throwable> role.
 
 =head1 CREDITS
 
-Al Newkirk, C<+289>
+Al Newkirk, C<+294>
 
 Anthony Brummett, C<+10>
 

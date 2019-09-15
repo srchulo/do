@@ -166,7 +166,7 @@ The stashed method returns the stashed data associated with the object.
 
 =head1 CREDITS
 
-Al Newkirk, C<+289>
+Al Newkirk, C<+294>
 
 Anthony Brummett, C<+10>
 

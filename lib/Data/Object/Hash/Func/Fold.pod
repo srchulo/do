@@ -61,25 +61,25 @@ The attribute is read-only, accepts C<(Object)> values, and is optional.
 
 =head2 arg2
 
-  arg2(Str)
+  arg2(StringLike)
 
-The attribute is read-only, accepts C<(Str)> values, and is optional.
+The attribute is read-only, accepts C<(StringLike)> values, and is optional.
 
 =cut
 
 =head2 arg3
 
-  arg3(HashRef)
+  arg3(HashLike)
 
-The attribute is read-only, accepts C<(HashRef)> values, and is optional.
+The attribute is read-only, accepts C<(HashLike)> values, and is optional.
 
 =cut
 
 =head2 arg4
 
-  arg4(HashRef)
+  arg4(HashLike)
 
-The attribute is read-only, accepts C<(HashRef)> values, and is optional.
+The attribute is read-only, accepts C<(HashLike)> values, and is optional.
 
 =cut
 
@@ -129,7 +129,7 @@ Returns the ordered list of named function object arguments.
 
 =head1 CREDITS
 
-Al Newkirk, C<+289>
+Al Newkirk, C<+294>
 
 Anthony Brummett, C<+10>
 

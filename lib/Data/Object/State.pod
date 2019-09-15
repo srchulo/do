@@ -71,7 +71,7 @@ The renew method resets the state and returns a new singleton.
 
 =head1 CREDITS
 
-Al Newkirk, C<+289>
+Al Newkirk, C<+294>
 
 Anthony Brummett, C<+10>
 

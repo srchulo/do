@@ -1,6 +1,15 @@
 Changelog for Do
 
-1.74 2019-09-14T18:31:17
+1.75 2019-09-15T22:31:32
+ - Added release updates
+ - Fixed functor constraint declaration errors (typos)
+ - Fixed functor constraints; Allows raw or obj values (#273)
+ - Added NumberLike constraint to type library (#272)
+ - Updated GH workflows (#270)
+ - Fix snakecase method for strings (#261) (#264)
+
+1.74 2019-09-14T18:31:47
+ - Built release version 1.74
  - Added release updates
  - Fix snakecase method for strings (#261) (#264)
  - Updated Documentation and Software License (#266)

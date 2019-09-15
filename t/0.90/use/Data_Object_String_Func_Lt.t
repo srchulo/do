@@ -30,7 +30,7 @@ Data::Object::String::Func
 =attributes
 
 arg1(StringLike, req, ro)
-arg2(StringLikeingLike, req, ro)
+arg2(StringLike, req, ro)
 
 =libraries
 

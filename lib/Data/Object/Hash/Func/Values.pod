@@ -61,9 +61,9 @@ The attribute is read-only, accepts C<(Object)> values, and is optional.
 
 =head2 args
 
-  args(ArrayRef[Str])
+  args(ArrayRef[StringLike])
 
-The attribute is read-only, accepts C<(ArrayRef[Str])> values, and is optional.
+The attribute is read-only, accepts C<(ArrayRef[StringLike])> values, and is optional.
 
 =cut
 
@@ -114,7 +114,7 @@ Returns the ordered list of named function object arguments.
 
 =head1 CREDITS
 
-Al Newkirk, C<+289>
+Al Newkirk, C<+294>
 
 Anthony Brummett, C<+10>
 

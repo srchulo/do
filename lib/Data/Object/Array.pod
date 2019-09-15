@@ -1308,7 +1308,7 @@ container. This method returns a L<Data::Object::Array> object.
 
 =head1 CREDITS
 
-Al Newkirk, C<+289>
+Al Newkirk, C<+294>
 
 Anthony Brummett, C<+10>
 
