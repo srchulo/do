@@ -15,7 +15,7 @@ extends 'Data::Object::Undef::Func';
 
 has arg1 => (
   is => 'ro',
-  isa => 'Object',
+  isa => 'Any',
   req => 1
 );
 

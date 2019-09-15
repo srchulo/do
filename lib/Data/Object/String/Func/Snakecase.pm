@@ -15,7 +15,7 @@ extends 'Data::Object::String::Func';
 
 has arg1 => (
   is => 'ro',
-  isa => 'Object',
+  isa => 'StringLike',
   req => 1
 );
 

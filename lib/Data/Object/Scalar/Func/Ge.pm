@@ -15,7 +15,7 @@ extends 'Data::Object::Scalar::Func';
 
 has arg1 => (
   is => 'ro',
-  isa => 'Object',
+  isa => 'Any',
   req => 1
 );
 

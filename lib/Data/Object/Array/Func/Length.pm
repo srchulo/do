@@ -15,7 +15,7 @@ extends 'Data::Object::Array::Func';
 
 has arg1 => (
   is => 'ro',
-  isa => 'Object',
+  isa => 'ArrayLike',
   req => 1
 );
 

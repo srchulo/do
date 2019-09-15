@@ -15,19 +15,19 @@ extends 'Data::Object::Array::Func';
 
 has arg1 => (
   is => 'ro',
-  isa => 'Object',
+  isa => 'ArrayLike',
   req => 1
 );
 
 has arg2 => (
   is => 'ro',
-  isa => 'Num',
+  isa => 'NumberLike',
   req => 1
 );
 
 has arg3 => (
   is => 'ro',
-  isa => 'CodeRef',
+  isa => 'CodeLike',
   req => 1
 );
 

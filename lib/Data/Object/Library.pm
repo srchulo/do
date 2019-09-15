@@ -8,9 +8,9 @@ use warnings;
 use base 'Type::Library';
 
 use Scalar::Util ();
+use Type::Coercion ();
 use Type::Tiny ();
 use Type::Utils ();
-use Type::Coercion ();
 use Types::TypeTiny ();
 
 # VERSION
@@ -730,6 +730,11 @@ sub GenerateExplanation {
 }
 
 # ONE-OFFS
+
+Type::Utils::declare('RegexpLike', Type::Utils::as(Object(), Type::Utils::where(sub {
+  return !!re::is_regexp($_[0]) || (Scalar::Util::blessed($_[0]) &&
+    ($_[0]->isa('Regexp') || $_[0]->isa('Data::Object::Regexp')));
+})));
 
 Type::Utils::declare('NumberLike', Type::Utils::as(StringLike(), Type::Utils::where(sub {
   return Scalar::Util::looks_like_number("$_[0]");
