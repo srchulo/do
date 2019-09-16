@@ -1,6 +1,12 @@
 Changelog for Do
 
-1.75 2019-09-15T22:31:32
+1.76 2019-09-16T05:14:09
+ - Added release updates
+ - Implemented D/O/String/Func/Render (#287)
+ - Updated GH workflows and release script (#286)
+
+1.75 2019-09-15T22:32:02
+ - Built release version 1.75
  - Added release updates
  - Fixed functor constraint declaration errors (typos)
  - Fixed functor constraints; Allows raw or obj values (#273)

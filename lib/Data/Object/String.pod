@@ -471,6 +471,25 @@ represented by the object. This method returns a number value.
 
 =cut
 
+=head2 render
+
+  render(HashRef $arg1) : StrObject
+
+The render method treats the string as a template and performs a simple token
+replacement using the argument provided.
+
+=over 4
+
+=item render example
+
+  # given "Hi, {name}!"
+
+  $string->render({name => 'Friend'}); # Hi, Friend!
+
+=back
+
+=cut
+
 =head2 replace
 
   replace(Str $arg1, Str $arg2) : StrObject
@@ -734,7 +753,7 @@ array reference. This method returns an array value.
 
 =head1 CREDITS
 
-Al Newkirk, C<+294>
+Al Newkirk, C<+296>
 
 Anthony Brummett, C<+10>
 

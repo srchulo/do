@@ -71,7 +71,7 @@ The new method expects a code reference and returns a new class instance.
 
 =head1 CREDITS
 
-Al Newkirk, C<+294>
+Al Newkirk, C<+296>
 
 Anthony Brummett, C<+10>
 

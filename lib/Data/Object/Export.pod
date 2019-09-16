@@ -921,7 +921,7 @@ function takes all arguments accepted by the L<Data::Object::Exception> class.
 
 =head1 CREDITS
 
-Al Newkirk, C<+294>
+Al Newkirk, C<+296>
 
 Anthony Brummett, C<+10>
 

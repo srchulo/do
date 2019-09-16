@@ -3,21 +3,21 @@
 
 =head1 NAME
 
-Data::Object::Array::Func::Invert
+Data::Object::String::Func::Render
 
 =cut
 
 =head1 ABSTRACT
 
-Data-Object Array Function (Invert) Class
+Data-Object String Function (Render) Class
 
 =cut
 
 =head1 SYNOPSIS
 
-  use Data::Object::Array::Func::Invert;
+  use Data::Object::String::Func::Render;
 
-  my $func = Data::Object::Array::Func::Invert->new(@args);
+  my $func = Data::Object::String::Func::Render->new(@args);
 
   $func->execute;
 
@@ -25,7 +25,8 @@ Data-Object Array Function (Invert) Class
 
 =head1 DESCRIPTION
 
-Data::Object::Array::Func::Invert is a function object for Data::Object::Array.
+Data::Object::String::Func::Render is a function object for
+Data::Object::String.
 
 =cut
 
@@ -33,15 +34,7 @@ Data::Object::Array::Func::Invert is a function object for Data::Object::Array.
 
 This package inherits behaviors from:
 
-L<Data::Object::Array::Func>
-
-=cut
-
-=head1 LIBRARIES
-
-This package uses type constraints defined by:
-
-L<Data::Object::Library>
+L<Data::Object::String::Func>
 
 =cut
 
@@ -53,9 +46,17 @@ This package has the following attributes.
 
 =head2 arg1
 
-  arg1(ArrayLike)
+  arg1(StringLike)
 
-The attribute is read-only, accepts C<(ArrayLike)> values, and is optional.
+The attribute is read-only, accepts C<(StringLike)> values, and is optional.
+
+=cut
+
+=head2 arg2
+
+  arg2(HashLike)
+
+The attribute is read-only, accepts C<(HashLike)> values, and is optional.
 
 =cut
 
@@ -75,10 +76,11 @@ Executes the function logic and returns the result.
 
 =item execute example
 
-  my $data = Data::Object::Array->new([1..4]);
+  my $data = Data::Object::String->new("Hi, {name}!");
 
-  my $func = Data::Object::Array::Func::Invert->new(
-    arg1 => $data
+  my $func = Data::Object::String::Func::Render->new(
+    arg1 => $data,
+    arg2 => { name => 'Friends' }
   );
 
   my $result = $func->execute;
