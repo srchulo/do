@@ -30,7 +30,7 @@ Data::Object::Float::Func
 =attributes
 
 arg1(NumberLike, req, ro)
-arg2(StringLikeingLike, req, ro)
+arg2(StringLike, req, ro)
 
 =libraries
 

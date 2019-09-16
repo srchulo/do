@@ -30,7 +30,7 @@ Data::Object::Array::Func
 =attributes
 
 arg1(ArrayLike, req, ro)
-arg2(NumberLikeberLike, opt, ro)
+arg2(NumberLike, opt, ro)
 
 =libraries
 
