@@ -6,8 +6,7 @@ use strict;
 use warnings;
 
 use Function::Parameters;
-
-use Data::Object::Export 'namespace', 'reify';
+use Data::Object::Utility;
 
 # VERSION
 
@@ -22,11 +21,15 @@ sub settings {
 
   # reifier config
   my $caller = caller(1);
-  my @config = ($class, sub { unshift @_, $caller; goto \&reify });
+  my @config = ($class, sub {
+    unshift @_, $caller;
+
+    goto \&Data::Object::Utility::Reify;
+  });
 
   # for backwards compat
   @args = grep !/^:/, @args;
-  namespace($caller, pop(@args)) if @args;
+  Data::Object::Utility::Namespace($caller, pop(@args)) if @args;
 
   # keyword config
   my %settings;
