@@ -56,7 +56,7 @@ sub pretty_dump {
   no warnings 'once';
 
   local $Data::Dumper::Indent = 2;
-  local $Data::Dumper::Trailingcomma = 1;
+  local $Data::Dumper::Trailingcomma = 0;
   local $Data::Dumper::Purity = 0;
   local $Data::Dumper::Pad = '';
   local $Data::Dumper::Varname = 'VAR';
