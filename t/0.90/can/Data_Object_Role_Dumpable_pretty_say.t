@@ -17,8 +17,8 @@ pretty_say
 
 =description
 
-This is an alias for L</pretty_print>, because L</pretty_dump> already
-includes a newline at the end of the returned string.
+The pretty_say method prints a stringified human-readable representation of the
+underlying data. This prints with a trailing newline.
 
 =signature
 

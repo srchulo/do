@@ -15,9 +15,11 @@ terms as the Perl 5 programming language system itself.
 
 =head1 PROJECT
 
-L<GitHub|https://github.com/iamalnewkirk/do>
+L<Wiki|https://github.com/iamalnewkirk/do/wiki>
 
-L<Projects|https://github.com/iamalnewkirk/do/projects>
+L<Project|https://github.com/iamalnewkirk/do>
+
+L<Initiatives|https://github.com/iamalnewkirk/do/projects>
 
 L<Milestones|https://github.com/iamalnewkirk/do/milestones>
 

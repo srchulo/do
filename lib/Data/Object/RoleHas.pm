@@ -5,7 +5,7 @@ use 5.014;
 use strict;
 use warnings;
 
-use Data::Object::Export 'reify';
+use Data::Object::Utility;
 
 # VERSION
 
@@ -101,7 +101,7 @@ sub _formulate_isa {
 
   return (%opts) if ref($opts{isa});
 
-  $opts{isa} = reify($info->[1], $opts{isa});
+  $opts{isa} = Data::Object::Utility::Reify($info->[1], $opts{isa});
 
   return (%opts);
 }

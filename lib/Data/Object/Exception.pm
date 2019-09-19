@@ -67,7 +67,7 @@ sub explain {
 }
 
 sub throw {
-  my ($self, $message, $context) = @_;
+  my ($self, $message, $context, $offset) = @_;
 
   if (ref $self) {
     $message ||= $self->{message};
@@ -78,7 +78,7 @@ sub throw {
 
   my $exception = $self->new(message => $message, context => $context);
 
-  die $exception->trace;
+  die $exception->trace($offset);
 }
 
 sub trace {
