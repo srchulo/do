@@ -1,6 +1,18 @@
 Changelog for Do
 
-1.76 2019-09-16T05:14:09
+1.80 2019-09-19T12:03:50
+ - Added release updates
+ - Updated release script
+ - Fixed trailing-comma issue in D/O/R/Dumpable
+ - Updated recommended version
+ - Ignores POD-only files in generation
+ - Cleanup Keywords, Add New Keywords (#293)
+ - Adding pretty_dump, pretty_print, and pretty_say to
+   Data::Object::Role::Dumpable (#294)
+ - Implemented D/O/Boolean
+
+1.76 2019-09-16T05:14:40
+ - Built release version 1.76
  - Added release updates
  - Implemented D/O/String/Func/Render (#287)
  - Updated GH workflows and release script (#286)

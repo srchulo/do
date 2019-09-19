@@ -26,6 +26,7 @@ RegisterAll(DoArgs());
 RegisterAll(DoData());
 RegisterAll(DoDumpable());
 RegisterAll(DoArray());
+RegisterAll(DoBoolean());
 RegisterAll(DoCli());
 RegisterAll(DoCode());
 RegisterAll(DoException());
@@ -124,6 +125,23 @@ sub DoArray {
       };
 
       return $coercions;
+    },
+    parent => 'Object'
+  }
+}
+
+sub DoBoolean {
+  {
+    name => 'DoBoolean',
+    aliases => [
+      'BoolObj',
+      'BoolObject',
+      'BooleanObj',
+      'BooleanObject'
+    ],
+    validation => sub {
+      return 0 if !$_[0]->isa('Data::Object::Boolean');
+      return 1;
     },
     parent => 'Object'
   }

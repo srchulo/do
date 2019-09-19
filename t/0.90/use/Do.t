@@ -33,7 +33,7 @@ This package aims to provide a modern Perl development framework and
 foundational set of types, functions, classes, patterns, and interfaces for
 jump-starting application development. This package inherits all behavior from
 L<Data::Object>; please see that documentation to learn more, or review
-L<Data::Object::Use> 
+L<Data::Object::Use>.
 
 =headers
 
@@ -49,7 +49,7 @@ If you don't have cpanm, get it! It takes less than a minute, otherwise:
 
 Add C<Do> to the list of dependencies in C<cpanfile>:
 
-  requires "Do" => "1.75"; # 1.75 or newer
+  requires "Do" => "1.80"; # 1.80 or newer
 
 If cpanm doesn't have permission to install modules in the current Perl
 installation, it will automatically set up and install to a local::lib in your

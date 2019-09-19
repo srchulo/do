@@ -8,6 +8,7 @@ use Test::This;
 my $pod = Test::This->new;
 
 for my $file (map $pod->file("$_"), @{$pod->paths}) {
+  next unless -f $file->lib_file;
 
   # generate test file stubs for missing use-tests
   for my $name (@{$file->routines}) {

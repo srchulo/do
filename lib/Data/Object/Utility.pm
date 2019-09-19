@@ -272,6 +272,7 @@ sub TypeName {
   my ($data) = (Deduce($_[0]));
 
   return "ARRAY" if $data->isa("Data::Object::Array");
+  return "BOOLEAN" if $data->isa("Data::Object::Boolean");
   return "HASH" if $data->isa("Data::Object::Hash");
   return "CODE" if $data->isa("Data::Object::Code");
   return "FLOAT" if $data->isa("Data::Object::Float");
@@ -296,10 +297,10 @@ INSPECT:
 
   return [@$data] if $type eq 'ARRAY';
   return {%$data} if $type eq 'HASH';
+  return $$data if $type eq 'BOOLEAN';
   return $$data if $type eq 'REGEXP';
   return $$data if $type eq 'FLOAT';
   return $$data if $type eq 'NUMBER';
-  return $$data if $type eq 'INTEGER';
   return $$data if $type eq 'STRING';
   return undef  if $type eq 'UNDEF';
 
@@ -308,8 +309,8 @@ INSPECT:
 
     return [@$data] if $type eq 'ARRAY';
     return {%$data} if $type eq 'HASH';
+    return $$data if $type eq 'BOOLEAN';
     return $$data if $type eq 'FLOAT';
-    return $$data if $type eq 'INTEGER';
     return $$data if $type eq 'NUMBER';
     return $$data if $type eq 'REGEXP';
     return $$data if $type eq 'SCALAR';
