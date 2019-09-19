@@ -16,13 +16,7 @@ extends 'Data::Object::Hash::Func';
 has arg1 => (
   is => 'ro',
   isa => 'HashLike',
-  req => 1
-);
-
-has args => (
-  is => 'ro',
-  isa => 'ArrayRef[Str]',
-  opt => 1
+  req => 1,
 );
 
 # METHODS
@@ -30,13 +24,13 @@ has args => (
 sub execute {
   my ($self) = @_;
 
-  my ($data, @args) = $self->unpack;
+  my ($data) = $self->unpack;
 
-  return [@args ? @{$data}{@args} : values(%$data)];
+  return [values %$data];
 }
 
 sub mapping {
-  return ('arg1', '@args');
+  return ('arg1');
 }
 
 1;

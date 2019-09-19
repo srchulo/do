@@ -8,17 +8,17 @@ use_ok 'Data::Object::Hash';
 
 use Scalar::Util 'refaddr';
 
-subtest 'test the slice method' => sub {
+subtest 'test the kvslice method' => sub {
   my $hash = Data::Object::Hash->new({1 .. 8});
 
   my @argument = (1, 3);
-  my $slice    = $hash->slice(@argument);
+  my $kvslice  = $hash->kvslice(@argument);
 
-  isnt refaddr($hash), refaddr($slice);
-  is_deeply $slice, [2, 4];
+  isnt refaddr($hash), refaddr($kvslice);
+  is_deeply $kvslice, {1 => 2, 3 => 4};
 
   isa_ok $hash,  'Data::Object::Hash';
-  isa_ok $slice, 'Data::Object::Array';
+  isa_ok $kvslice, 'Data::Object::Hash';
 };
 
 ok 1 and done_testing;

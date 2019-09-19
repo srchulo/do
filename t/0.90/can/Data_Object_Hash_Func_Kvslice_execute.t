@@ -15,7 +15,7 @@ execute
 
   my $data = Data::Object::Hash->new({1..8});
 
-  my $func = Data::Object::Hash::Func::Slice->new(
+  my $func = Data::Object::Hash::Func::Kvslice->new(
     arg1 => $data,
     args => [1,5]
   );
@@ -39,21 +39,21 @@ method
 # TESTING
 
 use Data::Object::Hash;
-use Data::Object::Hash::Func::Slice;
+use Data::Object::Hash::Func::Kvslice;
 
-can_ok "Data::Object::Hash::Func::Slice", "execute";
+can_ok "Data::Object::Hash::Func::Kvslice", "execute";
 
 my $data;
 my $func;
 
 $data = Data::Object::Hash->new({1..8});
-$func = Data::Object::Hash::Func::Slice->new(
+$func = Data::Object::Hash::Func::Kvslice->new(
   arg1 => $data,
   args => [1,5]
 );
 
 my $result = $func->execute;
 
-is_deeply $result, [2, 6];
+is_deeply $result, {1=>2,5=>6};
 
 ok 1 and done_testing;

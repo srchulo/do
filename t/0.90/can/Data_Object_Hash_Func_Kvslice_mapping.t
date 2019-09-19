@@ -31,16 +31,17 @@ method
 
 # TESTING
 
-use Data::Object::Hash::Func::Values;
+use Data::Object::Hash::Func::Kvslice;
 
-can_ok "Data::Object::Hash::Func::Values", "mapping";
+can_ok "Data::Object::Hash::Func::Kvslice", "mapping";
 
 my @data;
 
-@data = Data::Object::Hash::Func::Values->mapping();
+@data = Data::Object::Hash::Func::Kvslice->mapping();
 
-is @data, 1;
+is @data, 2;
 
 is $data[0], 'arg1';
+is $data[1], '@args';
 
 ok 1 and done_testing;

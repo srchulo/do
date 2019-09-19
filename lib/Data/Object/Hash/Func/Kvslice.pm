@@ -1,4 +1,4 @@
-package Data::Object::Hash::Func::Slice;
+package Data::Object::Hash::Func::Kvslice;
 
 use 5.014;
 
@@ -16,13 +16,13 @@ extends 'Data::Object::Hash::Func';
 has arg1 => (
   is => 'ro',
   isa => 'HashLike',
-  req => 1
+  req => 1,
 );
 
 has args => (
   is => 'ro',
   isa => 'ArrayRef[Any]',
-  req => 1
+  req => 1,
 );
 
 # METHODS
@@ -32,7 +32,7 @@ sub execute {
 
   my ($data, @args) = $self->unpack;
 
-  return [@{$data}{@args}];
+  return {map { $_ => $data->{$_} } @args};
 }
 
 sub mapping {
