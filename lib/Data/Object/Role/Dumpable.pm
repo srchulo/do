@@ -79,6 +79,8 @@ sub pretty_dump {
   $data = Data::Dumper::Dumper($data);
   $data =~ s/^'|'$//g;
 
+  chomp $data;
+
   return $data;
 }
 
@@ -88,6 +90,10 @@ sub pretty_print {
   return CORE::print(map &pretty_dump($_), @args, $self);
 }
 
-sub pretty_say { goto &pretty_print }
+sub pretty_say {
+  my ($self, @args) = @_;
+
+  return CORE::print(map +(&pretty_dump($_), "\n"), @args, $self);
+}
 
 1;

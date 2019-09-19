@@ -62,7 +62,7 @@ object. Calling this method without arguments returns all stashed data.
 
 =head1 CREDITS
 
-Al Newkirk, C<+294>
+Al Newkirk, C<+296>
 
 Anthony Brummett, C<+10>
 

@@ -481,7 +481,7 @@ the provided data type and can be used to perform operations on the data.
 
 =head1 CREDITS
 
-Al Newkirk, C<+294>
+Al Newkirk, C<+296>
 
 Anthony Brummett, C<+10>
 

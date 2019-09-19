@@ -233,7 +233,7 @@ The warnings method returns the set of warnings emitted during option parsing.
 
 =head1 CREDITS
 
-Al Newkirk, C<+294>
+Al Newkirk, C<+296>
 
 Anthony Brummett, C<+10>
 

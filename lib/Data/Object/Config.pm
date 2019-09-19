@@ -584,7 +584,7 @@ sub _process_meta {
     unless $namespace->isa('Type::Library');
 
   # build type-tiny constraint for target, then add constraint to typelib
-  _process_typereg($namespace, _process_typetiny(Data::Object::Export::registry(),
+  _process_typereg($namespace, _process_typetiny(Data::Object::Utility::Registry(),
       $target, $parent));
 
   return;
@@ -595,7 +595,7 @@ sub _process_typelib {
   my ($target, $meta) = @_;
 
   # register target <-> typelib so target can use typelib
-  return Data::Object::Export::namespace($target, ref($meta)
+  return Data::Object::Utility::Namespace($target, ref($meta)
     ? join('-', @$meta) : $meta);
 }
 

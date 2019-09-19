@@ -5,11 +5,81 @@ use 5.014;
 use strict;
 use warnings;
 
-use Scalar::Util ();
+use Memoize qw(memoize);
+use Scalar::Util qw(blessed looks_like_number reftype);
 
 # VERSION
 
 # FUNCTIONS
+
+sub NameFile {
+  require Data::Object::Name;
+
+  my ($string) = @_;
+
+  my $name = Data::Object::Name->new($string);
+
+  return $name->file;
+}
+
+sub NameLabel {
+  require Data::Object::Name;
+
+  my ($string) = @_;
+
+  my $name = Data::Object::Name->new($string);
+
+  return $name->label;
+}
+
+sub NamePackage {
+  require Data::Object::Name;
+
+  my ($string) = @_;
+
+  my $name = Data::Object::Name->new($string);
+
+  return $name->package;
+}
+
+sub NamePath {
+  require Data::Object::Name;
+
+  my ($string) = @_;
+
+  my $name = Data::Object::Name->new($string);
+
+  return $name->path;
+}
+
+sub Namespace {
+  my ($package, $argument) = @_;
+
+  my $registry = Registry();
+
+  my $namespace = NamePackage($argument);
+
+  $registry->set($package, $namespace);
+
+  return $namespace;
+}
+
+sub Registry {
+  require Data::Object::Registry;
+
+  my $point = Data::Object::Registry->can('new');
+
+  unshift @_, 'Data::Object::Registry' and goto $point;
+}
+
+sub Reify {
+  my ($from, $expr) = @_;
+
+  my $class = Registry()->obj($from);
+  my $point = $class->can('lookup');
+
+  @_ = ($class, $expr) and goto $point;
+}
 
 sub TypeArray {
   require Data::Object::Array;
@@ -134,7 +204,7 @@ sub Deduce {
   my ($data) = @_;
 
   return TypeUndef($data) if not(defined($data));
-  return DeduceBlessed($data) if Scalar::Util::blessed($data);
+  return DeduceBlessed($data) if blessed($data);
   return DeduceDefined($data);
 }
 
@@ -142,7 +212,7 @@ sub DeduceDefined {
   my ($data) = @_;
 
   return DeduceReferences($data) if ref($data);
-  return DeduceNumberlike($data) if Scalar::Util::looks_like_number($data);
+  return DeduceNumberlike($data) if looks_like_number($data);
   return DeduceStringLike($data);
 }
 
@@ -234,7 +304,7 @@ INSPECT:
   return undef  if $type eq 'UNDEF';
 
   if ($type eq 'ANY' or $type eq 'SCALAR') {
-    $type = Scalar::Util::reftype($data) // '';
+    $type = reftype($data) // '';
 
     return [@$data] if $type eq 'ARRAY';
     return {%$data} if $type eq 'HASH';
@@ -278,5 +348,8 @@ sub DetractDeep {
 
   return wantarray ? (@data) : $data[0];
 }
+
+memoize 'Namespace';
+memoize 'Reify';
 
 1;

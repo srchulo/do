@@ -914,7 +914,7 @@ elements in the hash. This method returns a L<Data::Object::Array> object.
 
 =head1 CREDITS
 
-Al Newkirk, C<+294>
+Al Newkirk, C<+296>
 
 Anthony Brummett, C<+10>
 

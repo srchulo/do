@@ -17,9 +17,8 @@ pretty_print
 
 =description
 
-Output stringified human-readable object data. This prints with a newline,
-because L</pretty_dump> already includes a newline at the end of the returned
-string.
+The pretty_print method prints a stringified human-readable representation of
+the underlying data.
 
 =signature
 
