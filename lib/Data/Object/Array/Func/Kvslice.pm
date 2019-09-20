@@ -1,4 +1,4 @@
-package Data::Object::Array::Func::Values;
+package Data::Object::Array::Func::Kvslice;
 
 use 5.014;
 
@@ -19,6 +19,12 @@ has arg1 => (
   req => 1
 );
 
+has args => (
+  is => 'ro',
+  isa => 'ArrayRef[Any]',
+  req => 1
+);
+
 # METHODS
 
 sub execute {
@@ -26,11 +32,11 @@ sub execute {
 
   my ($data, @args) = $self->unpack;
 
-  return [@$data];
+  return { map { $_ => $data->[$_] } @args };
 }
 
 sub mapping {
-  return ('arg1');
+  return ('arg1', '@args');
 }
 
 1;
