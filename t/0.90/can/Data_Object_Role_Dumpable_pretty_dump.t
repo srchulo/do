@@ -53,7 +53,7 @@ is $array->pretty_dump, q{[
   2,
   3,
   4,
-  5,
+  5
 ]};
 
 my $code = Data::Object::Code->new(sub {1});
@@ -66,7 +66,7 @@ is $float->pretty_dump, "3.99";
 my $hash = Data::Object::Hash->new({1, 2, 3, 4});
 is $hash->pretty_dump, q{{
   1 => 2,
-  3 => 4,
+  3 => 4
 }};
 
 my $number = Data::Object::Number->new(12345);
@@ -77,7 +77,7 @@ my $scalar   = Data::Object::Scalar->new($arrayref);
 is $scalar->pretty_dump, q([
   1,
   2,
-  3,
+  3
 ]);
 
 my $string = Data::Object::String->new('abcdefghi');

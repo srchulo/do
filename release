@@ -23,7 +23,7 @@ dzil clean
 
 # Delete existing release tag (if exists)
 git tag -d cpan $V 2> /dev/null
-git push origin :refs/tags/$V 2> /dev/null
+git push origin :refs/tags/cpan :refs/tags/$V 2> /dev/null
 
 # Persist Release VERSION
 echo $V > VERSION

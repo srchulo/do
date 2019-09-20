@@ -17,6 +17,10 @@ our @EXPORT = (
   'cast',
   'const',
   'do',
+  'true',
+  'false',
+  'is_true',
+  'is_false',
   'raise'
 );
 
@@ -80,6 +84,34 @@ sub dump {
  local $Data::Dumper::Useqq = 1;
 
   return Data::Dumper::Dumper(@_);
+}
+
+sub true {
+  require Data::Object::Boolean;
+
+  return Data::Object::Boolean::True();
+}
+
+sub is_true {
+  require Data::Object::Boolean;
+
+  return Data::Object::Boolean::True() unless scalar @_;
+
+  return Data::Object::Boolean::IsTrue(@_);
+}
+
+sub false {
+  require Data::Object::Boolean;
+
+  return Data::Object::Boolean::False();
+}
+
+sub is_false {
+  require Data::Object::Boolean;
+
+  return Data::Object::Boolean::False() unless scalar @_;
+
+  return Data::Object::Boolean::IsFalse(@_);
 }
 
 sub load {
